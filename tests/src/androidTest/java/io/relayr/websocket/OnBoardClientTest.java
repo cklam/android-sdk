@@ -5,7 +5,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 
 import io.relayr.TestEnvironment;
-import io.relayr.model.IntegrationType;
+import io.relayr.model.AccountType;
 import io.relayr.model.MqttChannel;
 import io.relayr.model.Transmitter;
 import rx.Observable;
@@ -74,7 +74,7 @@ public class OnBoardClientTest extends TestEnvironment {
     }
 
     private Transmitter createTransmitterDevice() {
-        final Transmitter transmitter = new Transmitter("o", "name", IntegrationType.WUNDERBAR_2);
+        final Transmitter transmitter = new Transmitter("o", "name", AccountType.WUNDERBAR_2);
         transmitter.setTopic("topic");
         transmitter.setCredentials(new MqttChannel.MqttCredentials("u", "p", "topic", "clientId"));
         return transmitter;

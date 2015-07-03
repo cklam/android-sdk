@@ -10,7 +10,7 @@ import org.robolectric.RobolectricTestRunner;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-import io.relayr.api.StatusApi;
+import io.relayr.api.CloudApi;
 import io.relayr.model.Status;
 import rx.Observable;
 import rx.Subscriber;
@@ -22,7 +22,7 @@ import static org.mockito.Mockito.when;
 @RunWith(RobolectricTestRunner.class)
 public class ReachabilityUtilTest {
 
-    @Mock private StatusApi statusApi;
+    @Mock private CloudApi api;
 
     private boolean reachable;
     private CountDownLatch lock;
@@ -31,10 +31,8 @@ public class ReachabilityUtilTest {
     @Before
     public void init() {
         lock = new CountDownLatch(1);
-
         MockitoAnnotations.initMocks(this);
-
-        utils = new ReachabilityUtils(statusApi);
+        utils = new ReachabilityUtils(api);
     }
 
     @Test
@@ -46,7 +44,7 @@ public class ReachabilityUtilTest {
     public void checkPlatformAvailabilityTest() {
         reachable = false;
 
-        when(statusApi.getServerStatus()).thenReturn(Observable.create(new Observable.OnSubscribe<Status>() {
+        when(api.getServerStatus()).thenReturn(Observable.create(new Observable.OnSubscribe<Status>() {
             @Override
             public void call(Subscriber<? super Status> subscriber) {
                 subscriber.onNext(new Status("ok"));
@@ -68,7 +66,7 @@ public class ReachabilityUtilTest {
     public void checkPlatformReachAbilityTest() {
         reachable = false;
 
-        when(statusApi.getServerStatus()).thenReturn(Observable.create(new Observable.OnSubscribe<Status>() {
+        when(api.getServerStatus()).thenReturn(Observable.create(new Observable.OnSubscribe<Status>() {
             @Override
             public void call(Subscriber<? super Status> subscriber) {
                 subscriber.onNext(new Status("ok"));
@@ -90,7 +88,7 @@ public class ReachabilityUtilTest {
     public void checkWhenPlatformNotAvailableTest() {
         reachable = true;
 
-        when(statusApi.getServerStatus()).thenReturn(Observable.create(new Observable.OnSubscribe<Status>() {
+        when(api.getServerStatus()).thenReturn(Observable.create(new Observable.OnSubscribe<Status>() {
             @Override
             public void call(Subscriber<? super Status> subscriber) {
                 subscriber.onError(new Throwable());

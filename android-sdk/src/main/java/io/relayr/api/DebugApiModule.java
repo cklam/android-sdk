@@ -35,12 +35,8 @@ public class DebugApiModule {
         return new MockChannelApi(loader);
     }
 
-    @Provides @Singleton CloudApi provideCloudApi() {
-        return new MockCloudApi();
-    }
-
-    @Provides @Singleton StatusApi provideStatusApi(MockBackend loader) {
-        return new MockStatusApi(loader);
+    @Provides @Singleton CloudApi provideCloudApi(MockBackend loader) {
+        return new MockCloudApi( loader);
     }
 
 }

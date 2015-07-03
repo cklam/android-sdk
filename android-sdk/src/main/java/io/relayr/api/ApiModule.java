@@ -109,10 +109,6 @@ public class ApiModule {
         return restAdapter.create(CloudApi.class);
     }
 
-    @Provides @Singleton StatusApi provideStatusApi(@Named("api") RestAdapter restAdapter) {
-        return restAdapter.create(StatusApi.class);
-    }
-
     @Provides @Singleton OkHttpClient provideOkHttpClient() {
         return createOkHttpClient(app);
     }

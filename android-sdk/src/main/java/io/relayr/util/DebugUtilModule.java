@@ -4,8 +4,8 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import io.relayr.api.CloudApi;
 import io.relayr.api.DebugApiModule;
-import io.relayr.api.StatusApi;
 
 @Module(
         complete = false,
@@ -15,7 +15,7 @@ import io.relayr.api.StatusApi;
 public class DebugUtilModule {
 
     @Provides @Singleton
-    ReachabilityUtils provideReachabilityUtils(StatusApi statusApi) {
-        return new MockReachabilityUtils(statusApi);
+    ReachabilityUtils provideReachabilityUtils(CloudApi api) {
+        return new MockReachabilityUtils(api);
     }
 }
