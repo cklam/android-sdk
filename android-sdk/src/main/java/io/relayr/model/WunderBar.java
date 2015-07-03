@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import io.relayr.ble.BleDeviceType;
+import io.relayr.model.account.AccountType;
 
 public class WunderBar implements Serializable {
 

@@ -5,7 +5,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 
 import io.relayr.TestEnvironment;
-import io.relayr.model.AccountType;
+import io.relayr.model.account.AccountType;
 import io.relayr.model.MqttChannel;
 import io.relayr.model.Transmitter;
 import rx.Observable;

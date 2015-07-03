@@ -4,6 +4,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
+import io.relayr.model.account.AccountType;
+
 public class CreateDevice implements Serializable {
 
     private String mac;

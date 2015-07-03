@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import io.relayr.RelayrSdk;
+import io.relayr.model.account.AccountType;
 import rx.Observable;
 
 /**

@@ -1,0 +1,18 @@
+[
+  {
+    "externalId": "000",
+    "modelId": "0a1c8de1-163a-4784-9e37-f5963a0f2048",
+    "extra": {
+      "name": "Bedroom Nest Protect",
+      "firmwareVersion": "2.0rc5"
+    }
+  },
+  {
+    "externalId": "111",
+    "modelId": "33110278-08df-4302-8826-8a5a85cf75a7",
+    "extra": {
+      "name": "Living Room Thermostat",
+      "firmwareVersion": "4.5.1"
+    }
+  }
+]

@@ -7,6 +7,7 @@ import java.io.Serializable;
 import io.relayr.RelayrSdk;
 import io.relayr.ble.BleDevicesCache;
 import io.relayr.ble.service.BaseService;
+import io.relayr.model.account.AccountType;
 import rx.Observable;
 
 /**

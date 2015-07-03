@@ -18,11 +18,6 @@ import static org.fest.assertions.api.Assertions.assertThat;
 public class MockChannelApiTest extends TestEnvironment {
 
     @Inject ChannelApi channelApi;
-
-    @Captor private ArgumentCaptor<MqttChannel> statusCaptor;
-
-    @Mock private Observer subscriber;
-
     private MqttChannel createdChannel;
 
     @Before
