@@ -15,10 +15,15 @@ public class Model implements Serializable {
     /** Auto generated uid */
     private static final long serialVersionUID = 1L;
     private String id;
+    /** Device name */
     private String name;
+    /** Device manufacturer */
     private String manufacturer;
+    /** Every {@link Device} has one or more readings defined with {@link ModelReading} */
     private List<ModelReading> readings;
+    /** Some {@link Device} can receive commands defined with {@link ModelCommand} */
     private List<ModelCommand> commands;
+    /** Every {@link Device} has one or more firmware version with different readings and commands */
     private List<FirmwareVersion> firmwareVersions;
 
     public String getId() {
@@ -69,14 +74,14 @@ public class Model implements Serializable {
         this.firmwareVersions = firmwareVersions;
     }
 
-    @Override
-    public String toString() {
+    @Override public String toString() {
         return "Model{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", manufacturer='" + manufacturer + '\'' +
                 ", readings=" + readings +
-                ", firmwareVersions='" + firmwareVersions + '\'' +
+                ", commands=" + commands +
+                ", firmwareVersions=" + firmwareVersions +
                 '}';
     }
 }

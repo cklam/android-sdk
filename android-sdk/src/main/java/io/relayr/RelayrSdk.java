@@ -6,7 +6,9 @@ import android.content.Context;
 import javax.inject.Inject;
 
 import io.relayr.activity.LoginActivity;
+import io.relayr.api.AccountsApi;
 import io.relayr.api.RelayrApi;
+import io.relayr.api.UserApi;
 import io.relayr.ble.BleUtils;
 import io.relayr.ble.RelayrBleSdk;
 import io.relayr.log.Logger;
@@ -31,6 +33,8 @@ public class RelayrSdk {
     public static final String PERMISSION_NETWORK = "android.permission.ACCESS_NETWORK_STATE";
 
     @Inject static RelayrApi mRelayrApi;
+    @Inject static UserApi mUserApi;
+    @Inject static AccountsApi mAccountsApi;
     @Inject static WebSocketClient mWebSocketClient;
     @Inject static OnBoardingClient mOnBoardingClient;
     @Inject static BleUtils mBleUtils;
@@ -45,10 +49,10 @@ public class RelayrSdk {
      * created.
      */
     public static class Builder {
-        
+
         private final Context mContext;
         private boolean mInMockMode;
-        
+
         public Builder(Context context) {
             mContext = context;
         }
@@ -62,7 +66,7 @@ public class RelayrSdk {
             mInMockMode = inMockMode;
             return this;
         }
-        
+
         public void build() {
             RelayrApp.init(mContext, mInMockMode);
         }
@@ -72,18 +76,37 @@ public class RelayrSdk {
      * Returns the version of the SDK
      * @return the version String
      */
-	public static String getVersion() {
+    public static String getVersion() {
         return BuildConfig.VERSION_NAME;
-	}
+    }
 
-    /** @return the handler of the Relayr API.
-     * Used as an access point to class {@link io.relayr.api.RelayrApi} */
+    /**
+     * @return the handler of the Relayr API.
+     * Used as an access point to class {@link io.relayr.api.RelayrApi}
+     */
     public static RelayrApi getRelayrApi() {
         return mRelayrApi;
     }
 
+    /**
+     * @return the handler of the Accounts API. Use to add third party accounts to the relayr user.
+     * Used as an access point to class {@link io.relayr.api.RelayrApi}
+     */
+    public static AccountsApi getAccountsApi() {
+        return mAccountsApi;
+    }
+
+    /**
+     * @return the handler of the relayr User API. Use to get user data and user
+     * transmitters, devices and accounts
+     * Used as an access point to class {@link io.relayr.api.UserApi}
+     */
+    public static UserApi getUserApi() {
+        return mUserApi;
+    }
+
     /** Launches the login activity. Enables the user to log in to the relayr platform. */
-	public static Observable<User> logIn(Activity currentActivity) {
+    public static Observable<User> logIn(Activity currentActivity) {
         Observable.OnSubscribe<User> onSubscribe = new Observable.OnSubscribe<User>() {
             @Override
             public void call(Subscriber<? super User> subscriber) {
@@ -95,20 +118,20 @@ public class RelayrSdk {
                 .create(onSubscribe)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(AndroidSchedulers.mainThread());
-	}
+    }
 
     /**
      * Checks whether or not a user is logged in to the relayr platform.
      * @return true if the user is logged in, false otherwise.
      */
-	public static boolean isUserLoggedIn() {
-		return DataStorage.isUserLoggedIn();
-	}
+    public static boolean isUserLoggedIn() {
+        return DataStorage.isUserLoggedIn();
+    }
 
     /** Logs the user out of the relayr platform. */
-	public static void logOut() {
-		DataStorage.logOut();
-	}
+    public static void logOut() {
+        DataStorage.logOut();
+    }
 
     /**
      * Logs an event in the relayr platform. In debug mode, the event will be logged in the console
@@ -187,7 +210,7 @@ public class RelayrSdk {
      * and by {@link io.relayr.RelayrSdk#isBleAvailable} to check whether BLE is activated
      * @return the handler of the Relayr BLE SDK
      */
-     public static RelayrBleSdk getRelayrBleSdk() {
+    public static RelayrBleSdk getRelayrBleSdk() {
         return mRelayrBleSdk;
     }
 
@@ -225,7 +248,7 @@ public class RelayrSdk {
      * Listener indicating a 'login' event
      * @return the listener or null if doesn't exist
      */
-	public static Subscriber<? super User> getLoginSubscriber() {
-		return mLoginSubscriber;
-	}
+    public static Subscriber<? super User> getLoginSubscriber() {
+        return mLoginSubscriber;
+    }
 }

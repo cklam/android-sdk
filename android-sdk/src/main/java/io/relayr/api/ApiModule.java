@@ -113,6 +113,10 @@ public class ApiModule {
         return restAdapter.create(AccountsApi.class);
     }
 
+    @Provides @Singleton UserApi provideUserApi(@Named("api") RestAdapter restAdapter) {
+        return restAdapter.create(UserApi.class);
+    }
+
     @Provides @Singleton OkHttpClient provideOkHttpClient() {
         return createOkHttpClient(app);
     }

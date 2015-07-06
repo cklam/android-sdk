@@ -1,6 +1,8 @@
 package io.relayr.model.account;
 
-public class AccountUrl {
+import java.io.Serializable;
+
+public class AccountUrl implements Serializable {
 
     private String url;
 
