@@ -44,6 +44,10 @@ public class MockBackend {
     public static final String SERVER_STATUS = "server-info.json";
     public static final String MQTT_CREDENTIALS = "mqtt_channel.json";
 
+    public static final String USER_ACCOUNTS = "user_accounts.json";
+    public static final String USER_ACCOUNT_DEVICES = "user_accounts_devices.json";
+    public static final String USER_ACCOUNT_LOGIN_URL = "user_accounts_login_url.json";
+
     private final Context mContext;
     private final Gson mGson;
 

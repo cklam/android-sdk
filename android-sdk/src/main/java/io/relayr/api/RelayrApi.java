@@ -3,11 +3,8 @@ package io.relayr.api;
 import java.util.List;
 
 import io.relayr.model.App;
-import io.relayr.model.Bookmark;
-import io.relayr.model.BookmarkDevice;
 import io.relayr.model.Command;
 import io.relayr.model.CreateDevice;
-import io.relayr.model.CreateWunderBar;
 import io.relayr.model.Device;
 import io.relayr.model.Model;
 import io.relayr.model.ReadingMeaning;
@@ -26,15 +23,18 @@ import rx.Observable;
 /** This class incorporates a wrapped version of the relayr API calls. */
 public interface RelayrApi {
 
-    /** @return an {@link rx.Observable} of a list of devices registered under a user. */
-    @GET("/users/{userId}/devices")
-    Observable<List<Device>> getUserDevices(@Path("userId") String userId);
-
     /** @return an {@link rx.Observable} to the information about the app initiating the request. */
     @GET("/oauth2/app-info") Observable<App> getAppInfo();
 
     /** @return an {@link rx.Observable} information about the user initiating the request. */
     @GET("/oauth2/user-info") Observable<User> getUserInfo();
+
+    /**
+     * Creates device on the platform. Used for v2 on-boarding.
+     * @param device to create and add to the existing transmitter
+     * @return created device
+     */
+    @POST("/devices") Observable<Device> createDevice(@Body CreateDevice device);
 
     @POST("/devices/{device_id}/cmd")
     Observable<Void> sendCommand(@Path("device_id") String deviceId,
@@ -44,16 +44,14 @@ public interface RelayrApi {
     Observable<Void> deleteDevice(@Path("device_id") String deviceId);
 
     /**
-     * Api call to tell the backend to create WunderBar.
-     * @return an {@link rx.Observable} to a WunderBar that contains the IDs and Secrets of the
-     * Master Module and Sensor Modules.
+     * A public device is a device which public attribute has been set to 'true' therefore
+     * no authorization is required.
+     * @param meaning When a meaning is specified, the request returns only
+     *                the devices which readings match the meaning.
+     * @return an {@link rx.Observable} with a list of all public devices.
      */
-    @POST("/users/{userId}/wunderbar")
-    Observable<CreateWunderBar> createWunderBar(@Path("userId") String userId);
-
-    /** @return an {@link rx.Observable} with a list all Transmitters listed under a user. */
-    @GET("/users/{userId}/transmitters")
-    Observable<List<Transmitter>> getTransmitters(@Path("userId") String userId);
+    @GET("/devices/public")
+    Observable<List<Device>> getPublicDevices(@Query("meaning") String meaning);
 
     /** @return an {@link rx.Observable} of a specific transmitter */
     @GET("/transmitters/{transmitter}")
@@ -87,44 +85,12 @@ public interface RelayrApi {
     Observable<Transmitter> registerTransmitter(@Body Transmitter transmitter);
 
     /**
-     * A public device is a device which public attribute has been set to 'true' therefore
-     * no authorization is required.
-     * @param meaning When a meaning is specified, the request returns only
-     *                the devices which readings match the meaning.
-     * @return an {@link rx.Observable} with a list of all public devices.
-     */
-    @GET("/devices/public")
-    Observable<List<Device>> getPublicDevices(@Query("meaning") String meaning);
-
-    /**
-     * Bookmarks a specific public device. By Bookmarking a device you are indicating that you have
-     * a particular interest in this device. In order to receive data from a bookmarked device,
-     * the subscription call must first be initiated.
-     * @param userId   id of the user that is bookmarking the device
-     * @param deviceId id of bookmarked device - the Id must be one of a public device
-     * @return an {@link rx.Observable} to the bookmarked device
-     */
-    @POST("/users/{userId}/devices/{deviceId}/bookmarks")
-    Observable<Bookmark> bookmarkPublicDevice(@Path("userId") String userId,
-                                              @Path("deviceId") String deviceId);
-
-    /**
-     * Deletes a bookmarked device.
-     * @param userId   id of the user that bookmarked the device
-     * @param deviceId id of bookmarked device - the Id must be one of a public device
+     * Deletes a transmitter and all of its components (Transmitter and Devices)
+     * @param transmitterId id of the transmitter (the Master Module)
      * @return an empty {@link rx.Observable}
      */
-    @DELETE("/users/{userId}/devices/{deviceId}/bookmarks")
-    Observable<Void> deleteBookmark(@Path("userId") String userId,
-                                    @Path("deviceId") String deviceId);
-
-    /**
-     * Returns a list of devices bookmarked by the user.
-     * @param userId id of the user that bookmarked devices
-     * @return an {@link rx.Observable} with a list of the users bookmarked devices
-     */
-    @GET("/users/{userId}/devices/bookmarks")
-    Observable<List<BookmarkDevice>> getBookmarkedDevices(@Path("userId") String userId);
+    @DELETE("/transmitters/{transmitterId}")
+    Observable<Void> deleteTransmitter(@Path("transmitterId") String transmitterId);
 
     /**
      * Returns all available device models.
@@ -154,23 +120,9 @@ public interface RelayrApi {
     Observable<Void> deleteWunderBar(@Path("transmitterId") String transmitterId);
 
     /**
-     * Deletes a transmitter and all of its components (Transmitter and Devices)
-     * @param transmitterId id of the transmitter (the Master Module)
-     * @return an empty {@link rx.Observable}
-     */
-    @DELETE("/transmitters/{transmitterId}")
-    Observable<Void> deleteTransmitter(@Path("transmitterId") String transmitterId);
-
-    /**
      * Returns map of ble device names and their device model ids. Used with v2 on-boarding.
      * @return an {@link rx.Observable} with Map<String, String>
      */
     @GET("/device-models/ble-names") Observable<Object> getBleModels();
 
-    /**
-     * Creates device on the platform. Used for v2 on-boarding.
-     * @param device to create and add to the existing transmitter
-     * @return created device
-     */
-    @POST("/devices") Observable<Device> createDevice(@Body CreateDevice device);
 }

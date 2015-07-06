@@ -2,14 +2,14 @@ package io.relayr.util;
 
 import javax.inject.Inject;
 
-import io.relayr.api.StatusApi;
+import io.relayr.api.CloudApi;
 import rx.Observable;
 import rx.Subscriber;
 
 public class MockReachabilityUtils extends ReachabilityUtils {
 
     @Inject
-    MockReachabilityUtils(StatusApi api) {
+    MockReachabilityUtils(CloudApi api) {
         super(api);
     }
 

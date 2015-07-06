@@ -33,7 +33,6 @@ public class WebSocketClientTest extends TestEnvironment {
     @Before
     public void init() {
         super.init();
-
         initSdk();
         inject();
     }

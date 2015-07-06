@@ -14,7 +14,6 @@ import java.util.concurrent.TimeUnit;
 
 import io.relayr.RelayrSdk;
 import io.relayr.api.CloudApi;
-import io.relayr.api.StatusApi;
 import io.relayr.storage.DataStorage;
 import io.relayr.util.ReachabilityUtils;
 import rx.Observable;
@@ -31,7 +30,6 @@ import static org.mockito.Mockito.when;
 public class LoggerTest {
 
     @Mock private CloudApi cloudApi;
-    @Mock private StatusApi statusApi;
     @Mock private ReachabilityUtils reachUtils;
 
     private CountDownLatch lock;

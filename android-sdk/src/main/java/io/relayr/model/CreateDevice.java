@@ -1,6 +1,10 @@
 package io.relayr.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
+
+import io.relayr.model.account.AccountType;
 
 public class CreateDevice implements Serializable {
 
@@ -9,7 +13,7 @@ public class CreateDevice implements Serializable {
     private String model;
     private String owner;
     private String firmwareVersion;
-    private String integrationType;
+    @SerializedName("integrationType") private String accountType;
     private String transmitterId;
 
     public CreateDevice(String name, DeviceModel model, String owner, String mac, String transmitterId) {
@@ -18,8 +22,8 @@ public class CreateDevice implements Serializable {
         this.owner = owner;
         this.mac = mac;
         this.transmitterId = transmitterId;
-        this.integrationType = IntegrationType.WUNDERBAR_2.getName();
-        this.firmwareVersion = "1.0.0";
+        this.accountType = AccountType.WUNDERBAR_2.getName();
+        this.firmwareVersion = "2.0.0";
     }
 
     public String getMac() {

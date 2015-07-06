@@ -44,11 +44,6 @@ public class MockRelayrApi implements RelayrApi {
     }
 
     @Override
-    public Observable<List<Device>> getUserDevices(String userId) {
-        return mMockBackend.createObservable(new TypeToken<List<Device>>() {}, USER_DEVICES);
-    }
-
-    @Override
     public Observable<App> getAppInfo() {
         return mMockBackend.createObservable(new TypeToken<App>() {
         }, APP_INFO);
@@ -79,18 +74,6 @@ public class MockRelayrApi implements RelayrApi {
         });    }
 
     @Override
-    public Observable<CreateWunderBar> createWunderBar(String userId) {
-        return mMockBackend.createObservable(new TypeToken<CreateWunderBar>() { },
-                USERS_CREATE_WUNDERBAR);
-    }
-
-    @Override
-    public Observable<List<Transmitter>> getTransmitters(String userId) {
-        return mMockBackend.createObservable(new TypeToken<List<Transmitter>>() {},
-                USERS_TRANSMITTERS);
-    }
-
-    @Override
     public Observable<Transmitter> getTransmitter(String transmitter) {
         return mMockBackend.createObservable(new TypeToken<Transmitter>() {}, USERS_TRANSMITTER);
     }
@@ -115,27 +98,6 @@ public class MockRelayrApi implements RelayrApi {
     public Observable<List<Device>> getPublicDevices(String meaning) {
         return mMockBackend.createObservable(new TypeToken<List<Device>>() {
         }, PUBLIC_DEVICES);
-    }
-
-    @Override
-    public Observable<Bookmark> bookmarkPublicDevice(String userId, String deviceId) {
-        return mMockBackend.createObservable(new TypeToken<Bookmark>() { }, BOOKMARK_DEVICE);
-    }
-
-    @Override
-    public Observable<Void> deleteBookmark(String userId, String deviceId) {
-        return Observable.create(new Observable.OnSubscribe<Void>() {
-            @Override
-            public void call(Subscriber<? super Void> subscriber) {
-                subscriber.onNext(null);
-            }
-        });
-    }
-
-    @Override
-    public Observable<List<BookmarkDevice>> getBookmarkedDevices(String userId) {
-        return mMockBackend.createObservable(new TypeToken<List<BookmarkDevice>>() { },
-                BOOKMARKED_DEVICES);
     }
 
     @Override

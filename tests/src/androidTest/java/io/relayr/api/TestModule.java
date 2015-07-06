@@ -16,7 +16,9 @@ import io.relayr.websocket.WebSocketClientTest;
         injects = {
                 MockBackendTest.class,
                 MockRelayrApiTest.class,
-                MockStatusApiTest.class,
+                MockCloudApiTest.class,
+                MockAccountsApiTest.class,
+                MockUserApiTest.class,
                 MockChannelApiTest.class,
                 WebSocketClientTest.class,
                 OnBoardClientTest.class
@@ -38,10 +40,17 @@ public class TestModule {
         return new MockRelayrApi(mockBackend);
     }
 
-    @Provides @Singleton StatusApi provideStatusApi(MockBackend loader) {
-        return new MockStatusApi(loader);
+    @Provides @Singleton CloudApi provideCloudApi(MockBackend loader) {
+        return new MockCloudApi(loader);
     }
 
+    @Provides @Singleton AccountsApi provideAccountsApi(MockBackend loader) {
+        return new MockAccountsApi(loader);
+    }
+
+    @Provides @Singleton UserApi provideUserApi(MockBackend loader) {
+        return new MockUserApi(loader);
+    }
     @Provides @Singleton ChannelApi provideChannelApi(MockBackend loader) {
         return new MockChannelApi(loader);
     }

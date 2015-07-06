@@ -2,11 +2,17 @@ package io.relayr.model;
 
 public class ModelReading {
 
+    /** String representation of the reading value */
     final public String meaning;
+    /** If one device contains other devices they will be defined by paths like in a tree map */
     final public String path;
+    /** Unit of measurement */
     final public Object unit;
+    /** Reading minimum */
     final public Object minimum;
+    /** Reading maximum */
     final public Object maximum;
+    /** Reading precision - doesn't need to be defined */
     final public Object precision;
 
     public ModelReading(String meaning, String path, Object unit, Object minimum, Object maximum, Object precision) {

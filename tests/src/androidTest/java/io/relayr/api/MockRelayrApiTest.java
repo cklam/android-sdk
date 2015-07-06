@@ -34,14 +34,9 @@ public class MockRelayrApiTest extends TestEnvironment {
 
     @Captor private ArgumentCaptor<User> userCaptor;
     @Captor private ArgumentCaptor<App> appCaptor;
-    @Captor private ArgumentCaptor<List<Device>> userDevicesCaptor;
-    @Captor private ArgumentCaptor<CreateWunderBar> wunderBarCaptor;
-    @Captor private ArgumentCaptor<List<Transmitter>> transmittersCaptor;
     @Captor private ArgumentCaptor<Transmitter> transmitterCaptor;
     @Captor private ArgumentCaptor<List<TransmitterDevice>> transmitterDeviceCaptor;
     @Captor private ArgumentCaptor<List<Device>> publicDevicesCaptor;
-    @Captor private ArgumentCaptor<List<BookmarkDevice>> bookmarkDevicesCaptor;
-    @Captor private ArgumentCaptor<Bookmark> bookmarkCaptor;
     @Captor private ArgumentCaptor<List<Model>> modelsCaptor;
     @Captor private ArgumentCaptor<List<ReadingMeaning>> meaningsCaptor;
 
@@ -52,18 +47,6 @@ public class MockRelayrApiTest extends TestEnvironment {
         super.init();
         inject();
         initSdk();
-    }
-
-    @Test
-    @SuppressWarnings("unchecked")
-    public void getUserDevicesTest() {
-        mockApi.getUserDevices(ID).subscribe(subscriber);
-
-        verify(subscriber).onNext(userDevicesCaptor.capture());
-
-        assertThat(userDevicesCaptor.getValue().size()).isEqualTo(4);
-        assertThat(userDevicesCaptor.getValue().get(0).getModel().getName())
-                .isEqualTo("Wunderbar Thermometer & Humidity Sensor");
     }
 
     @Test
@@ -84,29 +67,6 @@ public class MockRelayrApiTest extends TestEnvironment {
         verify(subscriber).onNext(userCaptor.capture());
 
         assertThat(userCaptor.getValue().email).isEqualTo("hugo@email.com");
-    }
-
-    @Test
-    @SuppressWarnings("unchecked")
-    public void createWunderBarTest() {
-        mockApi.createWunderBar(ID).subscribe(subscriber);
-
-        verify(subscriber).onNext(wunderBarCaptor.capture());
-
-        assertThat(wunderBarCaptor.getValue().masterModule.getName())
-                .isEqualTo("My Wunderbar Master Module");
-    }
-
-    @Test
-    @SuppressWarnings("unchecked")
-    public void getTransmittersTest() {
-        mockApi.getTransmitters(ID).subscribe(subscriber);
-
-        verify(subscriber).onNext(transmittersCaptor.capture());
-
-        assertThat(transmittersCaptor.getValue().size()).isEqualTo(2);
-        assertThat(transmittersCaptor.getValue().get(0).getName())
-                .isEqualTo("My Wunderbar Master Module");
     }
 
     @Test
@@ -141,27 +101,6 @@ public class MockRelayrApiTest extends TestEnvironment {
 
         assertThat(publicDevicesCaptor.getValue().size()).isEqualTo(2);
         assertThat(publicDevicesCaptor.getValue().get(0).getName()).isEqualTo("DanasSecondDevice");
-    }
-
-    @Test
-    @SuppressWarnings("unchecked")
-    public void getBookmarkedDevicesTest() {
-        mockApi.getBookmarkedDevices(ID).subscribe(subscriber);
-
-        verify(subscriber).onNext(bookmarkDevicesCaptor.capture());
-
-        assertThat(bookmarkDevicesCaptor.getValue().size()).isEqualTo(1);
-        assertThat(bookmarkDevicesCaptor.getValue().get(0).getName()).isEqualTo("DanasDevice");
-    }
-
-    @Test
-    @SuppressWarnings("unchecked")
-    public void bookmarkDeviceTest() {
-        mockApi.bookmarkPublicDevice(ID, ID).subscribe(subscriber);
-
-        verify(subscriber).onNext(bookmarkCaptor.capture());
-
-        assertThat(bookmarkCaptor.getValue().getUserId()).isEqualTo("c70faa9f-5eda-49d8-be91-a7e4b1beeca1");
     }
 
     @Test

@@ -15,7 +15,7 @@ import javax.inject.Singleton;
 
 import io.relayr.RelayrApp;
 import io.relayr.RelayrSdk;
-import io.relayr.api.StatusApi;
+import io.relayr.api.CloudApi;
 import io.relayr.model.Status;
 import rx.Observable;
 import rx.Subscriber;
@@ -27,11 +27,11 @@ public class ReachabilityUtils {
 
     private static final String TAG = "io.relayr.util.ReachabilityUtils";
 
-    private StatusApi mApi;
+    private CloudApi mApi;
     private Map<String, Boolean> sPermissions;
 
     @Inject
-    ReachabilityUtils(StatusApi api) {
+    ReachabilityUtils(CloudApi api) {
         mApi = api;
         sPermissions = new HashMap<>();
     }

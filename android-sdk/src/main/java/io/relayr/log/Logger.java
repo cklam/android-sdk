@@ -18,7 +18,7 @@ import rx.schedulers.Schedulers;
 @Singleton
 public class Logger {
 
-    private static final String TAG = "io.relayr.log.LoggerUtils";
+    private static final String TAG = "io.relayr.log.Logger";
     private static final int AUTO_FLUSH = 5;
 
     private final CloudApi mApi;
