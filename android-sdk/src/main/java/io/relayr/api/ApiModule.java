@@ -78,8 +78,8 @@ public class ApiModule {
                 .setClient(client)
                 .setEndpoint(endpoint)
                 .setRequestInterceptor(apiRequestInterceptor)
-//                .setErrorHandler(new MyErrorHandler())
-//                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .setErrorHandler(new MyErrorHandler())
+                .setLogLevel(RestAdapter.LogLevel.FULL)
                 .build();
     }
 

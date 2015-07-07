@@ -27,7 +27,7 @@ public interface AccountsApi {
     Observable<List<AccountDevice>> getAccountDevices(@Path("accountName") String accountName);
 
     /**
-     * Returns login url for the account.  Use {@link Account#getLoginUrl()} instead.
+     * Returns login url for the account.
      * @param accountName as an identificator {@link Account#name}
      * @param redirectUri
      * @return login url

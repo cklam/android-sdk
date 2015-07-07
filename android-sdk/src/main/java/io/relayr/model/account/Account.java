@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import io.relayr.RelayrSdk;
+import io.relayr.storage.DataStorage;
 import rx.Observable;
 
 /**
@@ -45,7 +46,12 @@ public class Account implements Serializable {
     }
 
     /** Returns login URL for the account */
-    public Observable<AccountUrl> getLoginUrl() {
-        return RelayrSdk.getAccountsApi().getLoginUrl(name, "https://api.relayr.io");
+    public Observable<AccountUrl> getLoginUrl(String redirectUrl) {
+        return RelayrSdk.getAccountsApi().getLoginUrl(name, redirectUrl);
+    }
+
+    /** Returns login URL for the account */
+    public Observable<Void> isConnected() {
+        return RelayrSdk.getUserApi().isAccountConnected(DataStorage.getUserId(), name);
     }
 }
