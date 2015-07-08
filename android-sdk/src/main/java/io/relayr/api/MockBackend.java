@@ -48,6 +48,9 @@ public class MockBackend {
     public static final String USER_ACCOUNT_DEVICES = "user_accounts_devices.json";
     public static final String USER_ACCOUNT_LOGIN_URL = "user_accounts_login_url.json";
 
+    public static final String USER_GROUP = "user_group.json";
+    public static final String USER_GROUPS = "user_groups.json";
+
     private final Context mContext;
     private final Gson mGson;
 

@@ -113,6 +113,10 @@ public class ApiModule {
         return restAdapter.create(AccountsApi.class);
     }
 
+    @Provides @Singleton GroupsApi provideGroupsApi(@Named("api") RestAdapter restAdapter) {
+        return restAdapter.create(GroupsApi.class);
+    }
+
     @Provides @Singleton UserApi provideUserApi(@Named("api") RestAdapter restAdapter) {
         return restAdapter.create(UserApi.class);
     }

@@ -43,6 +43,10 @@ public class DebugApiModule {
         return new MockUserApi(loader);
     }
 
+    @Provides @Singleton GroupsApi provideGroupsApi(MockBackend loader) {
+        return new MockGroupsApi(loader);
+    }
+
     @Provides @Singleton CloudApi provideCloudApi(MockBackend loader) {
         return new MockCloudApi(loader);
     }

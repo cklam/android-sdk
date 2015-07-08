@@ -7,6 +7,7 @@ import javax.inject.Inject;
 
 import io.relayr.activity.LoginActivity;
 import io.relayr.api.AccountsApi;
+import io.relayr.api.GroupsApi;
 import io.relayr.api.RelayrApi;
 import io.relayr.api.UserApi;
 import io.relayr.ble.BleUtils;
@@ -35,6 +36,7 @@ public class RelayrSdk {
     @Inject static RelayrApi mRelayrApi;
     @Inject static UserApi mUserApi;
     @Inject static AccountsApi mAccountsApi;
+    @Inject static GroupsApi mGroupsApi;
     @Inject static WebSocketClient mWebSocketClient;
     @Inject static OnBoardingClient mOnBoardingClient;
     @Inject static BleUtils mBleUtils;
@@ -90,10 +92,18 @@ public class RelayrSdk {
 
     /**
      * @return the handler of the Accounts API. Use to add third party accounts to the relayr user.
-     * Used as an access point to class {@link io.relayr.api.RelayrApi}
+     * Used as an access point to class {@link io.relayr.api.AccountsApi}
      */
     public static AccountsApi getAccountsApi() {
         return mAccountsApi;
+    }
+
+    /**
+     * @return the handler of the Groups API.
+     * Used as an access point to class {@link io.relayr.api.GroupsApi}
+     */
+    public static GroupsApi getGroupsApi() {
+        return mGroupsApi;
     }
 
     /**

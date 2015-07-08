@@ -5,6 +5,7 @@ import java.util.List;
 
 import io.relayr.RelayrSdk;
 import io.relayr.model.account.Account;
+import io.relayr.model.groups.Group;
 import rx.Observable;
 
 /**
@@ -95,5 +96,13 @@ public class User implements Serializable {
      */
     public Observable<Void> disconnectAccount(String accountName) {
         return RelayrSdk.getUserApi().disconnectAccount(id, accountName);
+    }
+
+    /**
+     * Returns list of {@link Group} objects
+     * @return an {@link rx.Observable} list
+     */
+    public Observable<List<Group>> getGroups() {
+        return RelayrSdk.getGroupsApi().getGroups();
     }
 }
