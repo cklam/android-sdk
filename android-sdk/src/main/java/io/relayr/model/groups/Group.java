@@ -23,6 +23,10 @@ public class Group implements Serializable, Comparable<Group> {
         this.devices = devices;
     }
 
+    public String getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }
