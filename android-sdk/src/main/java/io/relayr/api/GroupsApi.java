@@ -3,6 +3,8 @@ package io.relayr.api;
 import java.util.List;
 
 import io.relayr.model.groups.Group;
+import io.relayr.model.groups.GroupCreate;
+import io.relayr.model.groups.PositionUpdate;
 import retrofit.http.Body;
 import retrofit.http.DELETE;
 import retrofit.http.GET;
@@ -21,10 +23,10 @@ public interface GroupsApi {
 
     /**
      * Creates new group and returns 200 OK if group is successfully created, error otherwise.
-     * @param name {@link Group#name}
+     * @param groupCreate {@link GroupCreate}
      * @return an empty {@link Observable}
      */
-    @POST("/experimental/groups") Observable<Void> createGroup(@Body String name);
+    @POST("/experimental/groups") Observable<Group> createGroup(@Body GroupCreate groupCreate);
 
     /**
      * Returns group defined with groupId
@@ -41,7 +43,37 @@ public interface GroupsApi {
      * @return an empty {@link Observable}
      */
     @PATCH("/experimental/groups/{groupId}") Observable<Void> updateGroup(
-            @Body Group group, @Path("groupId") String groupId);
+            @Body GroupCreate group, @Path("groupId") String groupId);
+
+    /**
+     * Adds device to a group and returns 200 OK if successful, error otherwise.
+     * @param groupId  {@link Group#id}
+     * @param deviceId {@link io.relayr.model.Device#id}
+     * @return an empty {@link Observable}
+     */
+    @POST("/experimental/groups/{groupId}/devices/{deviceId}")
+    Observable<Void> addDevice(@Path("groupId") String groupId, @Path("deviceId") String deviceId);
+
+    /**
+     * Deletes device from a group and returns 200 OK if successful, error otherwise.
+     * @param groupId  {@link Group#id}
+     * @param deviceId {@link io.relayr.model.Device#id}
+     * @return an empty {@link Observable}
+     */
+    @DELETE("/experimental/groups/{groupId}/devices/{deviceId}")
+    Observable<Void> deleteDevice(@Path("groupId") String groupId,
+                                  @Path("deviceId") String deviceId);
+
+    /**
+     * Updates device's position in a group and returns 200 OK if successful, error otherwise.
+     * @param groupId  {@link Group#id}
+     * @param deviceId {@link io.relayr.model.Device#id}
+     * @return an empty {@link Observable}
+     */
+    @PATCH("/experimental/groups/{groupId}/devices/{deviceId}")
+    Observable<Void> updateDevicePosition(@Body PositionUpdate update,
+                                          @Path("groupId") String groupId,
+                                          @Path("deviceId") String deviceId);
 
     /**
      * Deletes group and returns 200 OK if group is successfully updated, error otherwise.

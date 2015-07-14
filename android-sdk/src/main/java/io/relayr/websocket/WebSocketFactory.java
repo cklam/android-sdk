@@ -6,7 +6,4 @@ public class WebSocketFactory {
         return new MqttWebSocket();
     }
 
-    WebSocket createOnBoardingWebSocket() {
-        return new OnBoardWebSocket();
-    }
 }

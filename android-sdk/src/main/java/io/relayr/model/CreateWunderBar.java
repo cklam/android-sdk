@@ -4,13 +4,13 @@ import java.io.Serializable;
 
 public class CreateWunderBar implements Serializable {
 
-    public final Transmitter masterModule;
-    public final Device gyroscope;
-    public final Device light;
-    public final Device microphone;
-    public final Device thermometer;
-    public final Device infrared;
-    public final Device bridge;
+    private final Transmitter masterModule;
+    private final Device gyroscope;
+    private final Device light;
+    private final Device microphone;
+    private final Device thermometer;
+    private final Device infrared;
+    private final Device bridge;
 
     public CreateWunderBar(Transmitter masterModule, Device gyroscope,
                            Device light, Device microphone,
@@ -33,8 +33,11 @@ public class CreateWunderBar implements Serializable {
     }
 
     private TransmitterDevice toTransmitterDevice(Device device) {
-        return new TransmitterDevice(device.id, device.getSecret(), device.getOwner(),
+        return new TransmitterDevice(device.getId(), device.getSecret(), device.getOwner(),
                 device.getName(), device.getModel().getId());
     }
 
+    public String getMasterModuleId() {
+        return masterModule.id;
+    }
 }

@@ -21,8 +21,7 @@ import io.relayr.websocket.WebSocketClientTest;
                 MockUserApiTest.class,
                 MockGroupsApiTest.class,
                 MockChannelApiTest.class,
-                WebSocketClientTest.class,
-                OnBoardClientTest.class
+                WebSocketClientTest.class
         }
 )
 public class TestModule {

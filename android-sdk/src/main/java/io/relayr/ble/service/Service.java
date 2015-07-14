@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.os.Build;
+import android.util.Log;
 
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -82,13 +83,15 @@ import static rx.Observable.just;
     }
 
     protected Observable<BluetoothGatt> longWrite(final byte[] data, String serviceUuid,
-                                                  String characteristicUuid) {
+                                                  final String characteristicUuid) {
 
         final BluetoothGattCharacteristic characteristic = getCharacteristicInServices(
                 mBluetoothGatt.getServices(), serviceUuid, characteristicUuid);
 
         if (characteristic == null)
             return error(new CharacteristicNotFoundException(characteristicUuid));
+
+        Log.e("LW", "start");
 
         final LongWriteDataParser dataParser = new LongWriteDataParser(data);
         return Observable
@@ -105,6 +108,9 @@ import static rx.Observable.just;
                 .doOnError(new Action1<Throwable>() {
                     @Override
                     public void call(Throwable t) {
+                        Log.e("LW", "error " + characteristicUuid);
+                        t.printStackTrace();
+
                         DeviceCompatibilityUtils.refresh(mBluetoothGatt);
                     }
                 });
@@ -117,6 +123,7 @@ import static rx.Observable.just;
 
         if (data.length == 0) {
             mBluetoothGatt.executeReliableWrite();
+            Log.e("LW", "end");
             return;
         }
 
@@ -129,7 +136,7 @@ import static rx.Observable.just;
                         sendPayload(parser, characteristic, subscriber);
                     }
                 })
-                .delaySubscription(300, TimeUnit.MILLISECONDS)
+                .delaySubscription(400, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe();

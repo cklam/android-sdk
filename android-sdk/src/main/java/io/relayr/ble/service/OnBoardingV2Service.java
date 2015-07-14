@@ -38,7 +38,7 @@ public class OnBoardingV2Service extends BaseService {
     public enum OnBoardingStatus {
         SUCCESS, UN_CONFIGURED,
         WIFI_ERROR, TCP_ERROR, MQTT_ERROR, UNKNOWN_ERROR,
-        WIFI_TRYING, TCP_TRYING, SSL_TRYING, MQTT_TRYING,
+        WIFI_TRYING, TCP_TRYING, SSL_TRYING, MQTT_TRYING, CONFIG_FAILED,
         UNKNOWN
     }
 

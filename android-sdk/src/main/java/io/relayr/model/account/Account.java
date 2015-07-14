@@ -13,11 +13,11 @@ import rx.Observable;
 public class Account implements Serializable {
 
     /** Account name for identification */
-    private String name;
+    private final String name;
     /** Account name for presentation */
-    private String readableName;
+    private final String readableName;
     /** Authentication URL */
-    private String oauthUrl;
+    private final String oauthUrl;
 
     public Account(String name, String readableName, String oauthUrl) {
         this.name = name;

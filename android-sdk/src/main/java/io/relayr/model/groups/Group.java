@@ -1,11 +1,13 @@
 package io.relayr.model.groups;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import io.relayr.RelayrSdk;
 import io.relayr.model.Device;
-import rx.schedulers.Schedulers;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
 
 public class Group implements Serializable, Comparable<Group> {
 
@@ -13,15 +15,8 @@ public class Group implements Serializable, Comparable<Group> {
     private String name;
     private String owner;
     private int position;
-    private List<Device> devices;
-
-    public Group(String id, String name, String owner, int position, List<Device> devices) {
-        this.id = id;
-        this.name = name;
-        this.owner = owner;
-        this.position = position;
-        this.devices = devices;
-    }
+    private List<GroupDevice> devices;
+    private List<Device> realDevices;
 
     public String getId() {
         return id;
@@ -32,27 +27,76 @@ public class Group implements Serializable, Comparable<Group> {
     }
 
     public List<Device> getDevices() {
-        return devices;
+        if (realDevices == null) {
+            realDevices = new ArrayList<>();
+            for (GroupDevice basic : devices)
+                realDevices.add(basic.toDevice());
+        }
+        return realDevices;
     }
 
-    public void update(String name) {
-        update(name, this.position);
+    /**
+     * Calls {@link rx.Subscriber#onNext(Object)} if group is updated
+     * {@link rx.Subscriber#onError(Throwable)} otherwise.
+     * Subscription is necessary to run the method.
+     */
+    public Observable<Void> update(String name) {
+        //TODO Check with Emiliano about this. Currently it updates only one field
+        final GroupCreate groupUpdate = new GroupCreate(name, this.owner, position);
+        return update(groupUpdate);
     }
 
-    public void update(String name, int position) {
-        update(name, position, this.devices);
+    /**
+     * Calls {@link rx.Subscriber#onNext(Object)} if group is updated
+     * {@link rx.Subscriber#onError(Throwable)} otherwise
+     * Subscription is necessary to run the method.
+     */
+    public Observable<Void> update(int position) {
+        final GroupCreate groupUpdate = new GroupCreate(name, this.owner, position);
+        return update(groupUpdate);
     }
 
-    public void update(String name, int position, List<Device> devices) {
-        this.name = name;
-        this.position = position;
-        this.devices = devices;
-        final Group newGroup = new Group(this.id, name, this.owner, position, devices);
+    /**
+     * Updates object locally and calls {@link rx.Subscriber#onNext(Object)} if group is updated
+     * {@link rx.Subscriber#onError(Throwable)} otherwise.
+     * Subscription is necessary to run the method.
+     */
+    private Observable<Void> update(GroupCreate groupUpdate) {
+        this.name = groupUpdate.name;
+        return RelayrSdk.getGroupsApi()
+                .updateGroup(groupUpdate, this.id)
+                .observeOn(AndroidSchedulers.mainThread());
+    }
 
-        RelayrSdk.getGroupsApi()
-                .updateGroup(newGroup, this.id)
-                .subscribeOn(Schedulers.io())
-                .subscribe();
+    /**
+     * Calls {@link rx.Subscriber#onNext(Object)} if device is added to the group.
+     * {@link rx.Subscriber#onError(Throwable)} otherwise
+     * Subscription is necessary to run the method.
+     */
+    public Observable<Void> addDevice(String deviceId) {
+        return RelayrSdk.getGroupsApi().addDevice(this.id, deviceId)
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * Calls {@link rx.Subscriber#onNext(Object)} if device is removed
+     * {@link rx.Subscriber#onError(Throwable)} otherwise
+     * Subscription is necessary to run the method.
+     */
+    public Observable<Void> removeDevice(String deviceId) {
+        return RelayrSdk.getGroupsApi().deleteDevice(this.id, deviceId)
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * Calls {@link rx.Subscriber#onNext(Object)} if device is moved
+     * {@link rx.Subscriber#onError(Throwable)} otherwise
+     * Subscription is necessary to run the method.
+     */
+    public Observable<Void> moveDeviceTo(String deviceId, int newPosition) {
+        return RelayrSdk.getGroupsApi()
+                .updateDevicePosition(new PositionUpdate(newPosition), this.id, deviceId)
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override public boolean equals(Object o) {

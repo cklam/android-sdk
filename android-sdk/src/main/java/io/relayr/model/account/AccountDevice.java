@@ -2,11 +2,11 @@ package io.relayr.model.account;
 
 import java.io.Serializable;
 
-public class AccountDevice  implements Serializable {
+public class AccountDevice implements Serializable {
 
-    private String externalId;
-    private String modelId;
-    private AccountDeviceExtra extra;
+    private final String externalId;
+    private final String modelId;
+    private final AccountDeviceExtra extra;
 
     public AccountDevice(String externalId, String modelId, AccountDeviceExtra extra) {
         this.externalId = externalId;
@@ -30,9 +30,9 @@ public class AccountDevice  implements Serializable {
         return extra.firmwareVersion;
     }
 
-    class AccountDeviceExtra  implements Serializable{
-        String name;
-        String firmwareVersion;
+    class AccountDeviceExtra implements Serializable {
+        final String name;
+        final String firmwareVersion;
 
         public AccountDeviceExtra(String name, String firmwareVersion) {
             this.name = name;

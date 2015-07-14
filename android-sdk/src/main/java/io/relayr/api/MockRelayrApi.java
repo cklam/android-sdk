@@ -18,6 +18,9 @@ import io.relayr.model.ReadingMeaning;
 import io.relayr.model.Transmitter;
 import io.relayr.model.TransmitterDevice;
 import io.relayr.model.User;
+import io.relayr.model.onboarding.OnBoardingState;
+import retrofit.client.Response;
+import retrofit.http.Path;
 import rx.Observable;
 import rx.Subscriber;
 
@@ -134,6 +137,16 @@ public class MockRelayrApi implements RelayrApi {
                 subscriber.onNext(null);
             }
         });
+    }
+
+    @Override
+    public Observable<OnBoardingState> isTransmitterConnected(String transmitterId) {
+        return Observable.empty();
+    }
+
+    @Override
+    public Observable<Response> scanForDevices(String transmitterId, int period) {
+        return null;
     }
 
     @Override

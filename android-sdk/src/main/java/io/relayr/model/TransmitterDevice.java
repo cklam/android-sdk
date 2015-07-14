@@ -43,7 +43,7 @@ public class TransmitterDevice extends Transmitter implements Serializable {
     @Override
     public boolean equals(Object o) {
         return o instanceof TransmitterDevice && ((TransmitterDevice) o).id.equals(id) ||
-                o instanceof Device && ((Device) o).id.equals(id);
+                o instanceof Device && ((Device) o).getId().equals(id);
     }
 
     public Observable<Reading> subscribeToCloudReadings() {

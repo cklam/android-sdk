@@ -161,7 +161,7 @@ public class LoginActivity extends Activity {
                             .map(new Func1<User, User>() {
                                 @Override
                                 public User call(User user) {
-                                    DataStorage.saveUserId(user.id);
+                                    DataStorage.saveUserId(user.getId());
                                     return user;
                                 }
                             })

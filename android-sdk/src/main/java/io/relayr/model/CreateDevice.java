@@ -1,45 +1,41 @@
 package io.relayr.model;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 
 import io.relayr.model.account.AccountType;
 
 public class CreateDevice implements Serializable {
 
-    private String mac;
+    private final String model;
+    private final String owner;
+    private final String firmware;
+    private final String externalId;
     private String name;
-    private String model;
-    private String owner;
-    private String firmware;
     private String transmitterId;
-    @SerializedName("integrationType") private String accountType;
+    private String integrationType;
 
-    public CreateDevice(String name, DeviceModel model, String owner, String mac, String transmitterId) {
+    /**
+     * Used for devices that are owned by transmitter
+     */
+    public CreateDevice(String name, DeviceModel model, String owner, String externalId, String transmitterId) {
         this.name = name;
         this.model = model.getId();
         this.owner = owner;
-        this.mac = mac;
+        this.externalId = externalId;
         this.transmitterId = transmitterId;
-        this.accountType = AccountType.WUNDERBAR_2.getName();
+        this.integrationType = AccountType.WUNDERBAR_2.getName();
         this.firmware = "2.0.0";
     }
 
-    public CreateDevice(String name, String modelId, String owner, String externalId,
-                        String firmware) {
+    public CreateDevice(String name, String modelId, String owner, String externalId, String firmware) {
         this.name = name;
         this.model = modelId;
         this.owner = owner;
-        this.mac = externalId;
+        this.externalId = externalId;
         this.firmware = firmware;
     }
 
-    public String getMac() {
-        return mac;
-    }
-
-    public String getName() {
-        return name;
+    public void setName(String name) {
+        this.name = name;
     }
 }

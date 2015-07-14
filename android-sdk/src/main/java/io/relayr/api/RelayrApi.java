@@ -11,6 +11,8 @@ import io.relayr.model.ReadingMeaning;
 import io.relayr.model.Transmitter;
 import io.relayr.model.TransmitterDevice;
 import io.relayr.model.User;
+import io.relayr.model.onboarding.OnBoardingState;
+import retrofit.client.Response;
 import retrofit.http.Body;
 import retrofit.http.DELETE;
 import retrofit.http.GET;
@@ -18,6 +20,7 @@ import retrofit.http.PATCH;
 import retrofit.http.POST;
 import retrofit.http.Path;
 import retrofit.http.Query;
+import retrofit.http.Streaming;
 import rx.Observable;
 
 /** This class incorporates a wrapped version of the relayr API calls. */
@@ -91,6 +94,23 @@ public interface RelayrApi {
      */
     @DELETE("/transmitters/{transmitterId}")
     Observable<Void> deleteTransmitter(@Path("transmitterId") String transmitterId);
+
+    /**
+     * Returns true if transmitter is connected to MQTT and able to send data.
+     * @param transmitterId id of the transmitter (the Master Module)
+     * @return an empty {@link rx.Observable}
+     */
+    @GET("/experimental/transmitters/{transmitterId}/state")
+    Observable<OnBoardingState> isTransmitterConnected(@Path("transmitterId") String transmitterId);
+
+    /**
+     * Returns true if transmitter is connected to MQTT and able to send data.
+     * @param transmitterId id of the transmitter (the Master Module)
+     * @return an empty {@link rx.Observable}
+     */
+    @POST("/experimental/transmitters/{transmitterId}/ble-scan/{period}")
+    @Streaming Observable<Response> scanForDevices(@Path("transmitterId") String transmitterId,
+                                                   @Path("period") int period);
 
     /**
      * Returns all available device models.

@@ -3,11 +3,13 @@ package io.relayr.api;
 import android.content.Context;
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.squareup.okhttp.Cache;
 import com.squareup.okhttp.OkHttpClient;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Type;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -24,6 +26,10 @@ import retrofit.RetrofitError;
 import retrofit.client.Client;
 import retrofit.client.OkClient;
 import retrofit.client.Response;
+import retrofit.converter.ConversionException;
+import retrofit.converter.Converter;
+import retrofit.mime.TypedInput;
+import retrofit.mime.TypedOutput;
 
 @Module(
         complete = false,
@@ -78,8 +84,8 @@ public class ApiModule {
                 .setClient(client)
                 .setEndpoint(endpoint)
                 .setRequestInterceptor(apiRequestInterceptor)
-//                .setErrorHandler(new MyErrorHandler())
-//                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .setErrorHandler(new MyErrorHandler())
+                .setLogLevel(RestAdapter.LogLevel.FULL)
                 .build();
     }
 

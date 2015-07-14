@@ -20,75 +20,27 @@ public class Device implements Serializable {
 
     /** Auto generated uid */
     private static final long serialVersionUID = 1L;
-    public final String id;
+    private final String id;
     private String name;
     private final Model model;
-    private String owner;
-    private String firmwareVersion;
+    private final String owner;
+    private final String firmwareVersion;
     private final String secret;
-    private String externalId;
-    @SerializedName("public") private boolean isPublic;
-    @SerializedName("integrationType") private String accounType;
+    private final String externalId;
+    @SerializedName("public") protected boolean isPublic;
+    @SerializedName("integrationType") protected String accountType;
 
-    public Device(String id, String name, Model model, String owner,
-                  String firmwareVersion, String secret, boolean isPublic) {
-        this.id = id;
-        this.name = name;
-        this.model = model;
-        this.owner = owner;
-        this.firmwareVersion = firmwareVersion;
+    public Device(String accountType, boolean isPublic, String externalId, String secret,
+                  String firmwareVersion, String owner, Model model, String name, String id) {
+        this.accountType = accountType;
+        this.isPublic = isPublic;
+        this.externalId = externalId;
         this.secret = secret;
-        this.isPublic = isPublic;
-
-        setAccountType(AccountType.WUNDERBAR_1);
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Model getModel() {
-        return model;
-    }
-
-    public String getOwner() {
-        return owner;
-    }
-
-    public void setOwner(String owner) {
-        this.owner = owner;
-    }
-
-    public String getSecret() {
-        return secret;
-    }
-
-    public boolean isPublic() {
-        return isPublic;
-    }
-
-    public void setPublic(boolean isPublic) {
-        this.isPublic = isPublic;
-    }
-
-    public String getFirmwareVersion() {
-        return firmwareVersion;
-    }
-
-    public void setFirmwareVersion(String firmwareVersion) {
         this.firmwareVersion = firmwareVersion;
-    }
-
-    public AccountType getAccountType() {
-        return AccountType.getByName(accounType);
-    }
-
-    public void setAccountType(AccountType accountType) {
-        this.accounType = accountType.getName();
+        this.owner = owner;
+        this.model = model;
+        this.name = name;
+        this.id = id;
     }
 
     @Override
@@ -130,7 +82,6 @@ public class Device implements Serializable {
     /**
      * Unsubscribes an app from a device channel, stopping and cleaning up the connection.
      */
-
     public void unSubscribeToCloudReadings() {
         RelayrSdk.getWebSocketClient().unSubscribe(id);
     }
@@ -146,11 +97,39 @@ public class Device implements Serializable {
         return RelayrSdk.getRelayrApi().sendCommand(id, command);
     }
 
+    public Model getModel() {
+        return model;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getFirmwareVersion() {
+        return firmwareVersion;
+    }
+
+    public String getSecret() {
+        return secret;
+    }
+
     public String getExternalId() {
         return externalId;
     }
 
-    public void setExternalId(String externalId) {
-        this.externalId = externalId;
+    public boolean isPublic() {
+        return isPublic;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public String getAccountType() {
+        return accountType;
     }
 }

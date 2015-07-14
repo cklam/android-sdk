@@ -30,8 +30,10 @@ import static android.bluetooth.BluetoothGattDescriptor.DISABLE_NOTIFICATION_VAL
 import static android.bluetooth.BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE;
 import static android.bluetooth.BluetoothProfile.STATE_CONNECTED;
 import static android.bluetooth.BluetoothProfile.STATE_DISCONNECTED;
-import static io.relayr.ble.service.BluetoothGattReceiver.UndocumentedBleStuff.fixUndocumentedBleStatusProblem;
-import static io.relayr.ble.service.BluetoothGattReceiver.UndocumentedBleStuff.isUndocumentedErrorStatus;
+import static io.relayr.ble.service.BluetoothGattReceiver.GattErrorStuff.fixGattError;
+import static io.relayr.ble.service.BluetoothGattReceiver.GattErrorStuff.isConnectionError;
+import static io.relayr.ble.service.BluetoothGattReceiver.GattErrorStuff.isGattError;
+import static io.relayr.ble.service.BluetoothGattReceiver.GattErrorStuff.tryToReconnect;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 public class BluetoothGattReceiver extends BluetoothGattCallback {
@@ -57,13 +59,28 @@ public class BluetoothGattReceiver extends BluetoothGattCallback {
         });
     }
 
-    static class UndocumentedBleStuff {
+    private static final int GATT_ERROR = 133;
+    private static final int GATT_AUTH_FAILED = 137;
+    private static final int CONNECTION_TERMINATED_LOCAL_HOST = 22;
+    private static final int CONNECTION_TIMEOUT = 8;
+    private static final int CONNECTION_FAILED_TO_ESTABLISH = 62;
 
-        static boolean isUndocumentedErrorStatus(int status) {
-            return status == 133 || status == 137;
+    static class GattErrorStuff {
+
+        static boolean isGattError(int status) {
+            return status == GATT_ERROR || status == GATT_AUTH_FAILED ||
+                    status == CONNECTION_TERMINATED_LOCAL_HOST || status == CONNECTION_TIMEOUT;
         }
 
-        static void fixUndocumentedBleStatusProblem(BluetoothGatt gatt, BluetoothGattReceiver receiver) {
+        static boolean isConnectionError(int status) {
+            return status == CONNECTION_FAILED_TO_ESTABLISH;
+        }
+
+        static void tryToReconnect(BluetoothGatt gatt, BluetoothGattReceiver receiver) {
+            gatt.getDevice().connectGatt(RelayrApp.get(), false, receiver);
+        }
+
+        static void fixGattError(BluetoothGatt gatt, BluetoothGattReceiver receiver) {
             DeviceCompatibilityUtils.refresh(gatt);
             gatt.getDevice().connectGatt(RelayrApp.get(), false, receiver);
         }
@@ -71,11 +88,15 @@ public class BluetoothGattReceiver extends BluetoothGattCallback {
 
     @Override
     public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
-        if (isUndocumentedErrorStatus(status)) {
-            fixUndocumentedBleStatusProblem(gatt, this);
+        Log.i("StateChange", gatt.getDevice().getAddress() + " - status " + status + " - new " + newState);
+
+        if (isConnectionError(status)) {
+            tryToReconnect(gatt, this); return;
+        } else if (isGattError(status)) {
+            fixGattError(gatt, this);
+            mConnectionChangesSubscriber.onError(new DisconnectionException(status + ""));
             return;
         }
-        if (status != GATT_SUCCESS) return;
 
         if (newState == STATE_CONNECTED) { // on connected
             if (mConnectionChangesSubscriber != null) mConnectionChangesSubscriber.onNext(gatt);
@@ -84,14 +105,16 @@ public class BluetoothGattReceiver extends BluetoothGattCallback {
                 gatt.close(); // should stay here since you might want to reconnect if involuntarily
                 mDisconnectedSubscriber.onNext(gatt);
                 mDisconnectedSubscriber.onCompleted();
-            } else { // disconnected involuntarily because an error occurred
-                if (mConnectionChangesSubscriber != null)
+
+                if (mConnectionChangesSubscriber != null) {
                     mConnectionChangesSubscriber.onError(new DisconnectionException(status + ""));
+                }
+            } else { // disconnected involuntarily because an error occurred
+                if (mConnectionChangesSubscriber != null) {
+                    mConnectionChangesSubscriber.onError(new DisconnectionException(status + ""));
+                }
             }
-        } /*else if (BluetoothGattStatus.isFailureStatus(status)) {
-            if (mConnectionChangesSubscriber != null)  // TODO: unreachable -propagate error earlier
-                mConnectionChangesSubscriber.onError(new GattException(status + ""));
-        }*/
+        }
     }
 
     public Observable<BluetoothGatt> discoverServices(final BluetoothGatt bluetoothGatt) {
@@ -151,8 +174,8 @@ public class BluetoothGattReceiver extends BluetoothGattCallback {
             mReliableWriteSubscriber.onCompleted();
         } else if (GATT_INSUFFICIENT_AUTHENTICATION == status || GATT_INSUFFICIENT_ENCRYPTION == status) {
             mReliableWriteSubscriber.onError(new GattException("Authentication"));
-        } else if (isUndocumentedErrorStatus(status)) {
-            fixUndocumentedBleStatusProblem(gatt, this);
+        } else if (isGattError(status)) {
+            fixGattError(gatt, this);
             mReliableWriteSubscriber.onError(new UndocumentedException());
         } else {
             mReliableWriteSubscriber.onError(new GattException("Reliable write failed."));
@@ -179,8 +202,8 @@ public class BluetoothGattReceiver extends BluetoothGattCallback {
                         }
                     })
                     .subscribe();
-        } else if (isUndocumentedErrorStatus(status)) {
-            fixUndocumentedBleStatusProblem(gatt, this);
+        } else if (isGattError(status)) {
+            fixGattError(gatt, this);
         } else {
             subscriber.onError(new WriteCharacteristicException(characteristic, status));
         }
@@ -216,8 +239,8 @@ public class BluetoothGattReceiver extends BluetoothGattCallback {
                         }
                     })
                     .subscribe();
-        } else if (isUndocumentedErrorStatus(status)) {
-            fixUndocumentedBleStatusProblem(gatt, this);
+        } else if (isGattError(status)) {
+            fixGattError(gatt, this);
         } else {
             subscriber.onError(new WriteCharacteristicException(characteristic, status));
         }

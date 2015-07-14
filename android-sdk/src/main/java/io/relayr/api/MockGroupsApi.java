@@ -7,8 +7,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.relayr.model.groups.Group;
-import retrofit.http.Body;
-import retrofit.http.Path;
+import io.relayr.model.groups.GroupCreate;
+import io.relayr.model.groups.PositionUpdate;
 import rx.Observable;
 
 import static io.relayr.api.MockBackend.USER_GROUP;
@@ -28,21 +28,36 @@ public class MockGroupsApi implements GroupsApi {
         }, USER_GROUPS);
     }
 
-    @Override public Observable<Void> createGroup(@Body String name) {
+    @Override public Observable<Group> createGroup(GroupCreate name) {
         return Observable.empty();
     }
 
-    @Override public Observable<Group> getGroup(@Path("groupId") String groupId) {
+    @Override public Observable<Group> getGroup( String groupId) {
         return mMockBackend.createObservable(new TypeToken<Group>() {
         }, USER_GROUP);
     }
 
     @Override
-    public Observable<Void> updateGroup(@Body Group group, @Path("groupId") String groupId) {
+    public Observable<Void> updateGroup(GroupCreate group, String groupId) {
         return Observable.empty();
     }
 
-    @Override public Observable<Void> deleteGroup(@Path("groupId") String groupId) {
+    @Override
+    public Observable<Void> addDevice(String groupId, String deviceId) {
+        return null;
+    }
+
+    @Override
+    public Observable<Void> deleteDevice(String groupId, String deviceId) {
+        return null;
+    }
+
+    @Override
+    public Observable<Void> updateDevicePosition(PositionUpdate update, String groupId, String deviceId) {
+        return null;
+    }
+
+    @Override public Observable<Void> deleteGroup(String groupId) {
         return Observable.empty();
     }
 

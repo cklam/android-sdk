@@ -16,7 +16,6 @@ import io.relayr.log.Logger;
 import io.relayr.model.User;
 import io.relayr.storage.DataStorage;
 import io.relayr.util.ReachabilityUtils;
-import io.relayr.websocket.OnBoardingClient;
 import io.relayr.websocket.WebSocketClient;
 import rx.Observable;
 import rx.Subscriber;
@@ -38,7 +37,6 @@ public class RelayrSdk {
     @Inject static AccountsApi mAccountsApi;
     @Inject static GroupsApi mGroupsApi;
     @Inject static WebSocketClient mWebSocketClient;
-    @Inject static OnBoardingClient mOnBoardingClient;
     @Inject static BleUtils mBleUtils;
     @Inject static RelayrBleSdk mRelayrBleSdk;
     @Inject static Logger mLoggerUtils;
@@ -201,14 +199,6 @@ public class RelayrSdk {
      */
     public static WebSocketClient getWebSocketClient() {
         return mWebSocketClient;
-    }
-
-    /**
-     * Used as an access point to the class {@link io.relayr.websocket.WebSocketClient}
-     * @return the handler of the WebSocket client
-     */
-    public static OnBoardingClient getOnBoardingClient() {
-        return mOnBoardingClient;
     }
 
     /**

@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class AccountUrl implements Serializable {
 
-    private String url;
+    private final String url;
 
     public AccountUrl(String url) {
         this.url = url;
