@@ -66,7 +66,7 @@ public class MockRelayrApiTest extends TestEnvironment {
 
         verify(subscriber).onNext(userCaptor.capture());
 
-        assertThat(userCaptor.getValue().email).isEqualTo("hugo@email.com");
+        assertThat(userCaptor.getValue().getEmail()).isEqualTo("hugo@email.com");
     }
 
     @Test

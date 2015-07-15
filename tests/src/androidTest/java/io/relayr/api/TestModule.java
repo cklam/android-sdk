@@ -6,7 +6,6 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import io.relayr.websocket.OnBoardClientTest;
 import io.relayr.websocket.WebSocketClientTest;
 
 @Module(

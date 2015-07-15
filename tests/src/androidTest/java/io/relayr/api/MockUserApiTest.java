@@ -61,7 +61,7 @@ public class MockUserApiTest extends TestEnvironment {
 
         verify(subscriber).onNext(wunderBarCaptor.capture());
 
-        assertThat(wunderBarCaptor.getValue().masterModule.getName())
+        assertThat(wunderBarCaptor.getValue().getMasterModule().getName())
                 .isEqualTo("My Wunderbar Master Module");
     }
 

@@ -37,6 +37,10 @@ public class CreateWunderBar implements Serializable {
                 device.getName(), device.getModel().getId());
     }
 
+    public Transmitter getMasterModule() {
+        return masterModule;
+    }
+
     public String getMasterModuleId() {
         return masterModule.id;
     }
