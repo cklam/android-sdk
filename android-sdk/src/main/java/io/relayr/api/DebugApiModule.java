@@ -6,6 +6,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import io.relayr.storage.DeviceModelStorage;
 
 @Module(
         complete = false,
@@ -51,4 +52,7 @@ public class DebugApiModule {
         return new MockCloudApi(loader);
     }
 
+    @Provides @Singleton DeviceModelStorage provideModelStorage(MockBackend loader) {
+        return new DeviceModelStorage(loader);
+    }
 }

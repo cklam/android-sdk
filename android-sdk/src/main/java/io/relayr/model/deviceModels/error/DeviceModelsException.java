@@ -3,7 +3,8 @@ package io.relayr.model.deviceModels.error;
 public class DeviceModelsException extends Exception {
 
     private static final String UNKNOWN_EXCEPTION = "Device models unknown exception!";
-    private static final String FIRMWARE_NOT_FOUND = "Device firmware %s not found!";
+    private static final String FIRMWARE_NOT_FOUND = "Device firmware not found!";
+    private static final String TRANSPORT_NOT_FOUND = "Device transport not found!";
 
     public DeviceModelsException() {
         super(UNKNOWN_EXCEPTION);
@@ -19,5 +20,9 @@ public class DeviceModelsException extends Exception {
 
     public static DeviceModelsException firmwareNotFound() {
         return new DeviceModelsException(FIRMWARE_NOT_FOUND);
+    }
+
+    public static DeviceModelsException transportNotFound() {
+        return new DeviceModelsException(TRANSPORT_NOT_FOUND);
     }
 }

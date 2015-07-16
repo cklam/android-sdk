@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import io.relayr.model.deviceModels.error.DeviceModelsException;
 import io.relayr.model.deviceModels.transport.Transport;
 
 public class DeviceFirmware implements Serializable {
@@ -15,7 +16,6 @@ public class DeviceFirmware implements Serializable {
     private String releaseDate;
     private String releaseNotes;
     private String documentation;
-
 
     public String getBinaries() {
         return binaries;
@@ -37,7 +37,7 @@ public class DeviceFirmware implements Serializable {
         return documentation;
     }
 
-    public Map<String, Transport> getTransport() {
+    public Map<String, Transport> getTransports() {
         return transport;
     }
 
@@ -45,7 +45,9 @@ public class DeviceFirmware implements Serializable {
         return new ArrayList<>(transport.keySet());
     }
 
-    public Transport getTransport(String type) {
-        return transport.get(type);
+    public Transport getTransport(String type) throws DeviceModelsException {
+        Transport transport = this.transport.get(type);
+        if (transport == null) throw DeviceModelsException.transportNotFound();
+        return transport;
     }
 }

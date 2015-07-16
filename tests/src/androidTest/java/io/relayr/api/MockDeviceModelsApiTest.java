@@ -12,6 +12,7 @@ import io.relayr.TestEnvironment;
 import io.relayr.model.deviceModels.DeviceModel;
 import io.relayr.model.deviceModels.DeviceModels;
 import io.relayr.model.deviceModels.ReadingMeanings;
+import io.relayr.model.deviceModels.error.DeviceModelsException;
 import rx.Observer;
 
 import static org.fest.assertions.api.Assertions.assertThat;
@@ -49,7 +50,7 @@ public class MockDeviceModelsApiTest extends TestEnvironment {
 
     @Test
     @SuppressWarnings("unchecked")
-    public void getDeviceModelTest() {
+    public void getDeviceModelTest() throws DeviceModelsException {
         api.getDeviceModelById("id").subscribe(subscriber);
 
         verify(subscriber).onNext(modelCaptor.capture());
@@ -62,6 +63,8 @@ public class MockDeviceModelsApiTest extends TestEnvironment {
         assertThat(value.getManufacturer().getContactInfo().getEmail()).isEqualTo("info@relayr.io");
         assertThat(value.getResources().get(0).getMimeType()).isEqualTo("image/svg+xml");
         assertThat(value.getFirmware().size()).isEqualTo(1);
+        assertThat(value.getFirmwareByVersion("1.0.0").getTransports().size()).isEqualTo(1);
+        assertThat(value.getFirmwareByVersion("1.0.0").getTransports().get("cloud").getReadings().size()).isEqualTo(3);
     }
 
     @Test

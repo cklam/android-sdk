@@ -15,6 +15,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import io.relayr.storage.DataStorage;
+import io.relayr.storage.DeviceModelStorage;
 import retrofit.Endpoint;
 import retrofit.Endpoints;
 import retrofit.ErrorHandler;
@@ -134,6 +135,11 @@ public class ApiModule {
     @Provides @Singleton
     DeviceModelsApi provideDeviceModelsApi(@Named("models-api") RestAdapter restAdapter) {
         return restAdapter.create(DeviceModelsApi.class);
+    }
+
+    @Provides @Singleton
+    DeviceModelStorage provideDeviceModelsApi() {
+        return new DeviceModelStorage(new MockBackend(app));
     }
 
     @Provides @Singleton OkHttpClient provideOkHttpClient() {

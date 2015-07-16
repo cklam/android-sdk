@@ -40,8 +40,12 @@ public class TestEnvironment {
     }
 
     public void await() {
+        await(200);
+    }
+
+    public void await(int milliseconds) {
         try {
-            lock.await(200, TimeUnit.MILLISECONDS);
+            lock.await(milliseconds, TimeUnit.MILLISECONDS);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

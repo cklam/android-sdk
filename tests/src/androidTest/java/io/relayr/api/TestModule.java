@@ -6,6 +6,9 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import io.relayr.storage.DataStorageTest;
+import io.relayr.storage.DeviceModelStorage;
+import io.relayr.storage.DeviceModelStorageTest;
 import io.relayr.websocket.WebSocketClientTest;
 
 @Module(
@@ -21,7 +24,8 @@ import io.relayr.websocket.WebSocketClientTest;
                 MockGroupsApiTest.class,
                 MockChannelApiTest.class,
                 WebSocketClientTest.class,
-                MockDeviceModelsApiTest.class
+                MockDeviceModelsApiTest.class,
+                DeviceModelStorageTest.class
         }
 )
 public class TestModule {
@@ -62,5 +66,10 @@ public class TestModule {
 
     @Provides @Singleton DeviceModelsApi provideDeviceModelsApi(MockBackend loader) {
         return new MockDeviceModelsApi(loader);
+    }
+
+    @Provides @Singleton
+    DeviceModelStorage provideDeviceModelStorage(MockBackend loader) {
+        return new DeviceModelStorage(loader);
     }
 }
