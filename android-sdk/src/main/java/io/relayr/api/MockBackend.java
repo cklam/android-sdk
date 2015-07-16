@@ -39,8 +39,6 @@ public class MockBackend {
     public static final String PUBLIC_DEVICES = "public_devices.json";
     public static final String BOOKMARK_DEVICE = "bookmark_device.json";
     public static final String BOOKMARKED_DEVICES = "bookmarked_devices.json";
-    public static final String DEVICE_MODELS = "device_models.json";
-    public static final String DEVICE_READING_MEANINGS = "device_reading_meanings.json";
     public static final String SERVER_STATUS = "server-info.json";
     public static final String MQTT_CREDENTIALS = "mqtt_channel.json";
 
@@ -50,6 +48,10 @@ public class MockBackend {
 
     public static final String USER_GROUP = "user_group.json";
     public static final String USER_GROUPS = "user_groups.json";
+
+    public static final String DEVICE_MODEL = "device_model.json";
+    public static final String DEVICE_MODELS = "device_models.json";
+    public static final String DEVICE_READING_MEANINGS = "device_reading_meanings.json";
 
     private final Context mContext;
     private final Gson mGson;

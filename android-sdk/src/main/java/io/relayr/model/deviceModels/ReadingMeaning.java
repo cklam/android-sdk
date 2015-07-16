@@ -1,4 +1,4 @@
-package io.relayr.model;
+package io.relayr.model.deviceModels;
 
 import java.io.Serializable;
 

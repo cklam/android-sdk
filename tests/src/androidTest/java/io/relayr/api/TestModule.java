@@ -20,7 +20,8 @@ import io.relayr.websocket.WebSocketClientTest;
                 MockUserApiTest.class,
                 MockGroupsApiTest.class,
                 MockChannelApiTest.class,
-                WebSocketClientTest.class
+                WebSocketClientTest.class,
+                MockDeviceModelsApiTest.class
         }
 )
 public class TestModule {
@@ -57,5 +58,9 @@ public class TestModule {
 
     @Provides @Singleton GroupsApi provideGroupsApi(MockBackend loader) {
         return new MockGroupsApi(loader);
+    }
+
+    @Provides @Singleton DeviceModelsApi provideDeviceModelsApi(MockBackend loader) {
+        return new MockDeviceModelsApi(loader);
     }
 }
