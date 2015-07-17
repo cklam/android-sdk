@@ -34,6 +34,7 @@ public class ApiModule {
     public static final String API_ENDPOINT = "https://api.relayr.io";
     private static final int DISK_CACHE_SIZE = 50 * 1024 * 1024; // 50MB
     private static final String USER_AGENT = Utils.getUserAgent();
+
     private static final RequestInterceptor apiRequestInterceptor = new RequestInterceptor() {
         @Override
         public void intercept(RequestFacade request) {
@@ -42,26 +43,18 @@ public class ApiModule {
             request.addHeader("Content-Type", "application/json; charset=UTF-8");
         }
     };
+
     private static final RequestInterceptor oauthRequestInterceptor = new RequestInterceptor() {
         @Override
         public void intercept(RequestFacade request) {
             request.addHeader("User-Agent", USER_AGENT);
         }
     };
+
     private final Context app;
 
     public ApiModule(Context context) {
         app = context;
-    }
-
-    class MyErrorHandler implements ErrorHandler {
-        @Override public Throwable handleError(RetrofitError cause) {
-            Response r = cause.getResponse();
-            if (r != null && r.getStatus() > 301) {
-                return new Exception(cause);
-            }
-            return cause;
-        }
     }
 
     @Provides @Singleton Endpoint provideEndpoint() {
@@ -78,8 +71,8 @@ public class ApiModule {
                 .setClient(client)
                 .setEndpoint(endpoint)
                 .setRequestInterceptor(apiRequestInterceptor)
-                .setErrorHandler(new MyErrorHandler())
-                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .setErrorHandler(new ApiErrorHandler())
+                .setLogLevel(RestAdapter.LogLevel.NONE)
                 .build();
     }
 
@@ -124,16 +117,20 @@ public class ApiModule {
     private static OkHttpClient createOkHttpClient(Context app) {
         OkHttpClient client = new OkHttpClient();
 
-        // Install an HTTP cache in the application cache directory.
-        try {
-            File cacheDir = new File(app.getCacheDir(), "https");
-            Cache cache = new Cache(cacheDir, DISK_CACHE_SIZE);
-            client.setCache(cache);
-        } catch (IOException e) {
-            Log.e(ApiModule.class.getSimpleName(), "Unable to install disk cache.");
-        }
+        File cacheDir = new File(app.getCacheDir(), "https");
+        Cache cache = new Cache(cacheDir, DISK_CACHE_SIZE);
+        client.setCache(cache);
 
         return client;
     }
 
+    class ApiErrorHandler implements ErrorHandler {
+        @Override public Throwable handleError(RetrofitError cause) {
+            Response response = cause.getResponse();
+
+            if (response != null && response.getStatus() > 301) return new Exception(cause);
+
+            return cause;
+        }
+    }
 }
