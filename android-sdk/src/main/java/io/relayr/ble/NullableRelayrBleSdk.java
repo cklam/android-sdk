@@ -1,5 +1,7 @@
 package io.relayr.ble;
 
+import android.bluetooth.BluetoothDevice;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;

@@ -23,13 +23,19 @@ import retrofit.http.Query;
 import retrofit.http.Streaming;
 import rx.Observable;
 
-/** This class incorporates a wrapped version of the relayr API calls. */
+/**
+ * This class incorporates a wrapped version of the relayr API calls.
+ */
 public interface RelayrApi {
 
-    /** @return an {@link rx.Observable} to the information about the app initiating the request. */
+    /**
+     * @return an {@link rx.Observable} to the information about the app initiating the request.
+     */
     @GET("/oauth2/app-info") Observable<App> getAppInfo();
 
-    /** @return an {@link rx.Observable} information about the user initiating the request. */
+    /**
+     * @return an {@link rx.Observable} information about the user initiating the request.
+     */
     @GET("/oauth2/user-info") Observable<User> getUserInfo();
 
     /**
@@ -56,7 +62,9 @@ public interface RelayrApi {
     @GET("/devices/public")
     Observable<List<Device>> getPublicDevices(@Query("meaning") String meaning);
 
-    /** @return an {@link rx.Observable} of a specific transmitter */
+    /**
+     * @return an {@link rx.Observable} of a specific transmitter
+     */
     @GET("/transmitters/{transmitter}")
     Observable<Transmitter> getTransmitter(@Path("transmitter") String transmitter);
 
@@ -105,6 +113,14 @@ public interface RelayrApi {
 
     /**
      * Returns true if transmitter is connected to MQTT and able to send data.
+     * @param deviceId id of the device {@link Device#id}
+     * @return an empty {@link rx.Observable}
+     */
+    @GET("/experimental/devices/{deviceId}/state")
+    Observable<OnBoardingState> isDeviceConnected(@Path("deviceId") String deviceId);
+
+    /**
+     * Returns true if transmitter is connected to MQTT and able to send data.
      * @param transmitterId id of the transmitter (the Master Module)
      * @return an empty {@link rx.Observable}
      */
@@ -138,11 +154,5 @@ public interface RelayrApi {
      */
     @DELETE("/wunderbars/{transmitterId}")
     Observable<Void> deleteWunderBar(@Path("transmitterId") String transmitterId);
-
-    /**
-     * Returns map of ble device names and their device model ids. Used with v2 on-boarding.
-     * @return an {@link rx.Observable} with Map<String, String>
-     */
-    @GET("/device-models/ble-names") Observable<Object> getBleModels();
 
 }

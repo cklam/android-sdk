@@ -23,7 +23,7 @@ import static io.relayr.ble.BleDeviceMode.ON_BOARDING;
  * A class representing a relayr BLE Device
  */
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
-public class BleDevice implements Serializable {
+public class BleDevice {
 
     private final BleDeviceMode mode;
     private final BleDeviceType type;

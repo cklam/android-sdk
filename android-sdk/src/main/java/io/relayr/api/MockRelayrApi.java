@@ -145,18 +145,13 @@ public class MockRelayrApi implements RelayrApi {
     }
 
     @Override
-    public Observable<Response> scanForDevices(String transmitterId, int period) {
-        return null;
+    public Observable<OnBoardingState> isDeviceConnected(String deviceId) {
+        return Observable.empty();
     }
 
     @Override
-    public Observable<Object> getBleModels() {
-        return Observable.create(new Observable.OnSubscribe<Object>() {
-            @Override
-            public void call(Subscriber<? super Object> subscriber) {
-                subscriber.onNext("\"name\" : \"modelId\"");
-            }
-        });
+    public Observable<Response> scanForDevices(String transmitterId, int period) {
+        return Observable.empty();
     }
 
     @Override

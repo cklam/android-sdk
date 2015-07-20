@@ -92,6 +92,11 @@ public class Device implements Serializable {
                 o instanceof Device && ((Device) o).id.equals(id);
     }
 
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
     /** Sends a command to the this device */
     public Observable<Void> sendCommand(Command command) {
         return RelayrSdk.getRelayrApi().sendCommand(id, command);

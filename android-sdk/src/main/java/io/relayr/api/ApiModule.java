@@ -85,7 +85,7 @@ public class ApiModule {
                 .setEndpoint(endpoint)
                 .setRequestInterceptor(apiRequestInterceptor)
                 .setErrorHandler(new MyErrorHandler())
-                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .setLogLevel(RestAdapter.LogLevel.BASIC)
                 .build();
     }
 
