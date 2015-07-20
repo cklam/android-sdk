@@ -68,7 +68,7 @@ public enum BleDeviceMode {
             case NEW_ON_BOARDING:
                 return "MODE_NEW_ON_BOARDING";
             default:
-                return "CONNECTED_TO_MASTER_MODULE";
+                return "UNKNOWN";
         }
     }
 }

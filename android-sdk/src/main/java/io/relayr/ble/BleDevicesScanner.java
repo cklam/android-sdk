@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
-class BleDevicesScanner implements Runnable, BluetoothAdapter.LeScanCallback {
+public class BleDevicesScanner implements Runnable, BluetoothAdapter.LeScanCallback {
 
     private static final String TAG = "BleDevicesScanner";
 
@@ -42,7 +42,6 @@ class BleDevicesScanner implements Runnable, BluetoothAdapter.LeScanCallback {
 
         if (Build.VERSION.SDK_INT >= 21) {
             mLeScanner = adapter.getBluetoothLeScanner();
-            Log.e("BleDevicesScanner", "LeScanner is null");
             settings = new ScanSettings.Builder().setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY).build();
 
             mScanCallback = new ScanCallback() {
@@ -75,6 +74,7 @@ class BleDevicesScanner implements Runnable, BluetoothAdapter.LeScanCallback {
     public synchronized void start() {
         if (isScanning()) return;
 
+        isScanning = true;
         if (scanThread != null) scanThread.interrupt();
 
         scanThread = new Thread(this);
@@ -85,7 +85,6 @@ class BleDevicesScanner implements Runnable, BluetoothAdapter.LeScanCallback {
     public synchronized void stop() {
         if (!isScanning()) return;
 
-        isScanning = false;
         stopScan();
 
         if (scanThread != null) {

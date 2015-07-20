@@ -9,8 +9,8 @@ import java.io.Serializable;
 import io.relayr.ble.service.BaseService;
 import io.relayr.ble.service.DirectConnectionService;
 import io.relayr.ble.service.MasterModuleService;
-import io.relayr.ble.service.OnBoardingV2Service;
 import io.relayr.ble.service.OnBoardingService;
+import io.relayr.ble.service.OnBoardingV2Service;
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Func1;
@@ -18,6 +18,7 @@ import rx.functions.Func1;
 import static io.relayr.ble.BleDeviceMode.DIRECT_CONNECTION;
 import static io.relayr.ble.BleDeviceMode.NEW_ON_BOARDING;
 import static io.relayr.ble.BleDeviceMode.ON_BOARDING;
+import static io.relayr.ble.BleDeviceMode.UNKNOWN;
 
 /**
  * A class representing a relayr BLE Device
@@ -25,19 +26,29 @@ import static io.relayr.ble.BleDeviceMode.ON_BOARDING;
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 public class BleDevice implements Serializable {
 
-    private final BleDeviceMode mode;
-    private final BleDeviceType type;
-    private final String address;
-    private final String name;
-    private final Observable<? extends BaseService> serviceObservable;
-    private final BleDeviceManager mDeviceManager;
-    private int rssi;
+    protected final BleDeviceMode mode;
+    protected final BleDeviceType type;
+    protected final String address;
+    protected final String name;
+    protected Observable<? extends BaseService> serviceObservable;
+    protected BleDeviceManager mDeviceManager;
+    protected int rssi;
 
-    BleDevice(BluetoothDevice bluetoothDevice, String name, BleDeviceMode mode, BleDeviceManager manager) {
+    protected BleDevice(BluetoothDevice bluetoothDevice, String name, int rssi) {
+        this.mode = UNKNOWN;
+        this.type = BleDeviceType.getDeviceType(bluetoothDevice.getName());
+        this.address = bluetoothDevice.getAddress();
+        this.name = name;
+        this.rssi = rssi;
+    }
+
+    protected BleDevice(BluetoothDevice bluetoothDevice, String name, BleDeviceMode mode,
+                        BleDeviceManager manager) {
         this(bluetoothDevice, name, mode, manager, 0);
     }
 
-    BleDevice(BluetoothDevice bluetoothDevice, String name, BleDeviceMode mode, BleDeviceManager manager, int rssi) {
+    protected BleDevice(BluetoothDevice bluetoothDevice, String name, BleDeviceMode mode, BleDeviceManager
+            manager, int rssi) {
         this.mode = mode;
         this.type = BleDeviceType.getDeviceType(bluetoothDevice.getName());
         this.address = bluetoothDevice.getAddress();
@@ -46,12 +57,12 @@ public class BleDevice implements Serializable {
         mDeviceManager = manager;
         serviceObservable =
                 mode == ON_BOARDING ?
-                    OnBoardingService.connect(this, bluetoothDevice).cache() :
-                mode == DIRECT_CONNECTION ?
-                    DirectConnectionService.connect(this, bluetoothDevice).cache() :
-                mode == NEW_ON_BOARDING ?
-                    OnBoardingV2Service.connect(this, bluetoothDevice).cache() :
-                    MasterModuleService.connect(this, bluetoothDevice).cache();
+                        OnBoardingService.connect(this, bluetoothDevice).cache() :
+                        mode == DIRECT_CONNECTION ?
+                                DirectConnectionService.connect(this, bluetoothDevice).cache() :
+                                mode == NEW_ON_BOARDING ?
+                                        OnBoardingV2Service.connect(this, bluetoothDevice).cache() :
+                                        MasterModuleService.connect(this, bluetoothDevice).cache();
     }
 
     /**

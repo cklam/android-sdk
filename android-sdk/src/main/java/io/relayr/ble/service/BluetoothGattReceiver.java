@@ -27,6 +27,7 @@ import static android.bluetooth.BluetoothGatt.GATT_INSUFFICIENT_AUTHENTICATION;
 import static android.bluetooth.BluetoothGatt.GATT_INSUFFICIENT_ENCRYPTION;
 import static android.bluetooth.BluetoothGatt.GATT_SUCCESS;
 import static android.bluetooth.BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE;
+import static android.bluetooth.BluetoothGattDescriptor.ENABLE_INDICATION_VALUE;
 import static android.bluetooth.BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE;
 import static android.bluetooth.BluetoothProfile.STATE_CONNECTED;
 import static android.bluetooth.BluetoothProfile.STATE_DISCONNECTED;
@@ -71,11 +72,15 @@ public class BluetoothGattReceiver extends BluetoothGattCallback {
 
     @Override
     public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
-        if (isUndocumentedErrorStatus(status)) {
+        Log.i("StateChange", gatt.getDevice().getAddress() + " - status " + status + " - new " + newState);
+
+        if (isUndocumentedErrorStatus(status) && newState != STATE_CONNECTED) {
             fixUndocumentedBleStatusProblem(gatt, this);
+            mConnectionChangesSubscriber.onError(new DisconnectionException(status + ""));
             return;
         }
-        if (status != GATT_SUCCESS) return;
+
+        if (status != GATT_SUCCESS && status != 8) return;
 
         if (newState == STATE_CONNECTED) { // on connected
             if (mConnectionChangesSubscriber != null) mConnectionChangesSubscriber.onNext(gatt);
@@ -84,14 +89,16 @@ public class BluetoothGattReceiver extends BluetoothGattCallback {
                 gatt.close(); // should stay here since you might want to reconnect if involuntarily
                 mDisconnectedSubscriber.onNext(gatt);
                 mDisconnectedSubscriber.onCompleted();
-            } else { // disconnected involuntarily because an error occurred
-                if (mConnectionChangesSubscriber != null)
+
+                if (mConnectionChangesSubscriber != null) {
                     mConnectionChangesSubscriber.onError(new DisconnectionException(status + ""));
+                }
+            } else { // disconnected involuntarily because an error occurred
+                if (mConnectionChangesSubscriber != null) {
+                    mConnectionChangesSubscriber.onError(new DisconnectionException(status + ""));
+                }
             }
-        } /*else if (BluetoothGattStatus.isFailureStatus(status)) {
-            if (mConnectionChangesSubscriber != null)  // TODO: unreachable -propagate error earlier
-                mConnectionChangesSubscriber.onError(new GattException(status + ""));
-        }*/
+        }
     }
 
     public Observable<BluetoothGatt> discoverServices(final BluetoothGatt bluetoothGatt) {
@@ -226,16 +233,23 @@ public class BluetoothGattReceiver extends BluetoothGattCallback {
     public Observable<BluetoothGattCharacteristic> subscribeToCharacteristicChanges(
             final BluetoothGatt gatt,
             final BluetoothGattCharacteristic characteristic,
-            final BluetoothGattDescriptor descriptor) {
+            final BluetoothGattDescriptor descriptor, final boolean indication) {
         return Observable.create(new Observable.OnSubscribe<BluetoothGattCharacteristic>() {
             @Override
             public void call(Subscriber<? super BluetoothGattCharacteristic> subscriber) {
                 mValueChangesSubscriber = subscriber;
                 gatt.setCharacteristicNotification(characteristic, true);
-                descriptor.setValue(ENABLE_NOTIFICATION_VALUE);
+                descriptor.setValue(indication ? ENABLE_INDICATION_VALUE : ENABLE_NOTIFICATION_VALUE);
                 gatt.writeDescriptor(descriptor);
             }
         });
+    }
+
+    public Observable<BluetoothGattCharacteristic> subscribeToCharacteristicChanges(
+            final BluetoothGatt gatt,
+            final BluetoothGattCharacteristic characteristic,
+            final BluetoothGattDescriptor descriptor) {
+        return subscribeToCharacteristicChanges(gatt, characteristic, descriptor, false);
     }
 
     public Observable<BluetoothGattCharacteristic> unsubscribeToCharacteristicChanges(
