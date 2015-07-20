@@ -1,5 +1,9 @@
-package io.relayr.model.deviceModels;
+package io.relayr.model.models;
 
+/**
+ * Defines hyperlinks for similar objects in the structure.
+ * Use #getFirst and #getLast parameters for paging.
+ */
 public class ModelLinks {
 
     private ModelLink self;
@@ -19,8 +23,8 @@ public class ModelLinks {
         return first.href;
     }
 
-    public ModelLink getNext() {
-        return next;
+    public String getNext() {
+        return next.href;
     }
 
     class ModelLink {
@@ -30,5 +34,14 @@ public class ModelLinks {
         public ModelLink(String href) {
             this.href = href;
         }
+    }
+
+    @Override public String toString() {
+        return "ModelLinks{" +
+                "self=" + self +
+                ", next=" + next +
+                ", last=" + last +
+                ", first=" + first +
+                '}';
     }
 }

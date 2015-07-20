@@ -14,7 +14,7 @@ import io.relayr.TestEnvironment;
 import io.relayr.model.App;
 import io.relayr.model.Device;
 import io.relayr.model.Model;
-import io.relayr.model.deviceModels.ReadingMeaning;
+import io.relayr.model.models.ReadingMeaning;
 import io.relayr.model.Transmitter;
 import io.relayr.model.TransmitterDevice;
 import io.relayr.model.User;

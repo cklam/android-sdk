@@ -1,4 +1,4 @@
-package io.relayr.model.deviceModels;
+package io.relayr.model.models;
 
 import java.io.Serializable;
 
@@ -42,5 +42,13 @@ public class DeviceManufacturer implements Serializable {
         public String getPhone() {
             return phone;
         }
+    }
+
+    @Override public String toString() {
+        return "DeviceManufacturer{" +
+                "name='" + name + '\'' +
+                ", website='" + website + '\'' +
+                ", contactInfo=" + contactInfo +
+                '}';
     }
 }

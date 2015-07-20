@@ -6,17 +6,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 import io.relayr.api.MockBackend;
-import io.relayr.model.deviceModels.DeviceModel;
-import io.relayr.model.deviceModels.DeviceModels;
+import io.relayr.model.models.DeviceModel;
+import io.relayr.model.models.DeviceModels;
 import rx.Subscriber;
 
 import static io.relayr.api.MockBackend.DEVICE_MODELS;
 
-public class DeviceModelStorage {
+public class DeviceModelCache {
 
     private static final Map<String, DeviceModel> sDeviceModels = new HashMap<>();
 
-    public DeviceModelStorage(MockBackend loader) {
+    public DeviceModelCache(MockBackend loader) {
         loader.createObservable(new TypeToken<DeviceModels>() {
         }, DEVICE_MODELS)
                 .subscribe(new Subscriber<DeviceModels>() {

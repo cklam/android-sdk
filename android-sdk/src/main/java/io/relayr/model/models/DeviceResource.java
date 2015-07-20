@@ -1,4 +1,4 @@
-package io.relayr.model.deviceModels;
+package io.relayr.model.models;
 
 import java.io.Serializable;
 
@@ -23,5 +23,14 @@ public class DeviceResource implements Serializable {
 
     public String getMimeType() {
         return mimeType;
+    }
+
+    @Override public String toString() {
+        return "DeviceResource{" +
+                "id='" + id + '\'' +
+                ", type='" + type + '\'' +
+                ", mediaUrl='" + mediaUrl + '\'' +
+                ", mimeType='" + mimeType + '\'' +
+                '}';
     }
 }

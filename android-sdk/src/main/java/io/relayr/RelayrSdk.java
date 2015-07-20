@@ -7,14 +7,17 @@ import javax.inject.Inject;
 
 import io.relayr.activity.LoginActivity;
 import io.relayr.api.AccountsApi;
+import io.relayr.api.DeviceModelsApi;
 import io.relayr.api.GroupsApi;
 import io.relayr.api.RelayrApi;
 import io.relayr.api.UserApi;
 import io.relayr.ble.BleUtils;
 import io.relayr.ble.RelayrBleSdk;
 import io.relayr.log.Logger;
+import io.relayr.model.Device;
 import io.relayr.model.User;
 import io.relayr.storage.DataStorage;
+import io.relayr.storage.DeviceModelCache;
 import io.relayr.util.ReachabilityUtils;
 import io.relayr.websocket.WebSocketClient;
 import rx.Observable;
@@ -40,7 +43,9 @@ public class RelayrSdk {
     @Inject static BleUtils mBleUtils;
     @Inject static RelayrBleSdk mRelayrBleSdk;
     @Inject static Logger mLoggerUtils;
-    @Inject static ReachabilityUtils mReachabilityUtils;
+    @Inject static ReachabilityUtils sReachabilityUtils;
+    @Inject static DeviceModelsApi sDeviceModelsApi;
+    @Inject static DeviceModelCache sDeviceModelsCache;
 
     private static Subscriber<? super User> mLoginSubscriber;
 
@@ -81,7 +86,7 @@ public class RelayrSdk {
     }
 
     /**
-     * @return the handler of the Relayr API.
+     * Returns the handler of the Relayr API.
      * Used as an access point to class {@link io.relayr.api.RelayrApi}
      */
     public static RelayrApi getRelayrApi() {
@@ -89,7 +94,7 @@ public class RelayrSdk {
     }
 
     /**
-     * @return the handler of the Accounts API. Use to add third party accounts to the relayr user.
+     * Returns the handler of the Accounts API. Use to add third party accounts to the relayr user.
      * Used as an access point to class {@link io.relayr.api.AccountsApi}
      */
     public static AccountsApi getAccountsApi() {
@@ -97,11 +102,28 @@ public class RelayrSdk {
     }
 
     /**
-     * @return the handler of the Groups API.
+     * Returns the handler of the Groups API.
      * Used as an access point to class {@link io.relayr.api.GroupsApi}
      */
     public static GroupsApi getGroupsApi() {
         return mGroupsApi;
+    }
+
+    /**
+     * Return the handler of the relayr DeviceModels API. Returns new device models. To use properly
+     * Used as an access point to class {@link io.relayr.api.DeviceModelsApi}
+     */
+    public static DeviceModelsApi getDeviceModelsApi() {
+        return sDeviceModelsApi;
+    }
+
+    /**
+     * Returns cached {@link io.relayr.model.models.DeviceModel} objects.
+     * Cache will be populated with models from {@link Device#model} when device is fetched.
+     * Use instead of {@link #getDeviceModelsApi()}
+     */
+    public static DeviceModelCache getDeviceModelsCache() {
+        return sDeviceModelsCache;
     }
 
     /**
@@ -113,7 +135,9 @@ public class RelayrSdk {
         return mUserApi;
     }
 
-    /** Launches the login activity. Enables the user to log in to the relayr platform. */
+    /**
+     * Launches the login activity. Enables the user to log in to the relayr platform.
+     */
     public static Observable<User> logIn(Activity currentActivity) {
         Observable.OnSubscribe<User> onSubscribe = new Observable.OnSubscribe<User>() {
             @Override
@@ -136,7 +160,9 @@ public class RelayrSdk {
         return DataStorage.isUserLoggedIn();
     }
 
-    /** Logs the user out of the relayr platform. */
+    /**
+     * Logs the user out of the relayr platform.
+     */
     public static void logOut() {
         DataStorage.logOut();
     }
@@ -166,7 +192,7 @@ public class RelayrSdk {
      * @return true if granted, false otherwise
      */
     public static boolean isPermissionGrantedToAccessInternet() {
-        return mReachabilityUtils.isPermissionGranted(PERMISSION_INTERNET);
+        return sReachabilityUtils.isPermissionGranted(PERMISSION_INTERNET);
     }
 
     /**
@@ -174,7 +200,7 @@ public class RelayrSdk {
      * @return true if granted, false otherwise
      */
     public static boolean isPermissionGrantedToAccessTheNetwork() {
-        return mReachabilityUtils.isPermissionGranted(PERMISSION_NETWORK);
+        return sReachabilityUtils.isPermissionGranted(PERMISSION_NETWORK);
     }
 
     /**
@@ -182,7 +208,7 @@ public class RelayrSdk {
      * @return true if connected, false otherwise
      */
     public static boolean isConnectedToInternet() {
-        return mReachabilityUtils.isConnectedToInternet();
+        return sReachabilityUtils.isConnectedToInternet();
     }
 
     /**
@@ -190,7 +216,7 @@ public class RelayrSdk {
      * @return true if platform is reachable, false otherwise
      */
     public static Observable<Boolean> isPlatformReachable() {
-        return mReachabilityUtils.isPlatformReachable();
+        return sReachabilityUtils.isPlatformReachable();
     }
 
     /**

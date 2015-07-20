@@ -6,15 +6,15 @@ import org.junit.Test;
 import javax.inject.Inject;
 
 import io.relayr.TestEnvironment;
-import io.relayr.model.deviceModels.DeviceModel;
-import io.relayr.model.deviceModels.error.DeviceModelsException;
+import io.relayr.model.models.DeviceModel;
+import io.relayr.model.models.error.DeviceModelsException;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
 public class DeviceModelStorageTest extends TestEnvironment {
 
     @Inject
-    DeviceModelStorage storage;
+    DeviceModelCache storage;
 
     @Before
     public void init() {

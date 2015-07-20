@@ -6,13 +6,18 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import io.relayr.TestEnvironment;
-import io.relayr.model.deviceModels.DeviceModel;
-import io.relayr.model.deviceModels.DeviceModels;
-import io.relayr.model.deviceModels.ReadingMeanings;
-import io.relayr.model.deviceModels.error.DeviceModelsException;
+import io.relayr.model.models.DeviceFirmware;
+import io.relayr.model.models.DeviceFirmwares;
+import io.relayr.model.models.DeviceModel;
+import io.relayr.model.models.DeviceModels;
+import io.relayr.model.models.ReadingMeanings;
+import io.relayr.model.models.error.DeviceModelsException;
+import io.relayr.model.models.transport.DeviceReading;
 import rx.Observer;
 
 import static org.fest.assertions.api.Assertions.assertThat;
@@ -25,6 +30,8 @@ public class MockDeviceModelsApiTest extends TestEnvironment {
 
     @Captor private ArgumentCaptor<DeviceModel> modelCaptor;
     @Captor private ArgumentCaptor<DeviceModels> modelsCaptor;
+    @Captor private ArgumentCaptor<DeviceFirmware> firmwareCaptor;
+    @Captor private ArgumentCaptor<DeviceFirmwares> firmwaresCaptor;
     @Captor private ArgumentCaptor<ReadingMeanings> meaningsCaptor;
 
     @Before
@@ -50,7 +57,7 @@ public class MockDeviceModelsApiTest extends TestEnvironment {
 
     @Test
     @SuppressWarnings("unchecked")
-    public void getDeviceModelTest() throws DeviceModelsException {
+    public void getDeviceModelByIdTest() throws DeviceModelsException {
         api.getDeviceModelById("id").subscribe(subscriber);
 
         verify(subscriber).onNext(modelCaptor.capture());
@@ -65,6 +72,68 @@ public class MockDeviceModelsApiTest extends TestEnvironment {
         assertThat(value.getFirmware().size()).isEqualTo(1);
         assertThat(value.getFirmwareByVersion("1.0.0").getTransports().size()).isEqualTo(1);
         assertThat(value.getFirmwareByVersion("1.0.0").getTransports().get("cloud").getReadings().size()).isEqualTo(3);
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void getDeviceModelFirmwaresTest() throws DeviceModelsException {
+        api.getDeviceModelFirmwares("id").subscribe(subscriber);
+
+        verify(subscriber).onNext(firmwaresCaptor.capture());
+
+        final DeviceFirmwares value = firmwaresCaptor.getValue();
+
+        assertThat(value).isNotNull();
+        assertThat(value.getFirmwares()).isNotNull();
+        assertThat(value.getFirmwareByVersion("1.0.0")).isNotNull();
+        assertThat(value.getFirmwares().size()).isEqualTo(1);
+        assertThat(value.getFirmwares().get("1.0.0")).isNotNull();
+        assertThat(value.getFirmwares().get("1.0.0").getTransports()).isNotNull();
+        assertThat(value.getFirmwares().get("1.0.0").getTransports().size()).isEqualTo(1);
+    }
+
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void getDeviceModelByFirmwareTest() throws DeviceModelsException {
+        api.getDeviceModelByFirmware("mid", "fId").subscribe(subscriber);
+
+        verify(subscriber).onNext(firmwareCaptor.capture());
+
+        final DeviceFirmware value = firmwareCaptor.getValue();
+
+        assertThat(value).isNotNull();
+        assertThat(value.getTransport("cloud")).isNotNull();
+        assertThat(value.getTransport("cloud").getReadings().size()).isEqualTo(3);
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void checkReadingsTest() throws DeviceModelsException {
+        api.getDeviceModelByFirmware("mid", "fId").subscribe(subscriber);
+
+        verify(subscriber).onNext(firmwareCaptor.capture());
+
+        final DeviceFirmware value = firmwareCaptor.getValue();
+
+        List<DeviceReading> readings = value.getTransport("cloud").getReadings();
+        assertThat(readings.size()).isEqualTo(3);
+        assertThat(readings.get(0).getPath()).isEqualTo("");
+        assertThat(readings.get(0).getMeaning()).isEqualTo("proximity");
+        assertThat(readings.get(0).getValueSchema().getType()).isEqualTo("number");
+    }
+
+    @Test(expected = DeviceModelsException.class)
+    @SuppressWarnings("unchecked")
+    public void shouldThrowExceptionIfFirmwareDoesNotExistTest() throws DeviceModelsException {
+        api.getDeviceModelById("id").subscribe(subscriber);
+
+        verify(subscriber).onNext(modelCaptor.capture());
+
+        final DeviceModel value = modelCaptor.getValue();
+
+        assertThat(value).isNotNull();
+        value.getFirmwareByVersion("2");
     }
 
     @Test

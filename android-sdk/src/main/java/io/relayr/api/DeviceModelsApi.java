@@ -1,8 +1,10 @@
 package io.relayr.api;
 
-import io.relayr.model.deviceModels.DeviceModel;
-import io.relayr.model.deviceModels.DeviceModels;
-import io.relayr.model.deviceModels.ReadingMeanings;
+import io.relayr.model.models.DeviceFirmware;
+import io.relayr.model.models.DeviceFirmwares;
+import io.relayr.model.models.DeviceModel;
+import io.relayr.model.models.DeviceModels;
+import io.relayr.model.models.ReadingMeanings;
 import retrofit.http.GET;
 import retrofit.http.Path;
 import rx.Observable;
@@ -32,7 +34,7 @@ public interface DeviceModelsApi {
      * Returns specific device model's firmware list
      * @return an {@link Observable}
      */
-    @GET("/device-models/{modelId}/firmware") Observable<DeviceModel> getDeviceModelFirmwares(
+    @GET("/device-models/{modelId}/firmware") Observable<DeviceFirmwares> getDeviceModelFirmwares(
             @Path("modelId") String modelId);
 
     /**
@@ -40,7 +42,7 @@ public interface DeviceModelsApi {
      * @return an {@link Observable}
      */
     @GET("/device-models/{modelId}/firmware/{version}")
-    Observable<DeviceModel> getDeviceModelByFirmware(
+    Observable<DeviceFirmware> getDeviceModelByFirmware(
             @Path("modelId") String modelId, @Path("version") String version);
 
     /**
@@ -62,7 +64,7 @@ public interface DeviceModelsApi {
      * Returns specific device model's firmware list
      * @return an {@link Observable}
      */
-    @GET("/users/{userId}/device-models/{modelId}/firmware") Observable<DeviceModel>
+    @GET("/users/{userId}/device-models/{modelId}/firmware") Observable<DeviceFirmwares>
     getUsersDeviceModelFirmwares(
             @Path("userId") String userId,
             @Path("modelId") String modelId);
@@ -71,7 +73,7 @@ public interface DeviceModelsApi {
      * Returns device model defined by modelId and firmware version
      * @return an {@link Observable}
      */
-    @GET("/users/{userId}/device-models/{modelId}/firmware/{version}") Observable<DeviceModel>
+    @GET("/users/{userId}/device-models/{modelId}/firmware/{version}") Observable<DeviceFirmware>
     getUsersDeviceModelByFirmware(@Path("userId") String userId,
                                   @Path("modelId") String modelId,
                                   @Path("version") String version);

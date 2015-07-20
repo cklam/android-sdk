@@ -1,13 +1,11 @@
 package io.relayr.api;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.squareup.okhttp.Cache;
 import com.squareup.okhttp.OkHttpClient;
 
 import java.io.File;
-import java.io.IOException;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -15,7 +13,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import io.relayr.storage.DataStorage;
-import io.relayr.storage.DeviceModelStorage;
+import io.relayr.storage.DeviceModelCache;
 import retrofit.Endpoint;
 import retrofit.Endpoints;
 import retrofit.ErrorHandler;
@@ -137,9 +135,8 @@ public class ApiModule {
         return restAdapter.create(DeviceModelsApi.class);
     }
 
-    @Provides @Singleton
-    DeviceModelStorage provideDeviceModelsApi() {
-        return new DeviceModelStorage(new MockBackend(app));
+    @Provides @Singleton DeviceModelCache provideDeviceModelsStorage() {
+        return new DeviceModelCache(new MockBackend(app));
     }
 
     @Provides @Singleton OkHttpClient provideOkHttpClient() {
@@ -149,19 +146,14 @@ public class ApiModule {
     private static OkHttpClient createOkHttpClient(Context app) {
         OkHttpClient client = new OkHttpClient();
 
-        // Install an HTTP cache in the application cache directory.
-        try {
-            File cacheDir = new File(app.getCacheDir(), "https");
-            Cache cache = new Cache(cacheDir, DISK_CACHE_SIZE);
-            client.setCache(cache);
-        } catch (IOException e) {
-            Log.e(ApiModule.class.getSimpleName(), "Unable to install disk cache.");
-        }
+        File cacheDir = new File(app.getCacheDir(), "https");
+        Cache cache = new Cache(cacheDir, DISK_CACHE_SIZE);
+        client.setCache(cache);
 
         return client;
     }
 
-    public class ApiErrorHandler implements ErrorHandler {
+    class ApiErrorHandler implements ErrorHandler {
         @Override public Throwable handleError(RetrofitError cause) {
             Response response = cause.getResponse();
 
@@ -170,5 +162,4 @@ public class ApiModule {
             return cause;
         }
     }
-
 }
