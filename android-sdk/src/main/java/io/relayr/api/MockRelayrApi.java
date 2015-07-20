@@ -7,35 +7,22 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.relayr.model.App;
-import io.relayr.model.Bookmark;
-import io.relayr.model.BookmarkDevice;
 import io.relayr.model.Command;
 import io.relayr.model.CreateDevice;
-import io.relayr.model.CreateWunderBar;
 import io.relayr.model.Device;
-import io.relayr.model.Model;
-import io.relayr.model.ReadingMeaning;
 import io.relayr.model.Transmitter;
 import io.relayr.model.TransmitterDevice;
 import io.relayr.model.User;
 import io.relayr.model.onboarding.OnBoardingState;
 import retrofit.client.Response;
-import retrofit.http.Path;
 import rx.Observable;
 import rx.Subscriber;
 
 import static io.relayr.api.MockBackend.APP_INFO;
-import static io.relayr.api.MockBackend.BOOKMARKED_DEVICES;
-import static io.relayr.api.MockBackend.BOOKMARK_DEVICE;
-import static io.relayr.api.MockBackend.DEVICE_MODELS;
-import static io.relayr.api.MockBackend.DEVICE_READING_MEANINGS;
 import static io.relayr.api.MockBackend.PUBLIC_DEVICES;
 import static io.relayr.api.MockBackend.TRANSMITTER_DEVICES;
-import static io.relayr.api.MockBackend.USERS_CREATE_WUNDERBAR;
 import static io.relayr.api.MockBackend.USERS_TRANSMITTER;
-import static io.relayr.api.MockBackend.USERS_TRANSMITTERS;
 import static io.relayr.api.MockBackend.USER_DEVICE;
-import static io.relayr.api.MockBackend.USER_DEVICES;
 import static io.relayr.api.MockBackend.USER_INFO;
 
 public class MockRelayrApi implements RelayrApi {
@@ -78,7 +65,8 @@ public class MockRelayrApi implements RelayrApi {
 
     @Override
     public Observable<Transmitter> getTransmitter(String transmitter) {
-        return mMockBackend.createObservable(new TypeToken<Transmitter>() {}, USERS_TRANSMITTER);
+        return mMockBackend.createObservable(new TypeToken<Transmitter>() {
+        }, USERS_TRANSMITTER);
     }
 
     @Override
@@ -101,22 +89,6 @@ public class MockRelayrApi implements RelayrApi {
     public Observable<List<Device>> getPublicDevices(String meaning) {
         return mMockBackend.createObservable(new TypeToken<List<Device>>() {
         }, PUBLIC_DEVICES);
-    }
-
-    @Override
-    public Observable<List<Model>> getDeviceModels() {
-        return mMockBackend.createObservable(new TypeToken<List<Model>>() { }, DEVICE_MODELS);
-    }
-
-    @Override
-    public Observable<Model> getDeviceModel(String model) {
-        return mMockBackend.createObservable(new TypeToken<Model>() { }, DEVICE_MODELS);
-    }
-
-    @Override
-    public Observable<List<ReadingMeaning>> getReadingMeanings() {
-        return mMockBackend.createObservable(new TypeToken<List<ReadingMeaning>>() { },
-                DEVICE_READING_MEANINGS);
     }
 
     @Override

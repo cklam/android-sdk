@@ -1,15 +1,11 @@
 package io.relayr.api;
 
 import android.content.Context;
-import android.util.Log;
 
-import com.google.gson.Gson;
 import com.squareup.okhttp.Cache;
 import com.squareup.okhttp.OkHttpClient;
 
 import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Type;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -17,6 +13,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import io.relayr.storage.DataStorage;
+import io.relayr.storage.DeviceModelCache;
 import retrofit.Endpoint;
 import retrofit.Endpoints;
 import retrofit.ErrorHandler;
@@ -26,10 +23,6 @@ import retrofit.RetrofitError;
 import retrofit.client.Client;
 import retrofit.client.OkClient;
 import retrofit.client.Response;
-import retrofit.converter.ConversionException;
-import retrofit.converter.Converter;
-import retrofit.mime.TypedInput;
-import retrofit.mime.TypedOutput;
 
 @Module(
         complete = false,
@@ -40,6 +33,7 @@ public class ApiModule {
     public static final String API_ENDPOINT = "https://api.relayr.io";
     private static final int DISK_CACHE_SIZE = 50 * 1024 * 1024; // 50MB
     private static final String USER_AGENT = Utils.getUserAgent();
+
     private static final RequestInterceptor apiRequestInterceptor = new RequestInterceptor() {
         @Override
         public void intercept(RequestFacade request) {
@@ -48,6 +42,16 @@ public class ApiModule {
             request.addHeader("Content-Type", "application/json; charset=UTF-8");
         }
     };
+
+    private static final RequestInterceptor deviceModelsApiRequestInterceptor = new RequestInterceptor() {
+        @Override
+        public void intercept(RequestFacade request) {
+            request.addHeader("User-Agent", ApiModule.USER_AGENT);
+            request.addHeader("Authorization", DataStorage.getUserToken());
+            request.addHeader("Content-Type", "application/hal+json; charset=UTF-8");
+        }
+    };
+
     private static final RequestInterceptor oauthRequestInterceptor = new RequestInterceptor() {
         @Override
         public void intercept(RequestFacade request) {
@@ -60,16 +64,6 @@ public class ApiModule {
         app = context;
     }
 
-    class MyErrorHandler implements ErrorHandler {
-        @Override public Throwable handleError(RetrofitError cause) {
-            Response r = cause.getResponse();
-            if (r != null && r.getStatus() > 301) {
-                return new Exception(cause);
-            }
-            return cause;
-        }
-    }
-
     @Provides @Singleton Endpoint provideEndpoint() {
         return Endpoints.newFixedEndpoint(API_ENDPOINT);
     }
@@ -78,23 +72,32 @@ public class ApiModule {
         return new OkClient(client);
     }
 
-    @Provides @Singleton @Named("api") RestAdapter provideApiRestAdapter(Endpoint endpoint,
-                                                                         Client client) {
+    @Provides @Singleton @Named("api") RestAdapter provideApiRestAdapter(
+            Endpoint endpoint, Client client) {
         return new RestAdapter.Builder()
                 .setClient(client)
                 .setEndpoint(endpoint)
                 .setRequestInterceptor(apiRequestInterceptor)
-                .setErrorHandler(new MyErrorHandler())
-                .setLogLevel(RestAdapter.LogLevel.BASIC)
+                .setErrorHandler(new ApiErrorHandler())
+                .setLogLevel(RestAdapter.LogLevel.FULL)
                 .build();
     }
 
-    @Provides @Singleton @Named("oauth") RestAdapter provideOauthRestAdapter(Endpoint endpoint,
-                                                                             Client client) {
+    @Provides @Singleton @Named("oauth") RestAdapter provideOauthRestAdapter(
+            Endpoint endpoint, Client client) {
         return new RestAdapter.Builder()
                 .setClient(client)
                 .setEndpoint(endpoint)
                 .setRequestInterceptor(oauthRequestInterceptor)
+                .build();
+    }
+
+    @Provides @Singleton @Named("models-api") RestAdapter provideModelsRestAdapter(
+            Endpoint endpoint, Client client) {
+        return new RestAdapter.Builder()
+                .setClient(client)
+                .setEndpoint(endpoint)
+                .setRequestInterceptor(deviceModelsApiRequestInterceptor)
                 .build();
     }
 
@@ -127,6 +130,15 @@ public class ApiModule {
         return restAdapter.create(UserApi.class);
     }
 
+    @Provides @Singleton
+    DeviceModelsApi provideDeviceModelsApi(@Named("models-api") RestAdapter restAdapter) {
+        return restAdapter.create(DeviceModelsApi.class);
+    }
+
+    @Provides @Singleton DeviceModelCache provideDeviceModelsStorage() {
+        return new DeviceModelCache(new MockBackend(app));
+    }
+
     @Provides @Singleton OkHttpClient provideOkHttpClient() {
         return createOkHttpClient(app);
     }
@@ -134,16 +146,20 @@ public class ApiModule {
     private static OkHttpClient createOkHttpClient(Context app) {
         OkHttpClient client = new OkHttpClient();
 
-        // Install an HTTP cache in the application cache directory.
-        try {
-            File cacheDir = new File(app.getCacheDir(), "https");
-            Cache cache = new Cache(cacheDir, DISK_CACHE_SIZE);
-            client.setCache(cache);
-        } catch (IOException e) {
-            Log.e(ApiModule.class.getSimpleName(), "Unable to install disk cache.");
-        }
+        File cacheDir = new File(app.getCacheDir(), "https");
+        Cache cache = new Cache(cacheDir, DISK_CACHE_SIZE);
+        client.setCache(cache);
 
         return client;
     }
 
+    class ApiErrorHandler implements ErrorHandler {
+        @Override public Throwable handleError(RetrofitError cause) {
+            Response response = cause.getResponse();
+
+            if (response != null && response.getStatus() > 301) return new Exception(cause);
+
+            return cause;
+        }
+    }
 }

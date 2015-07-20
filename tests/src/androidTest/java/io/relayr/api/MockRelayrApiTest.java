@@ -12,12 +12,9 @@ import javax.inject.Inject;
 
 import io.relayr.TestEnvironment;
 import io.relayr.model.App;
-import io.relayr.model.Bookmark;
-import io.relayr.model.BookmarkDevice;
-import io.relayr.model.CreateWunderBar;
 import io.relayr.model.Device;
 import io.relayr.model.Model;
-import io.relayr.model.ReadingMeaning;
+import io.relayr.model.models.ReadingMeaning;
 import io.relayr.model.Transmitter;
 import io.relayr.model.TransmitterDevice;
 import io.relayr.model.User;
@@ -101,38 +98,5 @@ public class MockRelayrApiTest extends TestEnvironment {
 
         assertThat(publicDevicesCaptor.getValue().size()).isEqualTo(2);
         assertThat(publicDevicesCaptor.getValue().get(0).getName()).isEqualTo("DanasSecondDevice");
-    }
-
-    @Test
-    @SuppressWarnings("unchecked")
-    public void getDeviceModelsTest() {
-        mockApi.getDeviceModels().subscribe(subscriber);
-
-        verify(subscriber).onNext(modelsCaptor.capture());
-
-        final Model model = modelsCaptor.getValue().get(0);
-
-        assertThat(modelsCaptor.getValue().size()).isEqualTo(1);
-        assertThat(model.getName()).isEqualTo("Wunderbar Thermometer & Humidity Sensor");
-
-        assertThat(model.getReadings()).isNotNull();
-        assertThat(model.getReadings().size()).isEqualTo(2);
-
-        assertThat(model.getFirmwareVersions().get(0).version).isEqualTo("1.0.0");
-        assertThat(model.getFirmwareVersions().get(0).configuration).isNotNull();
-
-        assertThat(model.getCommands()).isNotNull();
-        assertThat(model.getCommands().size()).isEqualTo(2);
-    }
-
-    @Test
-    @SuppressWarnings("unchecked")
-    public void getReadingMeaningsTest() {
-        mockApi.getReadingMeanings().subscribe(subscriber);
-
-        verify(subscriber).onNext(meaningsCaptor.capture());
-
-        assertThat(meaningsCaptor.getValue().size()).isEqualTo(8);
-        assertThat(meaningsCaptor.getValue().get(0).getKey()).isEqualTo("angular_speed");
     }
 }

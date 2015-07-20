@@ -1,57 +1,313 @@
-[
 {
-   "id":"ecf6cf94-cb07-43ac-a85e-dccf26b48c86",
-   "name":"Wunderbar Thermometer & Humidity Sensor",
-   "manufacturer":"Relayr GmbH",
-   "readings":[
-      {
-         "meaning":"humidity",
-         "unit":"percent"
+  "_links": {
+    "self": {
+      "href": "/device-models"
+    },
+    "next": {
+      "href": "/device-models?limit=20&offset=10"
+    },
+    "last": {
+      "href": "/device-models?limit=17&offset=7"
+    },
+    "first": {
+      "href": "/device-models"
+    }
+  },
+  "count": 3,
+  "models": [
+    {
+      "id": "a7ec1b21-8582-4304-b1cf-15a1fc66d1e8",
+      "name": "Wunderbar Light & Proximity Sensor",
+      "productNumber": "0001",
+      "description": "Wunderbar Light & Proximity Sensor",
+      "website": "https://www.relayr.io/products-services/wunderbar",
+      "manufacturer": {
+        "name": "Relayr",
+        "website": "https://www.relayr.io/",
+        "contactInfo": {
+          "email": "info@relayr.io",
+          "phone": "+491792989866"
+        }
       },
-      {
-         "meaning":"temperature",
-         "unit":"celsius",
-         "maximum":100,
-         "minimum":-100,
-         "precision":0.25
-      }
-   ],
-   "commands": [
-           {
-               "command": "wattage",
-               "path": "microwave"
-           },
-           {
-               "command": "paused",
-               "path": "programme",
-               "unit": "boolean",
-               "maximum": 1,
-               "minimum": 0
-           }
-   ],
-   "firmwareVersions":[
-      {
-         "version":"1.0.0",
-         "configuration":{
-            "schema":{
-               "title":"Relayr configuration schema",
-               "type":"object",
-               "properties":{
-                  "frequency":{
-                     "description":"Frequency of the sensor updates in milliseconds",
-                     "type":"integer",
-                     "minimum":200
+      "resources": [],
+      "firmware": {
+        "1.0.0": {
+          "binaries": "https://s3-eu-west-1.amazonaws.com/relayr-ble/sensor_light_prox.hex",
+          "transport": {
+            "cloud": {
+              "commands": [
+                {
+                  "name": "cmd",
+                  "path": "led",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 1,
+                    "minimum": 0
                   }
-               },
-               "required":[
-                  "frequency"
-               ]
-            },
-            "defaultValues":{
-               "frequency":1000
+                }
+              ],
+              "readings": [
+                {
+                  "path": "",
+                  "meaning": "proximity",
+                  "valueSchema": {
+                    "type": "number"
+                  }
+                },
+                {
+                  "path": "",
+                  "meaning": "color",
+                  "valueSchema": {
+                    "type": "object",
+                    "properties": {
+                      "red": {
+                        "type": "integer",
+                        "maximum": 255,
+                        "minimum": 0
+                      },
+                      "blue": {
+                        "type": "integer",
+                        "maximum": 255,
+                        "minimum": 0
+                      },
+                      "green": {
+                        "type": "integer",
+                        "maximum": 255,
+                        "minimum": 0
+                      }
+                    }
+                  }
+                },
+                {
+                  "path": "",
+                  "meaning": "luminosity",
+                  "valueSchema": {
+                    "type": "integer",
+                    "unit": "lumen"
+                  }
+                }
+              ],
+              "configurations": [
+                {
+                  "name": "frequency",
+                  "path": "/",
+                  "valueSchema": {
+                    "type": "integer",
+                    "unit": "milliseconds",
+                    "minimum": 200
+                  }
+                }
+              ]
             }
-         }
+          },
+          "repository": "https://github.com/relayr/wunderbar-hardware",
+          "releaseDate": "2014-10-01",
+          "releaseNotes": "https://github.com/relayr/wunderbar-hardware/blob/master/README.md",
+          "documentation": "https://developer.relayr.io/documents/WunderBar/Sensors"
+        }
       }
-   ]
+    },
+    {
+      "id": "33110278-08df-4302-8826-8a5a85cf75a7",
+      "name": "Nest Thermostat",
+      "productNumber": "0001",
+      "description": "The Nest thermostat learns the temps you like, turns itself down when you're away, and has remote control through Wi-Fi.",
+      "website": "https://nest.com/thermostat/meet-nest-thermostat",
+      "manufacturer": {
+        "name": "Nest Labs",
+        "website": "https://nest.com/",
+        "contactInfo": {
+          "email": "support@nest.com",
+          "phone": "0018554696378"
+        }
+      },
+      "resources": [
+        {
+          "id": "f8573c82-29f7-11e5-b345-feff819cdc9f",
+          "type": "icon",
+          "mediaUrl": "https://s3-eu-west-1.amazonaws.com/device-models/nest-thermostat.png",
+          "mimeType": "image/png"
+        }
+      ],
+      "firmware": {
+        "1.0.0": {
+          "binaries": "",
+          "transport": {
+            "cloud": {
+              "commands": [],
+              "readings": [
+                {
+                  "path": "",
+                  "meaning": "temperature",
+                  "valueSchema": {
+                    "unit": "celsius",
+                    "maximum": 100,
+                    "minimum": -100
+                  }
+                },
+                {
+                  "path": "",
+                  "meaning": "humidity",
+                  "valueSchema": {
+                    "unit": "percent",
+                    "maximum": 90,
+                    "minimum": 0
+                  }
+                }
+              ],
+              "configurations": [
+                {
+                  "name": "fan_timer_active",
+                  "path": "fan_timer_active",
+                  "valueSchema": {
+                    "type": "boolean"
+                  }
+                },
+                {
+                  "name": "hvac_mode",
+                  "path": "hvac_mode",
+                  "valueSchema": {
+                    "enum": [
+                      "heat",
+                      "cool",
+                      "heat-cool",
+                      "off"
+                    ],
+                    "type": "string"
+                  }
+                },
+                {
+                  "name": "target_temperature_f",
+                  "path": "target_temperature_f",
+                  "valueSchema": {
+                    "unit": "fahrenheit",
+                    "maximum": 70,
+                    "minimum": 90
+                  }
+                },
+                {
+                  "name": "target_temperature_c",
+                  "path": "target_temperature_c",
+                  "valueSchema": {
+                    "unit": "celcius",
+                    "maximum": 9,
+                    "minimum": 32
+                  }
+                },
+                {
+                  "name": "target_temperature_high_f",
+                  "path": "target_temperature_high_f",
+                  "valueSchema": {
+                    "unit": "fahrenheit",
+                    "maximum": 70,
+                    "minimum": 90
+                  }
+                },
+                {
+                  "name": "target_temperature_high_c",
+                  "path": "target_temperature_high_c",
+                  "valueSchema": {
+                    "unit": "celcius",
+                    "maximum": 9,
+                    "minimum": 32
+                  }
+                },
+                {
+                  "name": "target_temperature_low_f",
+                  "path": "target_temperature_low_f",
+                  "valueSchema": {
+                    "unit": "fahrenheit",
+                    "maximum": 70,
+                    "minimum": 90
+                  }
+                },
+                {
+                  "name": "target_temperature_low_c",
+                  "path": "target_temperature_low_c",
+                  "valueSchema": {
+                    "unit": "celcius",
+                    "maximum": 9,
+                    "minimum": 32
+                  }
+                }
+              ]
+            }
+          },
+          "repository": "",
+          "releaseDate": "2015-05-15",
+          "releaseNotes": "",
+          "documentation": "https://developer.nest.com/documentation/cloud/thermostat-guide"
+        }
+      }
+    },
+    {
+      "id": "2bc156b4-b1bf-4d65-9f2a-8923c7f20b85",
+      "name": "NetAtmo Indoor Module",
+      "productNumber": "NetAtmo NAModule1 Indoor",
+      "description": "Use indoor temperature, relative humidity and CO2 readings to live in a healthier home.",
+      "website": "https://www.netatmo.com/en-US/product/weather-station",
+      "manufacturer": {
+        "name": "Netatmo",
+        "website": "https://netatmo.com",
+        "contactInfo": {
+          "email": "support@netatmo.com",
+          "phone": ""
+        }
+      },
+      "resources": [
+        {
+          "id": "f1576c82-29f7-11e5-b345-feff819cdc9f",
+          "type": "icon",
+          "mediaUrl": "https://s3-eu-west-1.amazonaws.com/device-models/netatmo-indoor.jpg",
+          "mimeType": "image/jpg"
+        }
+      ],
+      "firmware": {
+        "1.0.0": {
+          "binaries": "",
+          "transport": {
+            "cloud": {
+              "commands": [],
+              "readings": [
+                {
+                  "path": "",
+                  "meaning": "temperature",
+                  "valueSchema": {
+                    "unit": "celsius",
+                    "maximum": 65,
+                    "minimum": -40
+                  }
+                },
+                {
+                  "path": "",
+                  "meaning": "humidity",
+                  "valueSchema": {
+                    "unit": "percent",
+                    "maximum": 100,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "path": "",
+                  "meaning": "co2",
+                  "valueSchema": {
+                    "unit": "ppm",
+                    "maximum": 5000,
+                    "minimum": 0
+                  }
+                }
+              ],
+              "configurations": []
+            }
+          },
+          "repository": "",
+          "releaseDate": "2015-06-15",
+          "releaseNotes": "",
+          "documentation": "https://dev.netatmo.com/doc/devices/weatherstation"
+        }
+      }
+    }
+  ],
+  "limit": 10,
+  "offset": 0
 }
-]

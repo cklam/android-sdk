@@ -6,6 +6,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import io.relayr.storage.DeviceModelCache;
 
 @Module(
         complete = false,
@@ -51,4 +52,11 @@ public class DebugApiModule {
         return new MockCloudApi(loader);
     }
 
+    @Provides @Singleton DeviceModelsApi provideDeviceModelsApi(MockBackend loader) {
+        return new MockDeviceModelsApi(loader);
+    }
+
+    @Provides @Singleton DeviceModelCache provideModelStorage(MockBackend loader) {
+        return new DeviceModelCache(loader);
+    }
 }
