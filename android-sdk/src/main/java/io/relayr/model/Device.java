@@ -76,7 +76,7 @@ public class Device implements Serializable {
      * Subscribes an app to a device channel. Enables the app to receive data from the device.
      */
     public Observable<Reading> subscribeToCloudReadings() {
-        return RelayrSdk.getWebSocketClient().subscribe(toTransmitterDevice());
+        return RelayrSdk.getWebSocketClient().subscribe(this);
     }
 
     /**

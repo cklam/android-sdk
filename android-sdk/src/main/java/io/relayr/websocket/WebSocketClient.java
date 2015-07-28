@@ -11,6 +11,7 @@ import javax.inject.Singleton;
 import io.relayr.SocketClient;
 import io.relayr.api.ChannelApi;
 import io.relayr.model.DataPackage;
+import io.relayr.model.Device;
 import io.relayr.model.MqttChannel;
 import io.relayr.model.MqttDefinition;
 import io.relayr.model.Reading;
@@ -38,18 +39,18 @@ public class WebSocketClient implements SocketClient {
     }
 
     @Override
-    public Observable<Reading> subscribe(TransmitterDevice device) {
-        if (mSocketConnections.containsKey(device.id))
-            return mSocketConnections.get(device.id);
+    public Observable<Reading> subscribe(Device device) {
+        if (mSocketConnections.containsKey(device.getId()))
+            return mSocketConnections.get(device.getId());
         else
-            return start(device);
+            return start(device.getId());
     }
 
-    private synchronized Observable<Reading> start(final TransmitterDevice device) {
+    private synchronized Observable<Reading> start(final String deviceId) {
         final PublishSubject<Reading> subject = PublishSubject.create();
-        mSocketConnections.put(device.id, subject);
+        mSocketConnections.put(deviceId, subject);
 
-        mChannelApi.create(new MqttDefinition(device.id, "mqtt"))
+        mChannelApi.create(new MqttDefinition(deviceId, "mqtt"))
                 .flatMap(new Func1<MqttChannel, Observable<MqttChannel>>() {
                     @Override
                     public Observable<MqttChannel> call(final MqttChannel channel) {
@@ -65,12 +66,12 @@ public class WebSocketClient implements SocketClient {
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
-                        mSocketConnections.remove(device.id);
+                        mSocketConnections.remove(deviceId);
                     }
 
                     @Override
                     public void onNext(MqttChannel channel) {
-                        subscribeToChannel(channel, device.id, subject);
+                        subscribeToChannel(channel, deviceId, subject);
                     }
                 });
 
@@ -78,7 +79,7 @@ public class WebSocketClient implements SocketClient {
                 .doOnError(new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        unSubscribe(device.id);
+                        unSubscribe(deviceId);
                     }
                 });
     }

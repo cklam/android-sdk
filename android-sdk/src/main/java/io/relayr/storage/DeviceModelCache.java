@@ -11,6 +11,7 @@ import io.relayr.model.models.DeviceModels;
 import rx.Subscriber;
 
 import static io.relayr.api.MockBackend.DEVICE_MODELS;
+import static io.relayr.api.MockBackend.DEVICE_MODELS_CACHE;
 
 public class DeviceModelCache {
 
@@ -18,7 +19,7 @@ public class DeviceModelCache {
 
     public DeviceModelCache(MockBackend loader) {
         loader.createObservable(new TypeToken<DeviceModels>() {
-        }, DEVICE_MODELS)
+        }, DEVICE_MODELS_CACHE)
                 .subscribe(new Subscriber<DeviceModels>() {
                     @Override
                     public void onCompleted() {

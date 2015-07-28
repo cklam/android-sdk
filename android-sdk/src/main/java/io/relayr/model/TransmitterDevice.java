@@ -47,13 +47,17 @@ public class TransmitterDevice extends Transmitter implements Serializable {
     }
 
     public Observable<Reading> subscribeToCloudReadings() {
-        return RelayrSdk.getWebSocketClient().subscribe(this);
+        return RelayrSdk.getWebSocketClient().subscribe(toDevice());
     }
 
     public Observable<BaseService> getSensorForDevice(BleDevicesCache cache) {
         return cache.getSensorForDevice(this);
     }
 
+    //TODO Remove this stupid fix ASAP
+    public Device toDevice() {
+        return new Device(null, false, null, null, null, null, null, getName(), id);
+    }
     /**
      * Subscribes an app to a BLE device. Enables the app to receive data from the device over
      * BLE through {@link io.relayr.ble.service.DirectConnectionService}
@@ -135,9 +139,10 @@ public class TransmitterDevice extends Transmitter implements Serializable {
         RelayrSdk.getWebSocketClient().unSubscribe(id);
     }
 
-    /** Sends a command to the this device */
+    /**
+     * Sends a command to the this device
+     */
     public Observable<Void> sendCommand(Command command) {
         return RelayrSdk.getRelayrApi().sendCommand(id, command);
     }
-
 }

@@ -28,7 +28,7 @@ public class DeviceConfiguration implements Serializable {
     /**
      * Defines values and types of values to send as a configuration.
      */
-    public ValueSchema getSchema() {
+    public ValueSchema getValueSchema() {
         return valueSchema;
     }
 

@@ -28,7 +28,7 @@ public class DeviceCommand implements Serializable {
     /**
      * Defines values and types of values to send as a command.
      */
-    public ValueSchema getSchema() {
+    public ValueSchema getValueSchema() {
         return valueSchema;
     }
 

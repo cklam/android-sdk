@@ -42,6 +42,13 @@ public class WunderBar implements Serializable {
         return new WunderBar(masterModule, devices, masterModule.getAccountType());
     }
 
+    public static WunderBar fromDevices(Transmitter masterModule, List<Device> devices) {
+        List<TransmitterDevice> transmitterDevices = new ArrayList<>();
+        for (Device device : devices) transmitterDevices.add(device.toTransmitterDevice());
+
+        return new WunderBar(masterModule, transmitterDevices, masterModule.getAccountType());
+    }
+
     public TransmitterDevice getDevice(BleDeviceType type) {
         DeviceModel model = resolveType(type);
         for (TransmitterDevice device : wbDevices)

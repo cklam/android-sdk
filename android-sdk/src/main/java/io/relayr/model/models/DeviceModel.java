@@ -84,6 +84,21 @@ public class DeviceModel implements Serializable {
         return deviceFirmware;
     }
 
+    /**
+     * Returns latest version of firmware. Use only if firmware for the device can not be matched.
+     * @throws DeviceModelsException
+     */
+    public DeviceFirmware getLatestFirmware() throws DeviceModelsException {
+        if (firmware == null || firmware.isEmpty()) throw DeviceModelsException.firmwareNotFound();
+        String version = null;
+        for (String firmwareVersion : firmware.keySet())
+            if (version == null) version = firmwareVersion;
+            else if ((version.replace(".", "")).compareTo(firmwareVersion.replace(".", "")) < 0)
+                version = firmwareVersion;
+
+        return getFirmwareByVersion(version);
+    }
+
     @Override public String toString() {
         return "DeviceModel{" +
                 "id='" + id + '\'' +
@@ -97,4 +112,5 @@ public class DeviceModel implements Serializable {
                 ", firmware=" + firmware.toString() +
                 '}';
     }
+
 }

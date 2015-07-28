@@ -7,6 +7,7 @@ import io.relayr.model.models.DeviceModels;
 import io.relayr.model.models.ReadingMeanings;
 import retrofit.http.GET;
 import retrofit.http.Path;
+import retrofit.http.Query;
 import rx.Observable;
 
 public interface DeviceModelsApi {
