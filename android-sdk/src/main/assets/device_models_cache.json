@@ -334,6 +334,7 @@
                   "path": "",
                   "meaning": "temperature",
                   "valueSchema": {
+                    "type": "integer",
                     "unit": "celsius",
                     "maximum": 65,
                     "minimum": -40
@@ -343,6 +344,7 @@
                   "path": "",
                   "meaning": "humidity",
                   "valueSchema": {
+                    "type": "integer",
                     "unit": "percent",
                     "maximum": 100,
                     "minimum": 0
@@ -352,6 +354,7 @@
                   "path": "",
                   "meaning": "co2",
                   "valueSchema": {
+                    "type": "integer",
                     "unit": "ppm",
                     "maximum": 5000,
                     "minimum": 0
@@ -361,6 +364,7 @@
                   "path": "",
                   "meaning": "pressure",
                   "valueSchema": {
+                    "type": "integer",
                     "unit": "mbar",
                     "maximum": 1160,
                     "minimum": 260
@@ -370,6 +374,7 @@
                   "path": "",
                   "meaning": "sound",
                   "valueSchema": {
+                    "type": "integer",
                     "unit": "dB",
                     "maximum": 120,
                     "minimum": 35
@@ -459,54 +464,60 @@
                   "name": "target_temperature_f",
                   "path": "target_temperature_f",
                   "valueSchema": {
+                    "type": "integer",
                     "unit": "fahrenheit",
-                    "maximum": 70,
-                    "minimum": 90
+                    "maximum": 90,
+                    "minimum": 70
                   }
                 },
                 {
                   "name": "target_temperature_c",
                   "path": "target_temperature_c",
                   "valueSchema": {
+                    "type": "integer",
                     "unit": "celcius",
-                    "maximum": 9,
-                    "minimum": 32
+                    "maximum": 32,
+                    "minimum": 9
                   }
                 },
                 {
                   "name": "target_temperature_high_f",
                   "path": "target_temperature_high_f",
                   "valueSchema": {
+                    "type": "integer",
                     "unit": "fahrenheit",
-                    "maximum": 70,
-                    "minimum": 90
+                    "maximum": 90,
+                    "minimum": 70
                   }
                 },
                 {
                   "name": "target_temperature_high_c",
                   "path": "target_temperature_high_c",
                   "valueSchema": {
+                    "type": "integer",
                     "unit": "celcius",
-                    "maximum": 9,
-                    "minimum": 32
+                    "maximum": 32,
+                    "minimum": 9
                   }
                 },
                 {
                   "name": "target_temperature_low_f",
                   "path": "target_temperature_low_f",
                   "valueSchema": {
+                    "type": "integer",
                     "unit": "fahrenheit",
-                    "maximum": 70,
-                    "minimum": 90
+                    "maximum": 90,
+                    "minimum": 70
                   }
                 },
                 {
                   "name": "target_temperature_low_c",
                   "path": "target_temperature_low_c",
                   "valueSchema": {
+                    "type": "integer",
                     "unit": "celcius",
-                    "maximum": 9,
-                    "minimum": 32
+                    "maximum": 32,
+                    "minimum": 9
                   }
                 }
               ]

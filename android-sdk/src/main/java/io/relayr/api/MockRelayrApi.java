@@ -13,8 +13,11 @@ import io.relayr.model.Device;
 import io.relayr.model.Transmitter;
 import io.relayr.model.TransmitterDevice;
 import io.relayr.model.User;
+import io.relayr.model.Configuration;
 import io.relayr.model.onboarding.OnBoardingState;
 import retrofit.client.Response;
+import retrofit.http.Body;
+import retrofit.http.Path;
 import rx.Observable;
 import rx.Subscriber;
 
@@ -61,7 +64,13 @@ public class MockRelayrApi implements RelayrApi {
             public void call(Subscriber<? super Void> subscriber) {
                 subscriber.onNext(null);
             }
-        });    }
+        });
+    }
+
+    @Override
+    public Observable<Device> updateDevice(Device device, String deviceId) {
+        return Observable.just(device);
+    }
 
     @Override
     public Observable<Transmitter> getTransmitter(String transmitter) {
@@ -99,6 +108,16 @@ public class MockRelayrApi implements RelayrApi {
                 subscriber.onNext(null);
             }
         });
+    }
+
+    @Override
+    public Observable<Configuration> getDeviceConfiguration(String deviceId, String path) {
+        return Observable.empty();
+    }
+
+    @Override
+    public Observable<Void> setDeviceConfiguration(String deviceId, Configuration configuration) {
+        return Observable.empty();
     }
 
     @Override

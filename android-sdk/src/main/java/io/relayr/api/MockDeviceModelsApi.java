@@ -9,6 +9,7 @@ import io.relayr.model.models.DeviceFirmwares;
 import io.relayr.model.models.DeviceModel;
 import io.relayr.model.models.DeviceModels;
 import io.relayr.model.models.ReadingMeanings;
+import retrofit.http.Query;
 import rx.Observable;
 
 import static io.relayr.api.MockBackend.DEVICE_MODEL;
@@ -29,7 +30,7 @@ public class MockDeviceModelsApi implements DeviceModelsApi{
         return mBackend.createObservable(new TypeToken<ReadingMeanings>() { }, DEVICE_READING_MEANINGS);
     }
 
-    @Override public Observable<DeviceModels> getDeviceModels() {
+    @Override public Observable<DeviceModels> getDeviceModels(int limit) {
         return mBackend.createObservable(new TypeToken<DeviceModels>() { }, DEVICE_MODELS);
     }
 

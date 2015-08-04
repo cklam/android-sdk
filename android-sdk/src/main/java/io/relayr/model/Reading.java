@@ -5,15 +5,25 @@ package io.relayr.model;
  */
 public class Reading {
 
-    /** Timestamp - when reading is received on the platform */
+    /**
+     * Timestamp - when reading is received on the platform
+     */
     public final long received;
-    /** Timestamp - when reading is recorded on the device */
+    /**
+     * Timestamp - when reading is recorded on the device
+     */
     public final long recorded;
-    /** Meaning of the reading. Every device has a {@link Device#model} which defines readings */
+    /**
+     * Meaning of the reading. Every device has a {@link Device#model} which defines readings
+     */
     public final String meaning;
-    /** If device contains multiple readings they will be identified with the path */
+    /**
+     * If device contains multiple readings they will be identified with the path
+     */
     public final String path;
-    /** Reading value is determined by meaning e.g. {@link Device#model} */
+    /**
+     * Reading value is determined by meaning e.g. {@link Device#model}
+     */
     public final Object value;
 
     public Reading(long received, long recorded, String meaning, String path, Object value) {
@@ -24,4 +34,13 @@ public class Reading {
         this.value = value;
     }
 
+    @Override public String toString() {
+        return "Reading{" +
+                "received=" + received +
+                ", recorded=" + recorded +
+                ", meaning='" + meaning + '\'' +
+                ", path='" + path + '\'' +
+                ", value=" + value +
+                '}';
+    }
 }

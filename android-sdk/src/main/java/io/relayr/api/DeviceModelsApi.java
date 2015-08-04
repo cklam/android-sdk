@@ -22,7 +22,7 @@ public interface DeviceModelsApi {
      * Returns list all available device models.
      * @return an {@link Observable} with a list of device models.
      */
-    @GET("/device-models") Observable<DeviceModels> getDeviceModels();
+    @GET("/device-models") Observable<DeviceModels> getDeviceModels(@Query("limit") int limit);
 
     /**
      * Returns specific device model

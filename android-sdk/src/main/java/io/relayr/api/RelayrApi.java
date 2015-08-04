@@ -9,6 +9,8 @@ import io.relayr.model.Device;
 import io.relayr.model.Transmitter;
 import io.relayr.model.TransmitterDevice;
 import io.relayr.model.User;
+import io.relayr.model.models.transport.DeviceConfiguration;
+import io.relayr.model.Configuration;
 import io.relayr.model.onboarding.OnBoardingState;
 import retrofit.client.Response;
 import retrofit.http.Body;
@@ -49,6 +51,15 @@ public interface RelayrApi {
 
     @DELETE("/devices/{device_id}")
     Observable<Void> deleteDevice(@Path("device_id") String deviceId);
+
+    /**
+     * Updates a device.
+     * @param device   updated device with the new details
+     * @param deviceId id of the device to update
+     * @return an {@link rx.Observable} to the updated Device
+     */
+    @PATCH("/devices/{deviceId}") Observable<Device> updateDevice(@Body Device device,
+                                                                  @Path("deviceId") String deviceId);
 
     /**
      * A public device is a device which public attribute has been set to 'true' therefore
@@ -134,4 +145,20 @@ public interface RelayrApi {
     @DELETE("/wunderbars/{transmitterId}")
     Observable<Void> deleteWunderBar(@Path("transmitterId") String transmitterId);
 
+    /**
+     * Returns current device configuration.
+     * @param path path defined in {@link DeviceConfiguration#getPath()}
+     * @return an existing configuration {@link rx.Observable}
+     */
+    @GET("/devices/{deviceId}/configuration")
+    Observable<Configuration> getDeviceConfiguration(@Path("deviceId") String deviceId,
+                                                     @Query("path") String path);
+
+    /**
+     * Sets device configuration defined by device models {@link DeviceConfiguration}
+     * @return an empty {@link rx.Observable}
+     */
+    @POST("/devices/{deviceId}/configuration")
+    Observable<Void> setDeviceConfiguration(@Path("deviceId") String deviceId,
+                                            @Body Configuration configuration);
 }

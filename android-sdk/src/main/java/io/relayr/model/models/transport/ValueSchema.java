@@ -9,8 +9,8 @@ public class ValueSchema implements Serializable {
 
     private String type;
     private String unit;
-    private float minimum;
-    private float maximum;
+    private Double minimum;
+    private Double maximum;
     private Object properties;
     @SerializedName("enum") private List<String> enums;
 
@@ -22,7 +22,7 @@ public class ValueSchema implements Serializable {
      * Returns minimum value. Actual minimum can be specified with {@link #type} as integer or float
      * but because of simplification it will be boxed to double.
      */
-    public double getMinimum() {
+    public Double getMinimum() {
         return minimum;
     }
 
@@ -30,7 +30,7 @@ public class ValueSchema implements Serializable {
      * Returns maximum value. Actual maximum can be specified with {@link #type} as integer or float
      * but because of simplification it will be boxed to double.
      */
-    public double getMaximum() {
+    public Double getMaximum() {
         return maximum;
     }
 

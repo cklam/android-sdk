@@ -27,12 +27,13 @@ public class CreateDevice implements Serializable {
         this.firmware = "2.0.0";
     }
 
-    public CreateDevice(String name, String modelId, String owner, String externalId, String firmware) {
+    public CreateDevice(String name, String modelId, String owner, String externalId, String firmware, String intergationType) {
         this.name = name;
         this.model = modelId;
         this.owner = owner;
         this.externalId = externalId;
         this.firmware = firmware;
+        this.integrationType = intergationType;
     }
 
     public void setName(String name) {
