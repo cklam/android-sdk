@@ -11,7 +11,10 @@ import io.relayr.model.BookmarkDevice;
 import io.relayr.model.CreateWunderBar;
 import io.relayr.model.Device;
 import io.relayr.model.Transmitter;
+import io.relayr.model.User;
 import io.relayr.model.account.Account;
+import retrofit.http.Body;
+import retrofit.http.Path;
 import rx.Observable;
 import rx.Subscriber;
 
@@ -35,6 +38,11 @@ public class MockUserApi implements UserApi {
     public Observable<List<Device>> getUserDevices(String userId) {
         return mServer.createObservable(new TypeToken<List<Device>>() {
         }, USER_DEVICES);
+    }
+
+    @Override
+    public Observable<User> updateUserDetails(@Body User user, @Path("userId") String userId) {
+        return Observable.just(user);
     }
 
     @Override

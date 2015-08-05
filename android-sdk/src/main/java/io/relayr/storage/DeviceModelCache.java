@@ -1,41 +1,30 @@
 package io.relayr.storage;
 
-import com.google.gson.reflect.TypeToken;
+import android.util.Log;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
-import io.relayr.api.MockBackend;
+import javax.inject.Singleton;
+
+import io.relayr.api.DeviceModelsApi;
 import io.relayr.model.models.DeviceModel;
 import io.relayr.model.models.DeviceModels;
 import rx.Subscriber;
 
-import static io.relayr.api.MockBackend.DEVICE_MODELS;
-import static io.relayr.api.MockBackend.DEVICE_MODELS_CACHE;
-
+@Singleton
 public class DeviceModelCache {
 
-    private static final Map<String, DeviceModel> sDeviceModels = new HashMap<>();
+    private static final Map<String, DeviceModel> sDeviceModels = new ConcurrentHashMap<>();
+    private static boolean refreshing = false;
 
-    public DeviceModelCache(MockBackend loader) {
-        loader.createObservable(new TypeToken<DeviceModels>() {
-        }, DEVICE_MODELS_CACHE)
-                .subscribe(new Subscriber<DeviceModels>() {
-                    @Override
-                    public void onCompleted() {
-                    }
+    private final DeviceModelsApi mApi;
 
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onNext(DeviceModels deviceModels) {
-                        for (DeviceModel deviceModel : deviceModels.getModels())
-                            sDeviceModels.put(deviceModel.getId(), deviceModel);
-                    }
-                });
+    public DeviceModelCache(DeviceModelsApi modelsApi) {
+        this.mApi = modelsApi;
+        refresh();
     }
 
     public boolean isEmpty() {
@@ -43,7 +32,36 @@ public class DeviceModelCache {
     }
 
     public DeviceModel getModel(String modelId) {
+        if(isEmpty()) Log.e("DeviceModelCache", "Cache not ready");
         return sDeviceModels.get(modelId);
     }
 
+    public void refresh() {
+        if (refreshing) return;
+
+        refreshing = true;
+        mApi.getDeviceModels(20)
+                .timeout(7, TimeUnit.SECONDS)
+                .subscribe(new Subscriber<DeviceModels>() {
+                    @Override
+                    public void onCompleted() {
+                        refreshing = false;
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        refreshing = false;
+                        e.printStackTrace();
+                        if (e instanceof TimeoutException) refresh();
+                    }
+
+                    @Override
+                    public void onNext(DeviceModels deviceModels) {
+                        for (DeviceModel deviceModel : deviceModels.getModels())
+                            sDeviceModels.put(deviceModel.getId(), deviceModel);
+                        refreshing = false;
+                        Log.e("DeviceModelCache", "Loaded " + deviceModels.getCount() + " models.");
+                    }
+                });
+    }
 }

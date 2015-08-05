@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -38,7 +37,7 @@ public class BleDevicesCache {
 
     public Observable<BaseService> getSensorForDevice(final TransmitterDevice device) {
         if (!mCache.containsKey(device)) {
-            Set<BleDeviceType> deviceTypeSet = new HashSet<>(asList(BleDeviceType.from(device.getModel())));
+            Set<BleDeviceType> deviceTypeSet = new HashSet<>(asList(BleDeviceType.fromModel(device.getModelId())));
             return RelayrSdk.getRelayrBleSdk()
                     .scan(deviceTypeSet, 20)
                     .flatMap(new Func1<List<BleDevice>, Observable<BleDevice>>() {

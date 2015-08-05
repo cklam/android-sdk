@@ -51,8 +51,8 @@ public class MockDeviceModelsApiTest extends TestEnvironment {
         final DeviceModels value = modelsCaptor.getValue();
 
         assertThat(value).isNotNull();
-        assertThat(value.getCount()).isEqualTo(3);
-        assertThat(value.getModels()).isNotNull().isNotEmpty().hasSize(3);
+        assertThat(value.getCount()).isEqualTo(17);
+        assertThat(value.getModels()).isNotNull().isNotEmpty().hasSize(17);
     }
 
     @Test

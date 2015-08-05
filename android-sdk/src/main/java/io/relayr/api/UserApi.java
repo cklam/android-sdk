@@ -9,8 +9,10 @@ import io.relayr.model.Device;
 import io.relayr.model.Transmitter;
 import io.relayr.model.User;
 import io.relayr.model.account.Account;
+import retrofit.http.Body;
 import retrofit.http.DELETE;
 import retrofit.http.GET;
+import retrofit.http.PATCH;
 import retrofit.http.POST;
 import retrofit.http.Path;
 import rx.Observable;
@@ -24,6 +26,14 @@ public interface UserApi {
      */
     @GET("/users/{userId}/devices")
     Observable<List<Device>> getUserDevices(@Path("userId") String userId);
+
+    /**
+     * Updates user details.
+     * @param userId
+     * @return Updated user object
+     */
+    @PATCH("/users/{userId}/devices")
+    Observable<User> updateUserDetails(@Body User user, @Path("userId") String userId);
 
     /**
      * Api call to tell the backend to create WunderBar.

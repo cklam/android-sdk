@@ -56,7 +56,7 @@ public class DebugApiModule {
         return new MockDeviceModelsApi(loader);
     }
 
-    @Provides @Singleton DeviceModelCache provideModelStorage(MockBackend loader) {
-        return new DeviceModelCache(loader);
+    @Provides @Singleton DeviceModelCache provideDeviceModelCache(DeviceModelsApi api) {
+        return new DeviceModelCache(api);
     }
 }

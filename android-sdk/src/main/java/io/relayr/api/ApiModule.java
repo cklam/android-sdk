@@ -34,6 +34,10 @@ public class ApiModule {
     private static final int DISK_CACHE_SIZE = 50 * 1024 * 1024; // 50MB
     private static final String USER_AGENT = Utils.getUserAgent();
 
+    private static final RestAdapter.LogLevel API_LOG_LEVEL = RestAdapter.LogLevel.BASIC;
+    private static final RestAdapter.LogLevel OAUTH_API_LOG_LEVEL = RestAdapter.LogLevel.NONE;
+    private static final RestAdapter.LogLevel MODELS_API_LOG_LEVEL = RestAdapter.LogLevel.FULL;
+
     private static final RequestInterceptor apiRequestInterceptor = new RequestInterceptor() {
         @Override
         public void intercept(RequestFacade request) {
@@ -43,12 +47,12 @@ public class ApiModule {
         }
     };
 
-    private static final RequestInterceptor deviceModelsApiRequestInterceptor = new RequestInterceptor() {
+    private static final RequestInterceptor modelsRequestInterceptor = new RequestInterceptor() {
         @Override
         public void intercept(RequestFacade request) {
             request.addHeader("User-Agent", ApiModule.USER_AGENT);
             request.addHeader("Authorization", DataStorage.getUserToken());
-            request.addHeader("Content-Type", "application/hal+json; charset=UTF-8");
+            request.addHeader("Content-Type", "application/hal+json");
         }
     };
 
@@ -78,8 +82,8 @@ public class ApiModule {
                 .setClient(client)
                 .setEndpoint(endpoint)
                 .setRequestInterceptor(apiRequestInterceptor)
-//                .setErrorHandler(new ApiErrorHandler())
-//                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .setErrorHandler(new ApiErrorHandler())
+                .setLogLevel(API_LOG_LEVEL)
                 .build();
     }
 
@@ -89,15 +93,19 @@ public class ApiModule {
                 .setClient(client)
                 .setEndpoint(endpoint)
                 .setRequestInterceptor(oauthRequestInterceptor)
+                .setErrorHandler(new ApiErrorHandler())
+                .setLogLevel(OAUTH_API_LOG_LEVEL)
                 .build();
     }
 
-    @Provides @Singleton @Named("models-api") RestAdapter provideModelsRestAdapter(
+    @Provides @Singleton @Named("models") RestAdapter provideModelsRestAdapter(
             Endpoint endpoint, Client client) {
         return new RestAdapter.Builder()
                 .setClient(client)
                 .setEndpoint(endpoint)
-                .setRequestInterceptor(deviceModelsApiRequestInterceptor)
+                .setRequestInterceptor(modelsRequestInterceptor)
+                .setErrorHandler(new ApiErrorHandler())
+                .setLogLevel(MODELS_API_LOG_LEVEL)
                 .build();
     }
 
@@ -131,12 +139,13 @@ public class ApiModule {
     }
 
     @Provides @Singleton
-    DeviceModelsApi provideDeviceModelsApi(@Named("models-api") RestAdapter restAdapter) {
+    DeviceModelsApi provideDeviceModelsApi(@Named("models") RestAdapter restAdapter) {
         return restAdapter.create(DeviceModelsApi.class);
     }
 
-    @Provides @Singleton DeviceModelCache provideDeviceModelsStorage() {
-        return new DeviceModelCache(new MockBackend(app));
+    @Provides @Singleton DeviceModelCache provideDeviceModelCache(DeviceModelsApi deviceModelsApi) {
+//        return new DeviceModelCache(new MockDeviceModelsApi(new MockBackend(app)));
+        return new DeviceModelCache(deviceModelsApi);
     }
 
     @Provides @Singleton OkHttpClient provideOkHttpClient() {
@@ -156,9 +165,7 @@ public class ApiModule {
     class ApiErrorHandler implements ErrorHandler {
         @Override public Throwable handleError(RetrofitError cause) {
             Response response = cause.getResponse();
-
             if (response != null && response.getStatus() > 301) return new Exception(cause);
-
             return cause;
         }
     }

@@ -33,6 +33,9 @@ public class Transmitter implements Serializable {
         this.accountType = type.getName();
     }
 
+    /**
+     * Specific for WUNDERBAR v1
+     */
     public Transmitter(String id, String secret, String owner, String name) {
         this.id = id;
         this.secret = secret;

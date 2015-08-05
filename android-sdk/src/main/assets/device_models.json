@@ -3,17 +3,14 @@
     "self": {
       "href": "/device-models"
     },
-    "next": {
-      "href": "/device-models?limit=20&offset=10"
-    },
     "last": {
-      "href": "/device-models?limit=17&offset=7"
+      "href": "/device-models"
     },
     "first": {
       "href": "/device-models"
     }
   },
-  "count": 3,
+  "count": 17,
   "models": [
     {
       "id": "a7ec1b21-8582-4304-b1cf-15a1fc66d1e8",
@@ -108,135 +105,129 @@
       }
     },
     {
-      "id": "33110278-08df-4302-8826-8a5a85cf75a7",
-      "name": "Nest Thermostat",
+      "id": "bab45b9c-1c44-4e71-8e98-a321c658df47",
+      "name": "Wunderbar Infrared Sensor",
       "productNumber": "0001",
-      "description": "The Nest thermostat learns the temps you like, turns itself down when you're away, and has remote control through Wi-Fi.",
-      "website": "https://nest.com/thermostat/meet-nest-thermostat",
+      "description": "Wunderbar Infrared Sensor",
+      "website": "https://www.relayr.io/products-services/wunderbar",
       "manufacturer": {
-        "name": "Nest Labs",
-        "website": "https://nest.com/",
+        "name": "Relayr",
+        "website": "https://www.relayr.io/",
         "contactInfo": {
-          "email": "support@nest.com",
-          "phone": "0018554696378"
+          "email": "info@relayr.io",
+          "phone": "+491792989866"
         }
       },
       "resources": [
         {
-          "id": "f8573c82-29f7-11e5-b345-feff819cdc9f",
+          "id": "f8786c82-29f7-11e5-b345-feff819cdc9f",
           "type": "icon",
-          "mediaUrl": "https://s3-eu-west-1.amazonaws.com/device-models/nest-thermostat.png",
-          "mimeType": "image/png"
+          "mediaUrl": "https://s3-eu-west-1.amazonaws.com/device-models/wunderbar-infrared-icon.svg",
+          "mimeType": "image/svg+xml"
         }
       ],
       "firmware": {
         "1.0.0": {
-          "binaries": "",
+          "binaries": "https://s3-eu-west-1.amazonaws.com/relayr-ble/sensor_ir.hex",
           "transport": {
             "cloud": {
-              "commands": [],
-              "readings": [
+              "commands": [
                 {
-                  "path": "",
-                  "meaning": "temperature",
+                  "name": "cmd",
+                  "path": "led",
                   "valueSchema": {
-                    "unit": "celsius",
-                    "maximum": 100,
-                    "minimum": -100
-                  }
-                },
-                {
-                  "path": "",
-                  "meaning": "humidity",
-                  "valueSchema": {
-                    "unit": "percent",
-                    "maximum": 90,
+                    "type": "integer",
+                    "maximum": 1,
                     "minimum": 0
                   }
                 }
               ],
+              "readings": [],
               "configurations": [
                 {
-                  "name": "fan_timer_active",
-                  "path": "fan_timer_active",
+                  "name": "frequency",
+                  "path": "/",
                   "valueSchema": {
-                    "type": "boolean"
-                  }
-                },
-                {
-                  "name": "hvac_mode",
-                  "path": "hvac_mode",
-                  "valueSchema": {
-                    "enum": [
-                      "heat",
-                      "cool",
-                      "heat-cool",
-                      "off"
-                    ],
-                    "type": "string"
-                  }
-                },
-                {
-                  "name": "target_temperature_f",
-                  "path": "target_temperature_f",
-                  "valueSchema": {
-                    "unit": "fahrenheit",
-                    "maximum": 70,
-                    "minimum": 90
-                  }
-                },
-                {
-                  "name": "target_temperature_c",
-                  "path": "target_temperature_c",
-                  "valueSchema": {
-                    "unit": "celcius",
-                    "maximum": 9,
-                    "minimum": 32
-                  }
-                },
-                {
-                  "name": "target_temperature_high_f",
-                  "path": "target_temperature_high_f",
-                  "valueSchema": {
-                    "unit": "fahrenheit",
-                    "maximum": 70,
-                    "minimum": 90
-                  }
-                },
-                {
-                  "name": "target_temperature_high_c",
-                  "path": "target_temperature_high_c",
-                  "valueSchema": {
-                    "unit": "celcius",
-                    "maximum": 9,
-                    "minimum": 32
-                  }
-                },
-                {
-                  "name": "target_temperature_low_f",
-                  "path": "target_temperature_low_f",
-                  "valueSchema": {
-                    "unit": "fahrenheit",
-                    "maximum": 70,
-                    "minimum": 90
-                  }
-                },
-                {
-                  "name": "target_temperature_low_c",
-                  "path": "target_temperature_low_c",
-                  "valueSchema": {
-                    "unit": "celcius",
-                    "maximum": 9,
-                    "minimum": 32
+                    "type": "integer",
+                    "unit": "milliseconds",
+                    "minimum": 200
                   }
                 }
               ]
             }
           },
-          "repository": "",
-          "releaseDate": "2015-05-15",
-          "releaseNotes": "",
-          "documentation": "https://developer.nest.com/documentation/cloud/thermostat-guide"
+          "repository": "https://github.com/relayr/wunderbar-hardware",
+          "releaseDate": "2014-10-01",
+          "releaseNotes": "https://github.com/relayr/wunderbar-hardware/blob/master/README.md",
+          "documentation": "https://developer.relayr.io/documents/WunderBar/Sensors"
+        }
+      }
+    },
+    {
+      "id": "4f38b6c6-a8e9-4f93-91cd-2ac4064b7b5a",
+      "name": "Wunderbar Microphone",
+      "productNumber": "0001",
+      "description": "Wunderbar Microphone",
+      "website": "https://www.relayr.io/products-services/wunderbar",
+      "manufacturer": {
+        "name": "Relayr",
+        "website": "https://www.relayr.io/",
+        "contactInfo": {
+          "email": "info@relayr.io",
+          "phone": "+491792989866"
+        }
+      },
+      "resources": [
+        {
+          "id": "f6886c82-29f7-11e5-b345-feff819cdc9f",
+          "type": "icon",
+          "mediaUrl": "https://s3-eu-west-1.amazonaws.com/device-models/wunderbar-noise-icon.svg",
+          "mimeType": "image/svg+xml"
+        }
+      ],
+      "firmware": {
+        "1.0.0": {
+          "binaries": "https://s3-eu-west-1.amazonaws.com/relayr-ble/sensor_mic.hex",
+          "transport": {
+            "cloud": {
+              "commands": [
+                {
+                  "name": "cmd",
+                  "path": "led",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 1,
+                    "minimum": 0
+                  }
+                }
+              ],
+              "readings": [
+                {
+                  "path": "",
+                  "meaning": "noiseLevel",
+                  "valueSchema": {
+                    "type": "number",
+                    "unit": "dba"
+                  }
+                }
+              ],
+              "configurations": [
+                {
+                  "name": "frequency",
+                  "path": "/",
+                  "valueSchema": {
+                    "type": "integer",
+                    "unit": "milliseconds",
+                    "minimum": 200
+                  }
+                }
+              ]
+            }
+          },
+          "repository": "https://github.com/relayr/wunderbar-hardware",
+          "releaseDate": "2014-10-01",
+          "releaseNotes": "https://github.com/relayr/wunderbar-hardware/blob/master/README.md",
+          "documentation": "https://developer.relayr.io/documents/WunderBar/Sensors"
         }
       }
     },
@@ -273,6 +264,7 @@
                   "path": "",
                   "meaning": "temperature",
                   "valueSchema": {
+                    "type": "number",
                     "unit": "celsius",
                     "maximum": 65,
                     "minimum": -40
@@ -282,6 +274,7 @@
                   "path": "",
                   "meaning": "humidity",
                   "valueSchema": {
+                    "type": "number",
                     "unit": "percent",
                     "maximum": 100,
                     "minimum": 0
@@ -291,6 +284,7 @@
                   "path": "",
                   "meaning": "co2",
                   "valueSchema": {
+                    "type": "integer",
                     "unit": "ppm",
                     "maximum": 5000,
                     "minimum": 0
@@ -306,8 +300,1617 @@
           "documentation": "https://dev.netatmo.com/doc/devices/weatherstation"
         }
       }
+    },
+    {
+      "id": "33110278-08df-4302-8826-8a5a85cf75a7",
+      "name": "Nest Thermostat",
+      "productNumber": "0001",
+      "description": "The Nest thermostat learns the temps you like, turns itself down when you're away, and has remote control through Wi-Fi.",
+      "website": "https://nest.com/thermostat/meet-nest-thermostat",
+      "manufacturer": {
+        "name": "Nest Labs",
+        "website": "https://nest.com/",
+        "contactInfo": {
+          "email": "support@nest.com",
+          "phone": "0018554696378"
+        }
+      },
+      "resources": [
+        {
+          "id": "f8573c82-29f7-11e5-b345-feff819cdc9f",
+          "type": "icon",
+          "mediaUrl": "https://s3-eu-west-1.amazonaws.com/device-models/nest-thermostat.png",
+          "mimeType": "image/png"
+        }
+      ],
+      "firmware": {
+        "0.0.1": {
+          "binaries": "",
+          "transport": {
+            "cloud": {
+              "commands": [],
+              "readings": [
+                {
+                  "path": "",
+                  "meaning": "temperature",
+                  "valueSchema": {
+                    "type": "number",
+                    "unit": "celsius",
+                    "maximum": 100,
+                    "minimum": -100
+                  }
+                },
+                {
+                  "path": "",
+                  "meaning": "humidity",
+                  "valueSchema": {
+                    "type": "number",
+                    "unit": "percent",
+                    "maximum": 90,
+                    "minimum": 0
+                  }
+                }
+              ],
+              "configurations": [
+                {
+                  "name": "fan_timer_active",
+                  "path": "fan_timer_active",
+                  "valueSchema": {
+                    "type": "boolean"
+                  }
+                },
+                {
+                  "name": "hvac_mode",
+                  "path": "hvac_mode",
+                  "valueSchema": {
+                    "enum": [
+                      "heat",
+                      "cool",
+                      "heat-cool",
+                      "off"
+                    ],
+                    "type": "string"
+                  }
+                },
+                {
+                  "name": "target_temperature_f",
+                  "path": "target_temperature_f",
+                  "valueSchema": {
+                    "type": "number",
+                    "unit": "fahrenheit",
+                    "maximum": 90,
+                    "minimum": 70
+                  }
+                },
+                {
+                  "name": "target_temperature_c",
+                  "path": "target_temperature_c",
+                  "valueSchema": {
+                    "type": "number",
+                    "unit": "celcius",
+                    "maximum": 32,
+                    "minimum": 2
+                  }
+                },
+                {
+                  "name": "target_temperature_high_f",
+                  "path": "target_temperature_high_f",
+                  "valueSchema": {
+                    "type": "number",
+                    "unit": "fahrenheit",
+                    "maximum": 90,
+                    "minimum": 70
+                  }
+                },
+                {
+                  "name": "target_temperature_high_c",
+                  "path": "target_temperature_high_c",
+                  "valueSchema": {
+                    "type": "number",
+                    "unit": "celcius",
+                    "maximum": 32,
+                    "minimum": 9
+                  }
+                },
+                {
+                  "name": "target_temperature_low_f",
+                  "path": "target_temperature_low_f",
+                  "valueSchema": {
+                    "type": "number",
+                    "unit": "fahrenheit",
+                    "maximum": 90,
+                    "minimum": 70
+                  }
+                },
+                {
+                  "name": "target_temperature_low_c",
+                  "path": "target_temperature_low_c",
+                  "valueSchema": {
+                    "type": "number",
+                    "unit": "celcius",
+                    "maximum": 32,
+                    "minimum": 9
+                  }
+                }
+              ]
+            }
+          },
+          "repository": "",
+          "releaseDate": "2015-05-15",
+          "releaseNotes": "",
+          "documentation": "https://developer.nest.com/documentation/cloud/thermostat-guide"
+        }
+      }
+    },
+    {
+      "id": "95359405-4370-4ba9-b975-c267a53bdc64",
+      "name": "NetAtmo Outdoor Module",
+      "productNumber": "NetAtmo NAModule1 Outdoor",
+      "description": "Use real-time weather readings to dress comfortably, select the most appropriate transportation and plan your leisure activities.",
+      "website": "https://www.netatmo.com/en-US/product/weather-station",
+      "manufacturer": {
+        "name": "Netatmo",
+        "website": "https://netatmo.com",
+        "contactInfo": {
+          "email": "support@netatmo.com",
+          "phone": ""
+        }
+      },
+      "resources": [
+        {
+          "id": "f1516c82-29f7-11e5-b345-feff819cdc9f",
+          "type": "icon",
+          "mediaUrl": "https://s3-eu-west-1.amazonaws.com/device-models/netatmo-outdoor.jpg",
+          "mimeType": "image/jpg"
+        }
+      ],
+      "firmware": {
+        "1.0.0": {
+          "binaries": "",
+          "transport": {
+            "cloud": {
+              "commands": [],
+              "readings": [
+                {
+                  "path": "",
+                  "meaning": "temperature",
+                  "valueSchema": {
+                    "type": "number",
+                    "unit": "celsius",
+                    "maximum": 65,
+                    "minimum": -40
+                  }
+                },
+                {
+                  "path": "",
+                  "meaning": "humidity",
+                  "valueSchema": {
+                    "type": "number",
+                    "unit": "percent",
+                    "maximum": 100,
+                    "minimum": 0
+                  }
+                }
+              ],
+              "configurations": []
+            }
+          },
+          "repository": "",
+          "releaseDate": "2015-06-15",
+          "releaseNotes": "",
+          "documentation": "https://dev.netatmo.com/doc/devices/weatherstation"
+        }
+      }
+    },
+    {
+      "id": "ecf6cf94-cb07-43ac-a85e-dccf26b48c86",
+      "name": "Wunderbar Thermometer & Humidity Sensor",
+      "productNumber": "0001",
+      "description": "Wunderbar Thermometer & Humidity Sensor",
+      "website": "https://www.relayr.io/products-services/wunderbar",
+      "manufacturer": {
+        "name": "Relayr",
+        "website": "https://www.relayr.io/",
+        "contactInfo": {
+          "email": "info@relayr.io",
+          "phone": "+491792989866"
+        }
+      },
+      "resources": [
+        {
+          "id": "f6826c82-29f7-11e5-b345-feff819cdc9f",
+          "type": "icon",
+          "mediaUrl": "https://s3-eu-west-1.amazonaws.com/device-models/wunderbar-temperature-icon.svg",
+          "mimeType": "image/svg+xml"
+        }
+      ],
+      "firmware": {
+        "1.0.0": {
+          "binaries": "https://s3-eu-west-1.amazonaws.com/relayr-ble/sensor_htu.hex",
+          "transport": {
+            "cloud": {
+              "commands": [
+                {
+                  "name": "cmd",
+                  "path": "led",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 1,
+                    "minimum": 0
+                  }
+                }
+              ],
+              "readings": [
+                {
+                  "path": "",
+                  "meaning": "temperature",
+                  "valueSchema": {
+                    "type": "number",
+                    "unit": "celsius",
+                    "maximum": 100,
+                    "minimum": -100
+                  }
+                },
+                {
+                  "path": "",
+                  "meaning": "humidity",
+                  "valueSchema": {
+                    "type": "number",
+                    "unit": "percent"
+                  }
+                }
+              ],
+              "configurations": [
+                {
+                  "name": "frequency",
+                  "path": "/",
+                  "valueSchema": {
+                    "type": "integer",
+                    "unit": "milliseconds",
+                    "minimum": 200
+                  }
+                }
+              ]
+            }
+          },
+          "repository": "https://github.com/relayr/wunderbar-hardware",
+          "releaseDate": "2014-10-01",
+          "releaseNotes": "https://github.com/relayr/wunderbar-hardware/blob/master/README.md",
+          "documentation": "https://developer.relayr.io/documents/WunderBar/Sensors"
+        }
+      }
+    },
+    {
+      "id": "d6002302-846e-4819-a243-e04df69a4894",
+      "name": "NetAtmo Rain Module",
+      "productNumber": "NetAtmo NAModule3 Rain",
+      "description": "Measure the precise amount of rainfall. Receive an alert when it rains and only water your plants when you need to. Analyze your data using a histogram.",
+      "website": "https://www.netatmo.com/product/accessories/station#view3",
+      "manufacturer": {
+        "name": "Netatmo",
+        "website": "https://netatmo.com",
+        "contactInfo": {
+          "email": "support@netatmo.com",
+          "phone": ""
+        }
+      },
+      "resources": [
+        {
+          "id": "f1216c82-29f7-11e5-b345-feff819cdc9f",
+          "type": "icon",
+          "mediaUrl": "https://s3-eu-west-1.amazonaws.com/device-models/netatmo-rain.jpg",
+          "mimeType": "image/jpg"
+        }
+      ],
+      "firmware": {
+        "1.0.0": {
+          "binaries": "",
+          "transport": {
+            "cloud": {
+              "commands": [],
+              "readings": [
+                {
+                  "path": "",
+                  "meaning": "rain",
+                  "valueSchema": {
+                    "type": "number",
+                    "unit": "mm",
+                    "maximum": 150,
+                    "minimum": 0.2
+                  }
+                }
+              ],
+              "configurations": []
+            }
+          },
+          "repository": "",
+          "releaseDate": "2015-06-15",
+          "releaseNotes": "",
+          "documentation": "https://dev.netatmo.com/doc/devices/weatherstation"
+        }
+      }
+    },
+    {
+      "id": "245fdfe4-da91-4e4f-b884-739ae902fba0",
+      "name": "NetAtmo Thermostat",
+      "productNumber": "NetAtmo NATherm1",
+      "description": "Control your heating wherever you are with the Thermostat for Smartphone designed by Starck.",
+      "website": "https://www.netatmo.com/product/thermostat",
+      "manufacturer": {
+        "name": "Netatmo",
+        "website": "https://netatmo.com",
+        "contactInfo": {
+          "email": "support@netatmo.com",
+          "phone": ""
+        }
+      },
+      "resources": [
+        {
+          "id": "f2216c82-29f7-11e5-b345-feff819cdc9f",
+          "type": "icon",
+          "mediaUrl": "https://s3-eu-west-1.amazonaws.com/device-models/netatmo-thermostat.png",
+          "mimeType": "image/png"
+        }
+      ],
+      "firmware": {
+        "1.0.0": {
+          "binaries": "",
+          "transport": {
+            "cloud": {
+              "commands": [],
+              "readings": [
+                {
+                  "path": "",
+                  "meaning": "temperature",
+                  "valueSchema": {
+                    "type": "number",
+                    "unit": "celsius",
+                    "maximum": 50,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "path": "setpoint",
+                  "meaning": "temperature",
+                  "valueSchema": {
+                    "type": "number",
+                    "unit": "celsius",
+                    "maximum": 30,
+                    "minimum": 5
+                  }
+                }
+              ],
+              "configurations": [
+                {
+                  "name": "setpoint_mode",
+                  "path": "setthermpoint",
+                  "valueSchema": {
+                    "enum": [
+                      "program",
+                      "away",
+                      "hg",
+                      "manual",
+                      "off",
+                      "max"
+                    ],
+                    "type": "string"
+                  }
+                }
+              ]
+            }
+          },
+          "repository": "",
+          "releaseDate": "2015-06-15",
+          "releaseNotes": "",
+          "documentation": "https://dev.netatmo.com/doc/devices/thermostat"
+        }
+      }
+    },
+    {
+      "id": "173c44b5-334e-493f-8eb8-82c8cc65d29f",
+      "name": "Wunderbar Accelerometer & Gyroscope",
+      "productNumber": "0001",
+      "description": "Wunderbar Accelerometer & Gyroscope",
+      "website": "https://www.relayr.io/products-services/wunderbar",
+      "manufacturer": {
+        "name": "Relayr",
+        "website": "https://www.relayr.io/",
+        "contactInfo": {
+          "email": "info@relayr.io",
+          "phone": "+491792989866"
+        }
+      },
+      "resources": [
+        {
+          "id": "f8686c82-29f7-11e5-b345-feff819cdc9f",
+          "type": "icon",
+          "mediaUrl": "https://s3-eu-west-1.amazonaws.com/device-models/wunderbar-gyroscope-icon.svg",
+          "mimeType": "image/svg+xml"
+        }
+      ],
+      "firmware": {
+        "1.0.0": {
+          "binaries": "https://s3-eu-west-1.amazonaws.com/relayr-ble/sensor_gyro.hex",
+          "transport": {
+            "cloud": {
+              "commands": [
+                {
+                  "name": "cmd",
+                  "path": "led",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 1,
+                    "minimum": 0
+                  }
+                }
+              ],
+              "readings": [
+                {
+                  "path": "",
+                  "meaning": "angularSpeed",
+                  "valueSchema": {
+                    "type": "object",
+                    "properties": {
+                      "x": {
+                        "type": "number",
+                        "unit": "degrees_per_second",
+                        "maximum": 250,
+                        "minimum": -250
+                      },
+                      "y": {
+                        "type": "number",
+                        "unit": "degrees_per_second",
+                        "maximum": 250,
+                        "minimum": -250
+                      },
+                      "z": {
+                        "type": "number",
+                        "unit": "degrees_per_second",
+                        "maximum": 250,
+                        "minimum": -250
+                      }
+                    }
+                  }
+                },
+                {
+                  "path": "",
+                  "meaning": "acceleration",
+                  "valueSchema": {
+                    "type": "object",
+                    "properties": {
+                      "x": {
+                        "type": "number",
+                        "unit": "g",
+                        "maximum": 250,
+                        "minimum": -250
+                      },
+                      "y": {
+                        "type": "number",
+                        "unit": "g",
+                        "maximum": 250,
+                        "minimum": -250
+                      },
+                      "z": {
+                        "type": "number",
+                        "unit": "g",
+                        "maximum": 250,
+                        "minimum": -250
+                      }
+                    }
+                  }
+                }
+              ],
+              "configurations": [
+                {
+                  "name": "frequency",
+                  "path": "/",
+                  "valueSchema": {
+                    "type": "integer",
+                    "unit": "milliseconds",
+                    "minimum": 200
+                  }
+                }
+              ]
+            }
+          },
+          "repository": "https://github.com/relayr/wunderbar-hardware",
+          "releaseDate": "2014-10-01",
+          "releaseNotes": "https://github.com/relayr/wunderbar-hardware/blob/master/README.md",
+          "documentation": "https://developer.relayr.io/documents/WunderBar/Sensors"
+        }
+      }
+    },
+    {
+      "id": "96889445-5b12-4886-80ba-120913eac2fe",
+      "name": "Bosh Dishwasher",
+      "productNumber": "0001",
+      "description": "Welcome to Home Connect and a new way of living. You can now control household appliances made by selected European brands even when away from home, thus giving you more time and energy.",
+      "website": "http://www.home-connect.com",
+      "manufacturer": {
+        "name": "Bosch",
+        "website": "http://www.bosch-home.com/de/home-connect",
+        "contactInfo": {
+          "email": "info.de@home-connect.com",
+          "phone": "004989459001"
+        }
+      },
+      "resources": [
+        {
+          "id": "bd49b0ea-29f7-11e5-b345-feff819cdc9f",
+          "type": "icon",
+          "mediaUrl": "https://s3-eu-west-1.amazonaws.com/device-models/bosch-dish-washer.png",
+          "mimeType": "image/png"
+        }
+      ],
+      "firmware": {
+        "1.0.0": {
+          "binaries": "",
+          "transport": {
+            "cloud": {
+              "commands": [],
+              "readings": [
+                {
+                  "path": "programme",
+                  "meaning": "phase",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 4,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "path": "programme",
+                  "meaning": "operation_state",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 8,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "path": "programme",
+                  "meaning": "auto_power_off",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 2,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "path": "programme",
+                  "meaning": "finished",
+                  "valueSchema": {
+                    "type": "boolean"
+                  }
+                },
+                {
+                  "path": "drainage",
+                  "meaning": "drain_blockage",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 2,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "path": "drainage",
+                  "meaning": "check_filter",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 3,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "path": "consumables",
+                  "meaning": "rinse_aid_lack",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 2,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "path": "door",
+                  "meaning": "open",
+                  "valueSchema": {
+                    "type": "boolean"
+                  }
+                },
+                {
+                  "path": "power_unit",
+                  "meaning": "power",
+                  "valueSchema": {
+                    "type": "boolean"
+                  }
+                }
+              ],
+              "configurations": [
+                {
+                  "name": "intensiv_zone",
+                  "path": "program",
+                  "valueSchema": {
+                    "type": "boolean"
+                  }
+                },
+                {
+                  "name": "eco_as_default",
+                  "path": "program",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 1,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "name": "hygiene_plus",
+                  "path": "program",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 1,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "name": "brilliance_dry",
+                  "path": "program",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 1,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "name": "turbidity",
+                  "path": "drainage",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 2,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "name": "rinse_aid",
+                  "path": "consumables",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 6,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "name": "display",
+                  "path": "display",
+                  "valueSchema": {
+                    "type": "boolean"
+                  }
+                },
+                {
+                  "name": "interior_light",
+                  "path": "interior",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 1,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "name": "locked",
+                  "path": "door",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 1,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "name": "energy_management",
+                  "path": "power_unit",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 2,
+                    "minimum": 0
+                  }
+                }
+              ]
+            }
+          },
+          "repository": "",
+          "releaseDate": "2015-04-01",
+          "releaseNotes": "",
+          "documentation": "http://www.bosch-home.com/de/produkte/waschen-trocknen"
+        }
+      }
+    },
+    {
+      "id": "39225641-1c13-43a8-bcd1-7e88284faa5b",
+      "name": "Bosh Oven",
+      "productNumber": "0001",
+      "description": "Welcome to Home Connect and a new way of living. You can now control household appliances made by selected European brands even when away from home, thus giving you more time and energy.",
+      "website": "http://www.home-connect.com",
+      "manufacturer": {
+        "name": "Bosch",
+        "website": "http://www.bosch-home.com/de/home-connect",
+        "contactInfo": {
+          "email": "info.de@home-connect.com",
+          "phone": "004989459001"
+        }
+      },
+      "resources": [
+        {
+          "id": "f8566958-29f7-11e5-b345-feff819cdc9f",
+          "type": "icon",
+          "mediaUrl": "https://s3-eu-west-1.amazonaws.com/device-models/bosch-oven.png",
+          "mimeType": "image/png"
+        }
+      ],
+      "firmware": {
+        "1.0.0": {
+          "binaries": "",
+          "transport": {
+            "cloud": {
+              "commands": [
+                {
+                  "name": "sound_level",
+                  "path": "sound",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 4,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "name": "signal_duration",
+                  "path": "sound",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 2,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "name": "brightness",
+                  "path": "display",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 4,
+                    "minimum": 1
+                  }
+                },
+                {
+                  "name": "hardness",
+                  "path": "water_tank",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 4,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "name": "selected",
+                  "path": "programme",
+                  "valueSchema": {
+                    "type": "boolean"
+                  }
+                },
+                {
+                  "name": "wattage",
+                  "path": "microwave",
+                  "valueSchema": {
+                    "type": "integer"
+                  }
+                }
+              ],
+              "readings": [
+                {
+                  "path": "programme",
+                  "meaning": "finished",
+                  "valueSchema": {
+                    "type": "boolean"
+                  }
+                },
+                {
+                  "path": "water_tank",
+                  "meaning": "emptiness",
+                  "valueSchema": {
+                    "type": "boolean"
+                  }
+                },
+                {
+                  "path": "water_tank",
+                  "meaning": "plugged",
+                  "valueSchema": {
+                    "type": "boolean"
+                  }
+                },
+                {
+                  "path": "meat_probe",
+                  "meaning": "plugged",
+                  "valueSchema": {
+                    "type": "boolean"
+                  }
+                },
+                {
+                  "path": "meat_probe",
+                  "meaning": "temperature",
+                  "valueSchema": {
+                    "type": "number",
+                    "unit": "celcius"
+                  }
+                },
+                {
+                  "path": "cavity",
+                  "meaning": "temperature",
+                  "valueSchema": {
+                    "type": "integer",
+                    "unit": "celcius"
+                  }
+                },
+                {
+                  "path": "door",
+                  "meaning": "open",
+                  "valueSchema": {
+                    "type": "boolean"
+                  }
+                }
+              ],
+              "configurations": [
+                {
+                  "name": "paused",
+                  "path": "programme",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 1,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "name": "sabbath",
+                  "path": "programme",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 1,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "name": "aborted",
+                  "path": "programme",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 1,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "name": "clockness",
+                  "path": "display",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 1,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "name": "luminosity",
+                  "path": "cavity",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 1,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "name": "tone",
+                  "path": "sound",
+                  "valueSchema": {
+                    "type": "boolean"
+                  }
+                },
+                {
+                  "name": "alarm",
+                  "path": "clock",
+                  "valueSchema": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "name": "time",
+                  "path": "clock",
+                  "valueSchema": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "name": "lock",
+                  "path": "door",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 1,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "name": "power",
+                  "path": "power_unit",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 3,
+                    "minimum": 1
+                  }
+                }
+              ]
+            }
+          },
+          "repository": "",
+          "releaseDate": "2015-04-01",
+          "releaseNotes": "",
+          "documentation": "http://www.bosch-home.com/de/produkte/kochen-backen"
+        }
+      }
+    },
+    {
+      "id": "39c07b43-5937-4605-b3a8-507a188aeab0",
+      "name": "Siemens Oven",
+      "productNumber": "0001",
+      "description": "Welcome to Home Connect and a new way of living. You can now control household appliances made by selected European brands even when away from home, thus giving you more time and energy.",
+      "website": "http://www.home-connect.com",
+      "manufacturer": {
+        "name": "Siemens",
+        "website": "http://www.siemens-home.de/home-connect",
+        "contactInfo": {
+          "email": "info.de@home-connect.com",
+          "phone": "004989459001"
+        }
+      },
+      "resources": [
+        {
+          "id": "f9566958-29f7-11e5-b345-feff819cdc9f",
+          "type": "icon",
+          "mediaUrl": "https://s3-eu-west-1.amazonaws.com/device-models/siemens-oven.png",
+          "mimeType": "image/png"
+        }
+      ],
+      "firmware": {
+        "1.0.0": {
+          "binaries": "",
+          "transport": {
+            "cloud": {
+              "commands": [
+                {
+                  "name": "sound_level",
+                  "path": "sound",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 4,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "name": "signal_duration",
+                  "path": "sound",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 2,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "name": "brightness",
+                  "path": "display",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 4,
+                    "minimum": 1
+                  }
+                },
+                {
+                  "name": "hardness",
+                  "path": "water_tank",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 4,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "name": "selected",
+                  "path": "programme",
+                  "valueSchema": {
+                    "type": "boolean"
+                  }
+                },
+                {
+                  "name": "wattage",
+                  "path": "microwave",
+                  "valueSchema": {
+                    "type": "integer"
+                  }
+                }
+              ],
+              "readings": [
+                {
+                  "path": "programme",
+                  "meaning": "finished",
+                  "valueSchema": {
+                    "type": "boolean"
+                  }
+                },
+                {
+                  "path": "water_tank",
+                  "meaning": "emptiness",
+                  "valueSchema": {
+                    "type": "boolean"
+                  }
+                },
+                {
+                  "path": "water_tank",
+                  "meaning": "plugged",
+                  "valueSchema": {
+                    "type": "boolean"
+                  }
+                },
+                {
+                  "path": "meat_probe",
+                  "meaning": "plugged",
+                  "valueSchema": {
+                    "type": "boolean"
+                  }
+                },
+                {
+                  "path": "meat_probe",
+                  "meaning": "temperature",
+                  "valueSchema": {
+                    "type": "number",
+                    "unit": "celcius"
+                  }
+                },
+                {
+                  "path": "cavity",
+                  "meaning": "temperature",
+                  "valueSchema": {
+                    "type": "integer",
+                    "unit": "celcius"
+                  }
+                },
+                {
+                  "path": "door",
+                  "meaning": "open",
+                  "valueSchema": {
+                    "type": "boolean"
+                  }
+                }
+              ],
+              "configurations": [
+                {
+                  "name": "paused",
+                  "path": "programme",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 1,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "name": "sabbath",
+                  "path": "programme",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 1,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "name": "aborted",
+                  "path": "programme",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 1,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "name": "clockness",
+                  "path": "display",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 1,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "name": "luminosity",
+                  "path": "cavity",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 1,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "name": "tone",
+                  "path": "sound",
+                  "valueSchema": {
+                    "type": "boolean"
+                  }
+                },
+                {
+                  "name": "alarm",
+                  "path": "clock",
+                  "valueSchema": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "name": "time",
+                  "path": "clock",
+                  "valueSchema": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "name": "lock",
+                  "path": "door",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 1,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "name": "power",
+                  "path": "power_unit",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 3,
+                    "minimum": 1
+                  }
+                }
+              ]
+            }
+          },
+          "repository": "",
+          "releaseDate": "2015-04-01",
+          "releaseNotes": "",
+          "documentation": "http://www.siemens-home.de/produkte/kochen-und-backen"
+        }
+      }
+    },
+    {
+      "id": "fcefdcdf-b241-440d-8734-27123e4f3d5d",
+      "name": "Siemens Dishwasher",
+      "productNumber": "0001",
+      "description": "Welcome to Home Connect and a new way of living. You can now control household appliances made by selected European brands even when away from home, thus giving you more time and energy.",
+      "website": "http://www.home-connect.com",
+      "manufacturer": {
+        "name": "Siemens",
+        "website": "http://www.siemens-home.de/home-connect",
+        "contactInfo": {
+          "email": "info.de@home-connect.com",
+          "phone": "004989459001"
+        }
+      },
+      "resources": [
+        {
+          "id": "f5566c82-29f7-11e5-b345-feff819cdc9f",
+          "type": "icon",
+          "mediaUrl": "https://s3-eu-west-1.amazonaws.com/device-models/siemens-dish-washer.png",
+          "mimeType": "image/png"
+        }
+      ],
+      "firmware": {
+        "1.0.0": {
+          "binaries": "",
+          "transport": {
+            "cloud": {
+              "commands": [],
+              "readings": [
+                {
+                  "path": "programme",
+                  "meaning": "phase",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 4,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "path": "programme",
+                  "meaning": "operation_state",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 8,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "path": "programme",
+                  "meaning": "auto_power_off",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 2,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "path": "programme",
+                  "meaning": "finished",
+                  "valueSchema": {
+                    "type": "boolean"
+                  }
+                },
+                {
+                  "path": "drainage",
+                  "meaning": "drain_blockage",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 2,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "path": "drainage",
+                  "meaning": "check_filter",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 3,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "path": "consumables",
+                  "meaning": "rinse_aid_lack",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 2,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "path": "door",
+                  "meaning": "open",
+                  "valueSchema": {
+                    "type": "boolean"
+                  }
+                },
+                {
+                  "path": "power_unit",
+                  "meaning": "power",
+                  "valueSchema": {
+                    "type": "boolean"
+                  }
+                }
+              ],
+              "configurations": [
+                {
+                  "name": "intensiv_zone",
+                  "path": "program",
+                  "valueSchema": {
+                    "type": "boolean"
+                  }
+                },
+                {
+                  "name": "eco_as_default",
+                  "path": "program",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 1,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "name": "hygiene_plus",
+                  "path": "program",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 1,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "name": "brilliance_dry",
+                  "path": "program",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 1,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "name": "turbidity",
+                  "path": "drainage",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 2,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "name": "rinse_aid",
+                  "path": "consumables",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 6,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "name": "display",
+                  "path": "display",
+                  "valueSchema": {
+                    "type": "boolean"
+                  }
+                },
+                {
+                  "name": "interior_light",
+                  "path": "interior",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 1,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "name": "locked",
+                  "path": "door",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 1,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "name": "energy_management",
+                  "path": "power_unit",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 2,
+                    "minimum": 0
+                  }
+                }
+              ]
+            }
+          },
+          "repository": "",
+          "releaseDate": "2015-04-01",
+          "releaseNotes": "",
+          "documentation": "http://www.siemens-home.de/produkte/waschen-und-trocknen"
+        }
+      }
+    },
+    {
+      "id": "9cd72fa9-37a1-4a46-aff4-0f695417857d",
+      "name": "NetAtmo Main Indoor Module",
+      "productNumber": "NetAtmo NAMain Indoor",
+      "description": "Use indoor temperature, relative humidity and CO2 readings to live in a healthier home.",
+      "website": "https://www.netatmo.com/en-US/product/weather-station",
+      "manufacturer": {
+        "name": "Netatmo",
+        "website": "https://netatmo.com",
+        "contactInfo": {
+          "email": "support@netatmo.com",
+          "phone": ""
+        }
+      },
+      "resources": [
+        {
+          "id": "f1576c82-29f7-11e5-b345-feff819cdc9f",
+          "type": "icon",
+          "mediaUrl": "https://s3-eu-west-1.amazonaws.com/device-models/netatmo-indoor.jpg",
+          "mimeType": "image/jpg"
+        }
+      ],
+      "firmware": {
+        "1.0.0": {
+          "binaries": "",
+          "transport": {
+            "cloud": {
+              "commands": [],
+              "readings": [
+                {
+                  "path": "",
+                  "meaning": "temperature",
+                  "valueSchema": {
+                    "type": "number",
+                    "unit": "celsius",
+                    "maximum": 65,
+                    "minimum": -40
+                  }
+                },
+                {
+                  "path": "",
+                  "meaning": "humidity",
+                  "valueSchema": {
+                    "type": "number",
+                    "unit": "percent",
+                    "maximum": 100,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "path": "",
+                  "meaning": "co2",
+                  "valueSchema": {
+                    "type": "integer",
+                    "unit": "ppm",
+                    "maximum": 5000,
+                    "minimum": 0
+                  }
+                },
+                {
+                  "path": "",
+                  "meaning": "pressure",
+                  "valueSchema": {
+                    "type": "integer",
+                    "unit": "mbar",
+                    "maximum": 1160,
+                    "minimum": 260
+                  }
+                },
+                {
+                  "path": "",
+                  "meaning": "sound",
+                  "valueSchema": {
+                    "type": "integer",
+                    "unit": "dB",
+                    "maximum": 120,
+                    "minimum": 35
+                  }
+                }
+              ],
+              "configurations": []
+            }
+          },
+          "repository": "",
+          "releaseDate": "2015-06-15",
+          "releaseNotes": "",
+          "documentation": "https://dev.netatmo.com/doc/devices/weatherstation"
+        }
+      }
+    },
+    {
+      "id": "0a1c8de1-163a-4784-9e37-f5963a0f2048",
+      "name": "Nest Smoke + CO Alarm",
+      "productNumber": "0001",
+      "description": "Not alarmed. The Nest Protect: Smoke + Carbon Monoxide detector. Nest Protect thinks before it speaks, and can be monitored from your smartphone or tablet.",
+      "website": "https://nest.com/smoke-co-alarm/meet-nest-protect/",
+      "manufacturer": {
+        "name": "Nest Labs",
+        "website": "https://nest.com/",
+        "contactInfo": {
+          "email": "support@nest.com",
+          "phone": "0018554696378"
+        }
+      },
+      "resources": [
+        {
+          "id": "f8576c82-29f7-11e5-b345-feff819cdc9f",
+          "type": "icon",
+          "mediaUrl": "https://s3-eu-west-1.amazonaws.com/device-models/nest-smoke-detector.png",
+          "mimeType": "image/png"
+        }
+      ],
+      "firmware": {
+        "0.0.1": {
+          "binaries": "",
+          "transport": {
+            "cloud": {
+              "commands": [],
+              "readings": [],
+              "configurations": [
+                {
+                  "name": "battery_health",
+                  "path": "battery_health",
+                  "valueSchema": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "name": "co_alarm_state",
+                  "path": "co_alarm_state",
+                  "valueSchema": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "name": "is_manual_test_active",
+                  "path": "is_manual_test_active",
+                  "valueSchema": {
+                    "type": "boolean"
+                  }
+                },
+                {
+                  "name": "smoke_alarm_state",
+                  "path": "is_manual_test_active",
+                  "valueSchema": {
+                    "type": "boolean"
+                  }
+                },
+                {
+                  "name": "co_alarm_state",
+                  "path": "is_manual_test_active",
+                  "valueSchema": {
+                    "type": "boolean"
+                  }
+                }
+              ]
+            }
+          },
+          "repository": "",
+          "releaseDate": "2015-06-01",
+          "releaseNotes": "",
+          "documentation": "https://developer.nest.com/documentation/cloud/how-to-smoke-co-alarms-object"
+        }
+      }
+    },
+    {
+      "id": "ebd828dd-250c-4baf-807d-69d85bed065b",
+      "name": "Wunderbar Bridge Module",
+      "productNumber": "0001",
+      "description": "Wunderbar Bridge Module",
+      "website": "https://www.relayr.io/products-services/wunderbar",
+      "manufacturer": {
+        "name": "Relayr",
+        "website": "https://www.relayr.io/",
+        "contactInfo": {
+          "email": "info@relayr.io",
+          "phone": "+491792989866"
+        }
+      },
+      "resources": [
+        {
+          "id": "f8586c82-29f7-11e5-b345-feff819cdc9f",
+          "type": "icon",
+          "mediaUrl": "https://s3-eu-west-1.amazonaws.com/device-models/wunderbar-bridge-icon.svg",
+          "mimeType": "image/svg+xml"
+        }
+      ],
+      "firmware": {
+        "1.0.0": {
+          "binaries": "https://s3-eu-west-1.amazonaws.com/relayr-ble/sensor_bridge.hex",
+          "transport": {
+            "cloud": {
+              "commands": [
+                {
+                  "name": "cmd",
+                  "path": "led",
+                  "valueSchema": {
+                    "type": "integer",
+                    "maximum": 1,
+                    "minimum": 0
+                  }
+                }
+              ],
+              "readings": [
+                {
+                  "path": "",
+                  "meaning": "raw",
+                  "valueSchema": {
+                    "unit": "raw"
+                  }
+                }
+              ],
+              "configurations": [
+                {
+                  "name": "frequency",
+                  "path": "/",
+                  "valueSchema": {
+                    "type": "integer",
+                    "unit": "milliseconds",
+                    "minimum": 200
+                  }
+                }
+              ]
+            }
+          },
+          "repository": "https://github.com/relayr/wunderbar-hardware",
+          "releaseDate": "2014-10-01",
+          "releaseNotes": "https://github.com/relayr/wunderbar-hardware/blob/master/README.md",
+          "documentation": "https://developer.relayr.io/documents/WunderBar/Sensors"
+        }
+      }
     }
   ],
-  "limit": 10,
+  "limit": "20",
   "offset": 0
 }

@@ -31,8 +31,17 @@ public class TransmitterDevice extends Transmitter implements Serializable {
         this.model = model;
     }
 
+    @Deprecated
+    /**
+     * Use {@link #getModelId()} to get the model dynamically from {@link io.relayr.storage.DeviceModelCache}
+     * or {@link io.relayr.api.DeviceModelsApi}
+     */
     public DeviceModel getModel() {
         return DeviceModel.from(model);
+    }
+
+    public String getModelId() {
+        return model;
     }
 
     @Override
@@ -58,6 +67,7 @@ public class TransmitterDevice extends Transmitter implements Serializable {
     public Device toDevice() {
         return new Device(null, false, null, null, null, null, null, getName(), id);
     }
+
     /**
      * Subscribes an app to a BLE device. Enables the app to receive data from the device over
      * BLE through {@link io.relayr.ble.service.DirectConnectionService}

@@ -117,4 +117,9 @@ public class User implements Serializable {
     public Observable<List<Group>> getGroups() {
         return RelayrSdk.getGroupsApi().getGroups();
     }
+
+    public Observable<User> update(String username) {
+        this.setName(username);
+        return RelayrSdk.getUserApi().updateUserDetails(this, id);
+    }
 }

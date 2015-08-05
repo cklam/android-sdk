@@ -7,8 +7,7 @@ import java.io.Serializable;
 import io.relayr.RelayrSdk;
 import io.relayr.ble.BleDevicesCache;
 import io.relayr.ble.service.BaseService;
-import io.relayr.model.account.AccountType;
-import io.relayr.model.models.*;
+import io.relayr.storage.DeviceModelCache;
 import rx.Observable;
 
 /**
@@ -28,7 +27,6 @@ public class Device implements Serializable {
     private final String firmwareVersion;
     private final String secret;
     private final String externalId;
-    private io.relayr.model.models.DeviceModel deviceModel;
     @SerializedName("public") protected boolean isPublic;
     @SerializedName("integrationType") protected String accountType;
 
@@ -104,8 +102,16 @@ public class Device implements Serializable {
         return RelayrSdk.getRelayrApi().sendCommand(id, command);
     }
 
+    /**
+     * Use {@link Device#getModelId()} and {@link DeviceModelCache#getModel(String)}
+     */
+    @Deprecated
     public Model getModel() {
         return model;
+    }
+
+    public String getModelId() {
+        return model.getId();
     }
 
     public String getName() {
@@ -142,13 +148,5 @@ public class Device implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public io.relayr.model.models.DeviceModel getDeviceModel() {
-        return deviceModel;
-    }
-
-    public void setDeviceModel(io.relayr.model.models.DeviceModel deviceModel) {
-        this.deviceModel = deviceModel;
     }
 }

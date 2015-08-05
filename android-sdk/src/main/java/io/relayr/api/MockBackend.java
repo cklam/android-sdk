@@ -54,7 +54,6 @@ public class MockBackend {
     public static final String DEVICE_MODEL_FIRMWARES = "device_model_firmwares.json";
     public static final String DEVICE_MODEL_FIRMWARE = "device_model_firmware.json";
     public static final String DEVICE_READING_MEANINGS = "device_reading_meanings.json";
-    public static final String DEVICE_MODELS_CACHE = "device_models_cache.json";
 
     private final Context mContext;
     private final Gson mGson;
