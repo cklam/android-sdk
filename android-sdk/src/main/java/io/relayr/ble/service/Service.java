@@ -91,8 +91,6 @@ import static rx.Observable.just;
         if (characteristic == null)
             return error(new CharacteristicNotFoundException(characteristicUuid));
 
-        Log.e("LW", "start");
-
         final LongWriteDataParser dataParser = new LongWriteDataParser(data);
         return Observable
                 .create(new Observable.OnSubscribe<BluetoothGatt>() {
@@ -108,9 +106,6 @@ import static rx.Observable.just;
                 .doOnError(new Action1<Throwable>() {
                     @Override
                     public void call(Throwable t) {
-                        Log.e("LW", "error " + characteristicUuid);
-                        t.printStackTrace();
-
                         DeviceCompatibilityUtils.refresh(mBluetoothGatt);
                     }
                 });
@@ -123,7 +118,6 @@ import static rx.Observable.just;
 
         if (data.length == 0) {
             mBluetoothGatt.executeReliableWrite();
-            Log.e("LW", "end");
             return;
         }
 

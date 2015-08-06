@@ -17,9 +17,9 @@ public class CreateDevice implements Serializable {
     /**
      * Used for devices that are owned by transmitter
      */
-    public CreateDevice(String name, DeviceModel model, String owner, String externalId, String transmitterId) {
+    public CreateDevice(String name, String modelId, String owner, String externalId, String transmitterId) {
         this.name = name;
-        this.model = model.getId();
+        this.model = modelId;
         this.owner = owner;
         this.externalId = externalId;
         this.transmitterId = transmitterId;

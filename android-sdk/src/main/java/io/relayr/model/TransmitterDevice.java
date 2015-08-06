@@ -22,26 +22,17 @@ import rx.subscriptions.Subscriptions;
  */
 public class TransmitterDevice extends Transmitter implements Serializable {
 
-    public final String model;
+    private final String deviceModelId;
     private transient Subscription mReadingsSubscription = Subscriptions.empty();
 
     public TransmitterDevice(String id, String secret, String owner, String name,
                              String model) {
         super(id, secret, owner, name);
-        this.model = model;
-    }
-
-    @Deprecated
-    /**
-     * Use {@link #getModelId()} to get the model dynamically from {@link io.relayr.storage.DeviceModelCache}
-     * or {@link io.relayr.api.DeviceModelsApi}
-     */
-    public DeviceModel getModel() {
-        return DeviceModel.from(model);
+        this.deviceModelId = model;
     }
 
     public String getModelId() {
-        return model;
+        return deviceModelId;
     }
 
     @Override

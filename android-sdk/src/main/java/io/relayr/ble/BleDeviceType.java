@@ -1,7 +1,6 @@
 package io.relayr.ble;
 
 import io.relayr.RelayrSdk;
-import io.relayr.model.DeviceModel;
 import io.relayr.model.models.DeviceFirmware;
 import io.relayr.model.models.error.DeviceModelsException;
 import io.relayr.model.models.transport.DeviceReading;
@@ -24,7 +23,9 @@ public enum BleDeviceType {
     WunderbarMM,
     Unknown;
 
-    /** Convert the sensor name advertised in ble that into a device type */
+    /**
+     * Convert the sensor name advertised in ble that into a device type
+     */
     public static BleDeviceType getDeviceType(String deviceName) {
         if (deviceName != null) {
             if (deviceName.equals("WunderbarHTU")) return WunderbarHTU;
@@ -39,25 +40,11 @@ public enum BleDeviceType {
         return Unknown;
     }
 
-    /**
-     * Use {@link #fromModel(String)} instead
-     */
-    @Deprecated
-    public static BleDeviceType from(DeviceModel model) {
-        if (model.equals(DeviceModel.TEMPERATURE_HUMIDITY)) return WunderbarHTU;
-        if (model.equals(DeviceModel.ACCELEROMETER_GYROSCOPE)) return WunderbarGYRO;
-        if (model.equals(DeviceModel.LIGHT_PROX_COLOR)) return WunderbarLIGHT;
-        if (model.equals(DeviceModel.MICROPHONE)) return WunderbarMIC;
-        if (model.equals(DeviceModel.GROVE)) return WunderbarBRIDG;
-        if (model.equals(DeviceModel.IR_TRANSMITTER)) return WunderbarIR;
-        return Unknown;
-    }
-
     public static BleDeviceType fromModel(String modelId) {
         final io.relayr.model.models.DeviceModel model = RelayrSdk.getDeviceModelsCache().getModel(modelId);
         if (model == null) return Unknown;
 
-        if (!model.getManufacturer().getName().contains("relayr")) return Unknown;
+        if (!model.getManufacturer().getName().toLowerCase().contains("relayr")) return Unknown;
 
         DeviceFirmware firmware;
         try {
@@ -77,11 +64,19 @@ public enum BleDeviceType {
         if (transport.getReadings().isEmpty()) return WunderbarIR;
         for (DeviceReading reading : transport.getReadings()) {
             switch (reading.getMeaning()) {
-                case "temperature": return WunderbarHTU;
-                case "acceleration": return WunderbarGYRO;
-                case "luminosity": return WunderbarLIGHT;
-                case "noiseLevel": return WunderbarMIC;
-                case "raw": return WunderbarBRIDG;
+                case "temperature":
+                case "humidity":
+                    return WunderbarHTU;
+                case "acceleration":
+                case "angularSpeed":
+                    return WunderbarGYRO;
+                case "luminosity":
+                case "proximity":
+                    return WunderbarLIGHT;
+                case "noiseLevel":
+                    return WunderbarMIC;
+                case "raw":
+                    return WunderbarBRIDG;
             }
         }
 

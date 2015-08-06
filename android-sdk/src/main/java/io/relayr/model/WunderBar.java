@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import io.relayr.RelayrSdk;
 import io.relayr.ble.BleDeviceType;
 import io.relayr.model.account.AccountType;
 
@@ -50,26 +51,18 @@ public class WunderBar implements Serializable {
     }
 
     public TransmitterDevice getDevice(BleDeviceType type) {
-        DeviceModel model = resolveType(type);
-        for (TransmitterDevice device : wbDevices)
-            if (device.getModel() == model) return device;
+        for (TransmitterDevice device : wbDevices) {
+            BleDeviceType bleDeviceType = BleDeviceType.fromModel(device.getModelId());
+            if (bleDeviceType == type) return device;
+        }
 
         return null;
     }
 
-    public TransmitterDevice getDevice(DeviceModel model) {
+    public TransmitterDevice getDevice(String modelId) {
         for (TransmitterDevice device : wbDevices)
-            if (device.getModel() == model) return device;
+            if (device.getModelId().equals(modelId)) return device;
 
         return null;
-    }
-
-    private DeviceModel resolveType(BleDeviceType type) {
-        return type == BleDeviceType.WunderbarHTU ? DeviceModel.TEMPERATURE_HUMIDITY :
-                type == BleDeviceType.WunderbarGYRO ? DeviceModel.ACCELEROMETER_GYROSCOPE :
-                        type == BleDeviceType.WunderbarMIC ? DeviceModel.MICROPHONE :
-                                type == BleDeviceType.WunderbarLIGHT ? DeviceModel.LIGHT_PROX_COLOR :
-                                        type == BleDeviceType.WunderbarIR ? DeviceModel.IR_TRANSMITTER :
-                                                DeviceModel.GROVE;
     }
 }

@@ -17,8 +17,9 @@ import rx.Subscriber;
 @Singleton
 public class DeviceModelCache {
 
+    private static final String TAG = "DeviceModelCache";
     private static final Map<String, DeviceModel> sDeviceModels = new ConcurrentHashMap<>();
-    private static boolean refreshing = false;
+    private static volatile boolean refreshing = false;
 
     private final DeviceModelsApi mApi;
 
@@ -28,11 +29,21 @@ public class DeviceModelCache {
     }
 
     public boolean isEmpty() {
+        if (refreshing) return true;
         return sDeviceModels.isEmpty();
     }
 
     public DeviceModel getModel(String modelId) {
-        if(isEmpty()) Log.e("DeviceModelCache", "Cache not ready");
+        if (isEmpty()) {
+            Log.e(TAG, "Cache not ready - trying to refresh");
+            refresh();
+            return null;
+        }
+        if (modelId == null) {
+            Log.e(TAG, "Model Id can not be null!");
+            return null;
+        }
+
         return sDeviceModels.get(modelId);
     }
 
@@ -60,7 +71,7 @@ public class DeviceModelCache {
                         for (DeviceModel deviceModel : deviceModels.getModels())
                             sDeviceModels.put(deviceModel.getId(), deviceModel);
                         refreshing = false;
-                        Log.e("DeviceModelCache", "Loaded " + deviceModels.getCount() + " models.");
+                        Log.d(TAG, "Loaded " + deviceModels.getCount() + " models.");
                     }
                 });
     }
