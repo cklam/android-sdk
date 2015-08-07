@@ -79,6 +79,16 @@ public class Group implements Serializable, Comparable<Group> {
     }
 
     /**
+     * Calls {@link rx.Subscriber#onNext(Object)} if device is added to the group.
+     * {@link rx.Subscriber#onError(Throwable)} otherwise
+     * Subscription is necessary to run the method.
+     */
+    public Observable<Void> addDevice(Device device) {
+        return RelayrSdk.getGroupsApi().addDevice(this.id, device.getId())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
      * Calls {@link rx.Subscriber#onNext(Object)} if device is removed
      * {@link rx.Subscriber#onError(Throwable)} otherwise
      * Subscription is necessary to run the method.

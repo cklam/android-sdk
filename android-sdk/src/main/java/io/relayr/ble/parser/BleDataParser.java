@@ -34,7 +34,7 @@ public abstract class BleDataParser {
 
     private static String getLIGHTSensorData(byte[] value) {
         DataPackage dataPackage = new DataPackage();
-        dataPackage.modelId = "a7ec1b21-8582-4304-b1cf-15a1fc66d1e8";
+        dataPackage.modelId = BleDeviceType.WunderbarLIGHT.getModelId();
         dataPackage.received = System.currentTimeMillis();
 
         int red = (byteToUnsignedInt(value[1]) << 8) | byteToUnsignedInt(value[0]);
@@ -54,7 +54,7 @@ public abstract class BleDataParser {
 
     private static String getGYROSensorData(byte[] value) {
         DataPackage dataPackage = new DataPackage();
-        dataPackage.modelId = "173c44b5-334e-493f-8eb8-82c8cc65d29f";
+        dataPackage.modelId = BleDeviceType.WunderbarGYRO.getModelId();
         dataPackage.received = System.currentTimeMillis();
 
         int gyroscopeX = byteToUnsignedInt(value[0]) |
@@ -91,7 +91,7 @@ public abstract class BleDataParser {
 
     private static String getHTUSensorData(byte[] value) {
         DataPackage dataPackage = new DataPackage();
-        dataPackage.modelId = "ecf6cf94-cb07-43ac-a85e-dccf26b48c86";
+        dataPackage.modelId = BleDeviceType.WunderbarHTU.getModelId();
         dataPackage.received = System.currentTimeMillis();
 
         int temperature = (byteToUnsignedInt(value[1]) << 8) | byteToUnsignedInt(value[0]);
@@ -104,7 +104,7 @@ public abstract class BleDataParser {
 
     private static String getMICSensorData(byte[] value) {
         DataPackage dataPackage = new DataPackage();
-        dataPackage.modelId = "4f38b6c6-a8e9-4f93-91cd-2ac4064b7b5a";
+        dataPackage.modelId = BleDeviceType.WunderbarMIC.getModelId();
         dataPackage.received = System.currentTimeMillis();
 
         int noiseLevel = (byteToUnsignedInt(value[1]) << 8) | byteToUnsignedInt(value[0]);
@@ -115,7 +115,7 @@ public abstract class BleDataParser {
 
     private static String getBridgeSensorData(byte[] value) {
         DataPackage dataPackage = new DataPackage();
-        dataPackage.modelId = "ebd828dd-250c-4baf-807d-69d85bed065b";
+        dataPackage.modelId = BleDeviceType.WunderbarBRIDG.getModelId();
         dataPackage.received = System.currentTimeMillis();
 
         dataPackage.readings.add(new DataPackage.Data(dataPackage.received, "up_ch_payload", "", value));
