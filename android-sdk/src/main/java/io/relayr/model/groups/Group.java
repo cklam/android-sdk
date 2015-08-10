@@ -15,7 +15,7 @@ public class Group implements Serializable, Comparable<Group> {
     private String name;
     private String owner;
     private int position;
-    private List<GroupDevice> devices;
+    private List<GroupDevice> devices = new ArrayList<>();
     private List<Device> realDevices = null;
 
     public String getId() {

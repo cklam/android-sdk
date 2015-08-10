@@ -34,7 +34,7 @@ public class ApiModule {
     private static final int DISK_CACHE_SIZE = 50 * 1024 * 1024; // 50MB
     private static final String USER_AGENT = Utils.getUserAgent();
 
-    private static final RestAdapter.LogLevel API_LOG_LEVEL = RestAdapter.LogLevel.BASIC;
+    private static final RestAdapter.LogLevel API_LOG_LEVEL = RestAdapter.LogLevel.FULL;
     private static final RestAdapter.LogLevel OAUTH_API_LOG_LEVEL = RestAdapter.LogLevel.NONE;
     private static final RestAdapter.LogLevel MODELS_API_LOG_LEVEL = RestAdapter.LogLevel.FULL;
 

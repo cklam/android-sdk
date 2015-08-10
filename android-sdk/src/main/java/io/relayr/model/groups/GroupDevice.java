@@ -9,7 +9,9 @@ import io.relayr.model.Model;
 
 class GroupDevice implements Serializable {
 
-    /** Auto generated uid */
+    /**
+     * Auto generated uid
+     */
     private static final long serialVersionUID = 1L;
 
     private final String id;
@@ -36,7 +38,8 @@ class GroupDevice implements Serializable {
     }
 
     public Device toDevice() {
-        return new Device(accountType, isPublic, externalId, secret, firmwareVersion, owner, new
-                Model(), name, id);
+        Model oldModel = new Model();
+        oldModel.setId(model);
+        return new Device(accountType, isPublic, externalId, secret, firmwareVersion, owner, oldModel, name, id);
     }
 }
