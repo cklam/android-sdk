@@ -56,7 +56,7 @@ public class TransmitterDevice extends Transmitter implements Serializable {
 
     //TODO Remove this stupid fix ASAP
     public Device toDevice() {
-        return new Device(null, false, null, null, null, null, null, getName(), id);
+        return new Device(null, false, null, null, null, null, new Model(deviceModelId), getName(), id);
     }
 
     /**

@@ -52,7 +52,7 @@ public enum BleDeviceType {
 
     public static String getDeviceName(String modelId) {
         for (BleDeviceType value : values())
-            if (value.modelId != null && value.modelId.equals(modelId)) return value.modelId;
+            if (value.modelId != null && value.modelId.equals(modelId)) return value.dfuName;
 
         Log.e("BleDfuScanner", "Device model not found!");
         return null;

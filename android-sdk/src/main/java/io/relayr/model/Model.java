@@ -12,18 +12,34 @@ import java.util.List;
  */
 public class Model implements Serializable {
 
-    /** Auto generated uid */
+    public Model(String id) {
+        this.id = id;
+    }
+
+    /**
+     * Auto generated uid
+     */
     private static final long serialVersionUID = 1L;
     private String id;
-    /** Device name */
+    /**
+     * Device name
+     */
     private String name;
-    /** Device manufacturer */
+    /**
+     * Device manufacturer
+     */
     private String manufacturer;
-    /** Every {@link Device} has one or more readings defined with {@link ModelReading} */
+    /**
+     * Every {@link Device} has one or more readings defined with {@link ModelReading}
+     */
     private List<ModelReading> readings;
-    /** Some {@link Device} can receive commands defined with {@link ModelCommand} */
+    /**
+     * Some {@link Device} can receive commands defined with {@link ModelCommand}
+     */
     private List<ModelCommand> commands;
-    /** Every {@link Device} has one or more firmware version with different readings and commands */
+    /**
+     * Every {@link Device} has one or more firmware version with different readings and commands
+     */
     private List<FirmwareVersion> firmwareVersions;
 
     public String getId() {

@@ -38,8 +38,7 @@ class GroupDevice implements Serializable {
     }
 
     public Device toDevice() {
-        Model oldModel = new Model();
-        oldModel.setId(model);
+        Model oldModel = new Model(model);
         return new Device(accountType, isPublic, externalId, secret, firmwareVersion, owner, oldModel, name, id);
     }
 }
