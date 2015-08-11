@@ -2,6 +2,7 @@ package io.relayr.api;
 
 import java.util.List;
 
+import io.relayr.model.App;
 import io.relayr.model.Bookmark;
 import io.relayr.model.BookmarkDevice;
 import io.relayr.model.CreateWunderBar;
@@ -18,6 +19,16 @@ import retrofit.http.Path;
 import rx.Observable;
 
 public interface UserApi {
+
+    /**
+     * @return an {@link rx.Observable} to the information about the app initiating the request.
+     */
+    @GET("/oauth2/app-info") Observable<App> getAppInfo();
+
+    /**
+     * @return an {@link rx.Observable} information about the user initiating the request.
+     */
+    @GET("/oauth2/user-info") Observable<User> getUserInfo();
 
     /**
      * Returns user devices. Use {@link User#getDevices()} on fetched {@link User} object.
@@ -37,7 +48,6 @@ public interface UserApi {
 
     /**
      * Api call to tell the backend to create WunderBar.
-     * Use {@link User#createWunderBar()} on fetched {@link User} object.
      * @param userId
      * @return an {@link rx.Observable} to a WunderBar that contains the IDs and Secrets of the
      * Master Module and Sensor Modules.

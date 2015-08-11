@@ -1,4 +1,4 @@
-package io.relayr.api;
+package io.relayr.api.mock;
 
 import com.google.gson.reflect.TypeToken;
 
@@ -6,13 +6,14 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.relayr.api.GroupsApi;
 import io.relayr.model.groups.Group;
 import io.relayr.model.groups.GroupCreate;
 import io.relayr.model.groups.PositionUpdate;
 import rx.Observable;
 
-import static io.relayr.api.MockBackend.USER_GROUP;
-import static io.relayr.api.MockBackend.USER_GROUPS;
+import static io.relayr.api.mock.MockBackend.USER_GROUP;
+import static io.relayr.api.mock.MockBackend.USER_GROUPS;
 
 public class MockGroupsApi implements GroupsApi {
 

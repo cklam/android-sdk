@@ -7,6 +7,7 @@ import java.io.Serializable;
 import io.relayr.RelayrSdk;
 import io.relayr.ble.BleDevicesCache;
 import io.relayr.ble.service.BaseService;
+import io.relayr.model.models.DeviceModel;
 import io.relayr.storage.DeviceModelCache;
 import rx.Observable;
 
@@ -18,17 +19,17 @@ import rx.Observable;
  */
 public class Device implements Serializable {
 
-    /** Auto generated uid */
     private static final long serialVersionUID = 1L;
-    private final String id;
+
     private String name;
+    private final String id;
     private final Model model;
     private final String owner;
     private final String firmwareVersion;
     private final String secret;
     private final String externalId;
-    @SerializedName("public") protected boolean isPublic;
-    @SerializedName("integrationType") protected String accountType;
+    @SerializedName("public") private boolean isPublic;
+    @SerializedName("integrationType") private String accountType;
 
     public Device(String accountType, boolean isPublic, String externalId, String secret,
                   String firmwareVersion, String owner, Model model, String name, String id) {
@@ -43,19 +44,9 @@ public class Device implements Serializable {
         this.id = id;
     }
 
-    @Override
-    public String toString() {
-        return "Relayr_Device{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", model=" + model +
-                ", owner='" + owner + '\'' +
-                ", firmwareVersion='" + firmwareVersion + '\'' +
-                ", secret='" + secret + '\'' +
-                ", isPublic=" + isPublic +
-                '}';
-    }
-
+    /**
+     * Used only for Wunderbar devices.
+     */
     public TransmitterDevice toTransmitterDevice() {
         return new TransmitterDevice(id, secret, owner, name, model.getId());
     }
@@ -86,28 +77,29 @@ public class Device implements Serializable {
         RelayrSdk.getWebSocketClient().unSubscribe(id);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        return o instanceof TransmitterDevice && ((TransmitterDevice) o).id.equals(id) ||
-                o instanceof Device && ((Device) o).id.equals(id);
-    }
-
-    @Override
-    public int hashCode() {
-        return id.hashCode();
-    }
-
-    /** Sends a command to the this device */
+    /**
+     * Sends a command to the this device
+     */
     public Observable<Void> sendCommand(Command command) {
         return RelayrSdk.getRelayrApi().sendCommand(id, command);
     }
 
     /**
-     * Use {@link Device#getModelId()} and {@link DeviceModelCache#getModel(String)}
+     * Sends a configuration to device.
+     * Check possible configuration in {@link io.relayr.model.models.DeviceModel}.
      */
-    @Deprecated
-    public Model getModel() {
-        return model;
+    public Observable<Void> sendConfiguration(Configuration configuration) {
+        return RelayrSdk.getRelayrApi().setDeviceConfiguration(id, configuration);
+    }
+
+    /**
+     * Returns {@link DeviceModel} that defines readings, commands and configurations for
+     * specific device depending on device firmware version.
+     * Use if {@link RelayrSdk#getDeviceModelsCache()} is initialized.
+     * @return {@link DeviceModel}
+     */
+    public DeviceModel getDeviceModel() {
+        return RelayrSdk.getDeviceModelsCache().getModel(getModelId());
     }
 
     public String getModelId() {
@@ -148,5 +140,29 @@ public class Device implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof TransmitterDevice && ((TransmitterDevice) o).id.equals(id) ||
+                o instanceof Device && ((Device) o).id.equals(id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "Relayr_Device{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", model=" + model +
+                ", owner='" + owner + '\'' +
+                ", firmwareVersion='" + firmwareVersion + '\'' +
+                ", secret='" + secret + '\'' +
+                ", isPublic=" + isPublic +
+                '}';
     }
 }

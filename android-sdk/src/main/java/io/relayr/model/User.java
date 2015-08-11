@@ -17,7 +17,6 @@ import rx.Observable;
  */
 public class User implements Serializable {
 
-    /** Auto generated uid */
     private static final long serialVersionUID = 1L;
 
     private final String id;
@@ -50,30 +49,16 @@ public class User implements Serializable {
         this.name = name;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id='" + id + "\'" +
-                ", name='" + name + "\'" +
-                ", email='" + email + "\'" +
-                "}";
-    }
-
-    /** @return an {@link rx.Observable} of a list of devices registered under a user. */
+    /**
+     * @return an {@link rx.Observable} of a list of devices registered under a user.
+     */
     public Observable<List<Device>> getDevices() {
         return RelayrSdk.getUserApi().getUserDevices(id);
     }
 
     /**
-     * Api call to tell the backend to create WunderBar.
-     * @return an {@link rx.Observable} to a WunderBar that contains the IDs and Secrets of the
-     * Master Module and Sensor Modules.
+     * @return an {@link rx.Observable} of a list of transmitters (Wunderbars) registered under a user.
      */
-    public Observable<CreateWunderBar> createWunderBar() {
-        return RelayrSdk.getUserApi().createWunderBar(id);
-    }
-
-    /** @return an {@link rx.Observable} with a list all Transmitters listed under a user. */
     public Observable<List<Transmitter>> getTransmitters() {
         return RelayrSdk.getUserApi().getTransmitters(id);
     }
@@ -118,8 +103,21 @@ public class User implements Serializable {
         return RelayrSdk.getGroupsApi().getGroups();
     }
 
+    /**
+     * Updates username.
+     * @param username new username
+     */
     public Observable<User> update(String username) {
         this.setName(username);
         return RelayrSdk.getUserApi().updateUserDetails(this, id);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + "\'" +
+                ", name='" + name + "\'" +
+                ", email='" + email + "\'" +
+                "}";
     }
 }

@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 
 import java.util.concurrent.TimeUnit;
 
-import io.relayr.api.MockBackend;
+import io.relayr.api.mock.MockBackend;
 import io.relayr.model.MqttChannel;
 import rx.Observable;
 import rx.Subscriber;

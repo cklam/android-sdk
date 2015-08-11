@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
 
 public class MockBackendTest extends TestEnvironment {
 
-    @Inject MockBackend backend;
+    @Inject io.relayr.api.mock.MockBackend backend;
     @Mock Observer<App> appObserver;
 
     @Before
@@ -34,7 +34,7 @@ public class MockBackendTest extends TestEnvironment {
 
     @Test
     public void loadAppInfoFromFileTest() throws Exception {
-        String load = backend.load(MockBackend.APP_INFO);
+        String load = backend.load(io.relayr.api.mock.MockBackend.APP_INFO);
 
         assertThat(load).isNotNull();
         assertThat(load.contains(USER_ID));
@@ -44,7 +44,7 @@ public class MockBackendTest extends TestEnvironment {
     @Test
     public void loadAppInfoTest() throws Exception {
         App load = backend.load(new TypeToken<App>() {
-        }, MockBackend.APP_INFO);
+        }, io.relayr.api.mock.MockBackend.APP_INFO);
 
         assertThat(load).isNotNull();
         assertThat(load.id).isEqualTo(USER_ID);
@@ -54,7 +54,7 @@ public class MockBackendTest extends TestEnvironment {
     @Test
     public void loadBookmarkTest() throws Exception {
         Bookmark load = backend.load(new TypeToken<Bookmark>() {
-        }, MockBackend.BOOKMARK_DEVICE);
+        }, io.relayr.api.mock.MockBackend.BOOKMARK_DEVICE);
 
         assertThat(load).isNotNull();
         assertThat(load.getCreatedAt()).isNotNull();
@@ -63,7 +63,7 @@ public class MockBackendTest extends TestEnvironment {
     @Test(expected = Exception.class)
     public void loadWrongTypeDataTest_shouldThrowException() throws Exception {
         backend.load(new TypeToken<Device>() {
-        }, MockBackend.BOOKMARKED_DEVICES);
+        }, io.relayr.api.mock.MockBackend.BOOKMARKED_DEVICES);
     }
 
     @Test
@@ -87,7 +87,7 @@ public class MockBackendTest extends TestEnvironment {
     @Test
     public void createObservableTest() {
         backend.createObservable(new TypeToken<App>() {
-        }, MockBackend.APP_INFO)
+        }, io.relayr.api.mock.MockBackend.APP_INFO)
                 .subscribe(appObserver);
 
         verify(appObserver, times(1)).onNext(any(App.class));

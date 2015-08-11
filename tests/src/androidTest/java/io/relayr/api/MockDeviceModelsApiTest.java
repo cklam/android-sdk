@@ -44,7 +44,7 @@ public class MockDeviceModelsApiTest extends TestEnvironment {
     @Test
     @SuppressWarnings("unchecked")
     public void getDeviceModelsTest() {
-        api.getDeviceModels().subscribe(subscriber);
+        api.getDeviceModels(20).subscribe(subscriber);
 
         verify(subscriber).onNext(modelsCaptor.capture());
 

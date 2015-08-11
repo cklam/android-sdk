@@ -2,15 +2,13 @@ package io.relayr.api;
 
 import java.util.List;
 
-import io.relayr.model.App;
 import io.relayr.model.Command;
+import io.relayr.model.Configuration;
 import io.relayr.model.CreateDevice;
 import io.relayr.model.Device;
 import io.relayr.model.Transmitter;
 import io.relayr.model.TransmitterDevice;
-import io.relayr.model.User;
 import io.relayr.model.models.transport.DeviceConfiguration;
-import io.relayr.model.Configuration;
 import io.relayr.model.onboarding.OnBoardingState;
 import retrofit.client.Response;
 import retrofit.http.Body;
@@ -29,26 +27,25 @@ import rx.Observable;
 public interface RelayrApi {
 
     /**
-     * @return an {@link rx.Observable} to the information about the app initiating the request.
-     */
-    @GET("/oauth2/app-info") Observable<App> getAppInfo();
-
-    /**
-     * @return an {@link rx.Observable} information about the user initiating the request.
-     */
-    @GET("/oauth2/user-info") Observable<User> getUserInfo();
-
-    /**
-     * Creates device on the platform. Used for v2 on-boarding.
+     * Creates device on the platform.
      * @param device to create and add to the existing transmitter
      * @return created device
      */
     @POST("/devices") Observable<Device> createDevice(@Body CreateDevice device);
 
+    /**
+     * Send command to device on platform.
+     * See {@link io.relayr.model.models.transport.DeviceCommand} defined by {@link io.relayr.model.models.DeviceModel}
+     */
     @POST("/devices/{device_id}/cmd")
     Observable<Void> sendCommand(@Path("device_id") String deviceId,
                                  @Body Command command);
 
+    /**
+     * Deletes a device from platform.
+     * @param deviceId id of device to delete
+     * @return 200 OK if successful
+     */
     @DELETE("/devices/{device_id}")
     Observable<Void> deleteDevice(@Path("device_id") String deviceId);
 
@@ -121,7 +118,7 @@ public interface RelayrApi {
     Observable<OnBoardingState> isTransmitterConnected(@Path("transmitterId") String transmitterId);
 
     /**
-     * Returns true if transmitter is connected to MQTT and able to send data.
+     * Returns true if device is connected to MQTT and able to send data.
      * @param deviceId id of the device {@link Device#id}
      * @return an empty {@link rx.Observable}
      */

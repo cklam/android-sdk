@@ -1,4 +1,4 @@
-package io.relayr.api;
+package io.relayr.api.mock;
 
 import com.google.gson.reflect.TypeToken;
 
@@ -6,14 +6,15 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.relayr.api.AccountsApi;
 import io.relayr.model.account.Account;
 import io.relayr.model.account.AccountDevice;
 import io.relayr.model.account.AccountUrl;
 import rx.Observable;
 
-import static io.relayr.api.MockBackend.USER_ACCOUNTS;
-import static io.relayr.api.MockBackend.USER_ACCOUNT_DEVICES;
-import static io.relayr.api.MockBackend.USER_ACCOUNT_LOGIN_URL;
+import static io.relayr.api.mock.MockBackend.USER_ACCOUNTS;
+import static io.relayr.api.mock.MockBackend.USER_ACCOUNT_DEVICES;
+import static io.relayr.api.mock.MockBackend.USER_ACCOUNT_LOGIN_URL;
 
 public class MockAccountsApi implements AccountsApi {
 

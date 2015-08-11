@@ -9,12 +9,12 @@ import org.robolectric.Robolectric;
 
 import io.relayr.TestEnvironment;
 import io.relayr.api.ChannelApi;
-import io.relayr.api.MockBackend;
+import io.relayr.api.mock.MockBackend;
+import io.relayr.model.Device;
+import io.relayr.model.Model;
 import io.relayr.model.MqttChannel;
 import io.relayr.model.MqttDefinition;
-import io.relayr.model.TransmitterDevice;
 import rx.Observable;
-import rx.Subscriber;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
@@ -47,7 +47,7 @@ public class WebSocketClientTest extends TestEnvironment {
         when(channelApi.create(any(MqttDefinition.class))).thenReturn(observable);
 
         socketClient = new WebSocketClient(channelApi, webSocketFactory);
-        socketClient.subscribe(createTransmitterDevice());
+        socketClient.subscribe(createDevice());
         await();
 
         verify(webSocketFactory, times(1)).createWebSocket();
@@ -70,7 +70,7 @@ public class WebSocketClientTest extends TestEnvironment {
         when(channelApi.create(any(MqttDefinition.class))).thenReturn(observable);
 
         socketClient = new WebSocketClient(channelApi, webSocketFactory);
-        socketClient.subscribe(createTransmitterDevice());
+        socketClient.subscribe(createDevice());
         await();
 
         assertThat(socketClient.mSocketConnections.isEmpty()).isFalse();
@@ -81,7 +81,8 @@ public class WebSocketClientTest extends TestEnvironment {
         assertThat(socketClient.mSocketConnections.isEmpty()).isTrue();
     }
 
-    private TransmitterDevice createTransmitterDevice() {
-        return new TransmitterDevice("id", "s", "o", "n", "m");
+    private Device createDevice() {
+        return new Device("wunderbar2", false, "id", "s", "fv", "o",
+                new Model("a7ec1b21-8582-4304-b1cf-15a1fc66d1e8"), "n", "id");
     }
 }

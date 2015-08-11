@@ -1,4 +1,4 @@
-package io.relayr.api;
+package io.relayr.api.mock;
 
 import com.google.gson.reflect.TypeToken;
 
@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.relayr.api.RelayrApi;
 import io.relayr.model.App;
 import io.relayr.model.Command;
 import io.relayr.model.CreateDevice;
@@ -16,17 +17,15 @@ import io.relayr.model.User;
 import io.relayr.model.Configuration;
 import io.relayr.model.onboarding.OnBoardingState;
 import retrofit.client.Response;
-import retrofit.http.Body;
-import retrofit.http.Path;
 import rx.Observable;
 import rx.Subscriber;
 
-import static io.relayr.api.MockBackend.APP_INFO;
-import static io.relayr.api.MockBackend.PUBLIC_DEVICES;
-import static io.relayr.api.MockBackend.TRANSMITTER_DEVICES;
-import static io.relayr.api.MockBackend.USERS_TRANSMITTER;
-import static io.relayr.api.MockBackend.USER_DEVICE;
-import static io.relayr.api.MockBackend.USER_INFO;
+import static io.relayr.api.mock.MockBackend.APP_INFO;
+import static io.relayr.api.mock.MockBackend.PUBLIC_DEVICES;
+import static io.relayr.api.mock.MockBackend.TRANSMITTER_DEVICES;
+import static io.relayr.api.mock.MockBackend.USERS_TRANSMITTER;
+import static io.relayr.api.mock.MockBackend.USER_DEVICE;
+import static io.relayr.api.mock.MockBackend.USER_INFO;
 
 public class MockRelayrApi implements RelayrApi {
 
@@ -34,17 +33,6 @@ public class MockRelayrApi implements RelayrApi {
 
     @Inject public MockRelayrApi(MockBackend mockBackend) {
         mMockBackend = mockBackend;
-    }
-
-    @Override
-    public Observable<App> getAppInfo() {
-        return mMockBackend.createObservable(new TypeToken<App>() {
-        }, APP_INFO);
-    }
-
-    @Override
-    public Observable<User> getUserInfo() {
-        return mMockBackend.createObservable(new TypeToken<User>() {}, USER_INFO);
     }
 
     @Override

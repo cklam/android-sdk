@@ -11,11 +11,13 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.relayr.TestEnvironment;
+import io.relayr.model.App;
 import io.relayr.model.Bookmark;
 import io.relayr.model.BookmarkDevice;
 import io.relayr.model.CreateWunderBar;
 import io.relayr.model.Device;
 import io.relayr.model.Transmitter;
+import io.relayr.model.User;
 import rx.Observer;
 
 import static org.fest.assertions.api.Assertions.assertThat;
@@ -25,8 +27,10 @@ public class MockUserApiTest extends TestEnvironment {
 
     private final String ID = "4f1ddffb-d9fa-456b-a73e-33daa6284c39";
 
-    @Inject UserApi mockApi;
+    @Inject UserApi api;
 
+    @Captor private ArgumentCaptor<User> userCaptor;
+    @Captor private ArgumentCaptor<App> appCaptor;
     @Captor private ArgumentCaptor<List<Device>> userDevicesCaptor;
     @Captor private ArgumentCaptor<CreateWunderBar> wunderBarCaptor;
     @Captor private ArgumentCaptor<List<Transmitter>> transmittersCaptor;
@@ -44,20 +48,39 @@ public class MockUserApiTest extends TestEnvironment {
 
     @Test
     @SuppressWarnings("unchecked")
+    public void getAppInfoTest() {
+        api.getAppInfo().subscribe(subscriber);
+
+        verify(subscriber).onNext(appCaptor.capture());
+
+        assertThat(appCaptor.getValue().id).isEqualTo(USER_ID);
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void getUserInfoTest() {
+        api.getUserInfo().subscribe(subscriber);
+
+        verify(subscriber).onNext(userCaptor.capture());
+
+        assertThat(userCaptor.getValue().getEmail()).isEqualTo("hugo@email.com");
+    }
+
+
+    @Test
+    @SuppressWarnings("unchecked")
     public void getUserDevicesTest() {
-        mockApi.getUserDevices(ID).subscribe(subscriber);
+        api.getUserDevices(ID).subscribe(subscriber);
 
         verify(subscriber).onNext(userDevicesCaptor.capture());
 
         assertThat(userDevicesCaptor.getValue().size()).isEqualTo(4);
-        assertThat(userDevicesCaptor.getValue().get(0).getModel().getName())
-                .isEqualTo("Wunderbar Thermometer & Humidity Sensor");
     }
 
     @Test
     @SuppressWarnings("unchecked")
     public void createWunderBarTest() {
-        mockApi.createWunderBar(ID).subscribe(subscriber);
+        api.createWunderBar(ID).subscribe(subscriber);
 
         verify(subscriber).onNext(wunderBarCaptor.capture());
 
@@ -68,7 +91,7 @@ public class MockUserApiTest extends TestEnvironment {
     @Test
     @SuppressWarnings("unchecked")
     public void getTransmittersTest() {
-        mockApi.getTransmitters(ID).subscribe(subscriber);
+        api.getTransmitters(ID).subscribe(subscriber);
 
         verify(subscriber).onNext(transmittersCaptor.capture());
 
@@ -80,7 +103,7 @@ public class MockUserApiTest extends TestEnvironment {
     @Test
     @SuppressWarnings("unchecked")
     public void getBookmarkedDevicesTest() {
-        mockApi.getBookmarkedDevices(ID).subscribe(subscriber);
+        api.getBookmarkedDevices(ID).subscribe(subscriber);
 
         verify(subscriber).onNext(bookmarkDevicesCaptor.capture());
 
@@ -91,7 +114,7 @@ public class MockUserApiTest extends TestEnvironment {
     @Test
     @SuppressWarnings("unchecked")
     public void bookmarkDeviceTest() {
-        mockApi.bookmarkPublicDevice(ID, ID).subscribe(subscriber);
+        api.bookmarkPublicDevice(ID, ID).subscribe(subscriber);
 
         verify(subscriber).onNext(bookmarkCaptor.capture());
 

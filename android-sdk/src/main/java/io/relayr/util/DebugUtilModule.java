@@ -5,7 +5,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import io.relayr.api.CloudApi;
-import io.relayr.api.DebugApiModule;
+import io.relayr.api.mock.DebugApiModule;
 
 @Module(
         complete = false,

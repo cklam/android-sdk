@@ -35,7 +35,7 @@ public class LoginActivityTest {
     @Test public void relayrApi_testInjection() {
         new RelayrSdk.Builder(Robolectric.application).build();
         LoginActivity activity = Robolectric.buildActivity(LoginActivity.class).create().get();
-        Assert.assertNotNull(activity.mRelayrApi);
+        Assert.assertNotNull(activity.mUserApi);
     }
 
 }

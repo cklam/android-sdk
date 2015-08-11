@@ -21,7 +21,7 @@ import io.relayr.RelayrApp;
 import io.relayr.RelayrSdk;
 import io.relayr.api.ApiModule;
 import io.relayr.api.OauthApi;
-import io.relayr.api.RelayrApi;
+import io.relayr.api.UserApi;
 import io.relayr.model.OauthToken;
 import io.relayr.model.User;
 import io.relayr.storage.DataStorage;
@@ -38,7 +38,7 @@ public class LoginActivity extends Activity {
     private static final String TAG = LoginActivity.class.getSimpleName();
 
     @Inject OauthApi mOauthApi;
-    @Inject RelayrApi mRelayrApi;
+    @Inject UserApi mUserApi;
 
     private volatile boolean isObtainingAccessToken;
     private WebView mWebView;
@@ -155,7 +155,7 @@ public class LoginActivity extends Activity {
                                 @Override
                                 public Observable<User> call(OauthToken token) {
                                     DataStorage.saveUserToken(token.type + " " + token.token);
-                                    return mRelayrApi.getUserInfo();
+                                    return mUserApi.getUserInfo();
                                 }
                             })
                             .map(new Func1<User, User>() {

@@ -1,4 +1,4 @@
-package io.relayr.api;
+package io.relayr.api.mock;
 
 import android.content.Context;
 
@@ -6,6 +6,23 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import io.relayr.api.AccountsApi;
+import io.relayr.api.ChannelApi;
+import io.relayr.api.CloudApi;
+import io.relayr.api.DeviceModelsApi;
+import io.relayr.api.GroupsApi;
+import io.relayr.api.OauthApi;
+import io.relayr.api.RelayrApi;
+import io.relayr.api.UserApi;
+import io.relayr.api.mock.MockAccountsApi;
+import io.relayr.api.mock.MockBackend;
+import io.relayr.api.mock.MockChannelApi;
+import io.relayr.api.mock.MockCloudApi;
+import io.relayr.api.mock.MockDeviceModelsApi;
+import io.relayr.api.mock.MockGroupsApi;
+import io.relayr.api.mock.MockOauthApi;
+import io.relayr.api.mock.MockRelayrApi;
+import io.relayr.api.mock.MockUserApi;
 import io.relayr.storage.DeviceModelCache;
 
 @Module(

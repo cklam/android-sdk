@@ -3,7 +3,7 @@ package io.relayr;
 import android.content.Context;
 
 import io.relayr.activity.UiModule;
-import io.relayr.api.DebugApiModule;
+import io.relayr.api.mock.DebugApiModule;
 import io.relayr.ble.DebugBleModule;
 import io.relayr.util.DebugUtilModule;
 import io.relayr.websocket.DebugWebSocketModule;

@@ -1,4 +1,4 @@
-package io.relayr.api;
+package io.relayr.api.mock;
 
 import android.util.Log;
 
@@ -9,12 +9,13 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.relayr.api.CloudApi;
 import io.relayr.model.LogEvent;
 import io.relayr.model.Status;
 import rx.Observable;
 import rx.Subscriber;
 
-import static io.relayr.api.MockBackend.SERVER_STATUS;
+import static io.relayr.api.mock.MockBackend.SERVER_STATUS;
 
 public class MockCloudApi implements CloudApi {
 

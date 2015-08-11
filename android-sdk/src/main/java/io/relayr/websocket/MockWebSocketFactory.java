@@ -2,7 +2,7 @@ package io.relayr.websocket;
 
 import javax.inject.Inject;
 
-import io.relayr.api.MockBackend;
+import io.relayr.api.mock.MockBackend;
 
 class MockWebSocketFactory extends WebSocketFactory {
 

@@ -1,16 +1,17 @@
-package io.relayr.api;
+package io.relayr.api.mock;
 
 import com.google.gson.reflect.TypeToken;
 
 import javax.inject.Inject;
 
+import io.relayr.api.ChannelApi;
 import io.relayr.model.MqttChannel;
 import io.relayr.model.MqttDefinition;
 import io.relayr.model.MqttExistingChannel;
 import rx.Observable;
 import rx.Subscriber;
 
-import static io.relayr.api.MockBackend.MQTT_CREDENTIALS;
+import static io.relayr.api.mock.MockBackend.MQTT_CREDENTIALS;
 
 public class MockChannelApi implements ChannelApi {
 

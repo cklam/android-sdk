@@ -6,6 +6,10 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import io.relayr.api.mock.MockChannelApi;
+import io.relayr.api.mock.MockCloudApi;
+import io.relayr.api.mock.MockRelayrApi;
+import io.relayr.api.mock.MockUserApi;
 import io.relayr.storage.DeviceModelCache;
 import io.relayr.storage.DeviceModelStorageTest;
 import io.relayr.websocket.WebSocketClientTest;
@@ -35,39 +39,39 @@ public class TestModule {
         app = context;
     }
 
-    @Provides @Singleton MockBackend provideMockBackend() {
-        return new MockBackend(app);
+    @Provides @Singleton io.relayr.api.mock.MockBackend provideMockBackend() {
+        return new io.relayr.api.mock.MockBackend(app);
     }
 
-    @Provides @Singleton RelayrApi provideRelayrApi(MockBackend mockBackend) {
+    @Provides @Singleton RelayrApi provideRelayrApi(io.relayr.api.mock.MockBackend mockBackend) {
         return new MockRelayrApi(mockBackend);
     }
 
-    @Provides @Singleton CloudApi provideCloudApi(MockBackend loader) {
+    @Provides @Singleton CloudApi provideCloudApi(io.relayr.api.mock.MockBackend loader) {
         return new MockCloudApi(loader);
     }
 
-    @Provides @Singleton AccountsApi provideAccountsApi(MockBackend loader) {
-        return new MockAccountsApi(loader);
+    @Provides @Singleton AccountsApi provideAccountsApi(io.relayr.api.mock.MockBackend loader) {
+        return new io.relayr.api.mock.MockAccountsApi(loader);
     }
 
-    @Provides @Singleton UserApi provideUserApi(MockBackend loader) {
+    @Provides @Singleton UserApi provideUserApi(io.relayr.api.mock.MockBackend loader) {
         return new MockUserApi(loader);
     }
 
-    @Provides @Singleton ChannelApi provideChannelApi(MockBackend loader) {
+    @Provides @Singleton ChannelApi provideChannelApi(io.relayr.api.mock.MockBackend loader) {
         return new MockChannelApi(loader);
     }
 
-    @Provides @Singleton GroupsApi provideGroupsApi(MockBackend loader) {
-        return new MockGroupsApi(loader);
+    @Provides @Singleton GroupsApi provideGroupsApi(io.relayr.api.mock.MockBackend loader) {
+        return new io.relayr.api.mock.MockGroupsApi(loader);
     }
 
-    @Provides @Singleton DeviceModelsApi provideDeviceModelsApi(MockBackend loader) {
-        return new MockDeviceModelsApi(loader);
+    @Provides @Singleton DeviceModelsApi provideDeviceModelsApi(io.relayr.api.mock.MockBackend loader) {
+        return new io.relayr.api.mock.MockDeviceModelsApi(loader);
     }
 
-    @Provides @Singleton DeviceModelCache provideDeviceModelStorage(MockBackend loader) {
-        return new DeviceModelCache(loader);
+    @Provides @Singleton DeviceModelCache provideDeviceModelStorage(DeviceModelsApi api) {
+        return new DeviceModelCache(api);
     }
 }

@@ -1,4 +1,4 @@
-package io.relayr.api;
+package io.relayr.api.mock;
 
 import com.google.gson.reflect.TypeToken;
 
@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.relayr.api.UserApi;
+import io.relayr.model.App;
 import io.relayr.model.Bookmark;
 import io.relayr.model.BookmarkDevice;
 import io.relayr.model.CreateWunderBar;
@@ -18,12 +20,14 @@ import retrofit.http.Path;
 import rx.Observable;
 import rx.Subscriber;
 
-import static io.relayr.api.MockBackend.BOOKMARKED_DEVICES;
-import static io.relayr.api.MockBackend.BOOKMARK_DEVICE;
-import static io.relayr.api.MockBackend.USERS_CREATE_WUNDERBAR;
-import static io.relayr.api.MockBackend.USERS_TRANSMITTERS;
-import static io.relayr.api.MockBackend.USER_ACCOUNTS;
-import static io.relayr.api.MockBackend.USER_DEVICES;
+import static io.relayr.api.mock.MockBackend.APP_INFO;
+import static io.relayr.api.mock.MockBackend.BOOKMARKED_DEVICES;
+import static io.relayr.api.mock.MockBackend.BOOKMARK_DEVICE;
+import static io.relayr.api.mock.MockBackend.USERS_CREATE_WUNDERBAR;
+import static io.relayr.api.mock.MockBackend.USERS_TRANSMITTERS;
+import static io.relayr.api.mock.MockBackend.USER_ACCOUNTS;
+import static io.relayr.api.mock.MockBackend.USER_DEVICES;
+import static io.relayr.api.mock.MockBackend.USER_INFO;
 
 public class MockUserApi implements UserApi {
 
@@ -32,6 +36,17 @@ public class MockUserApi implements UserApi {
     @Inject
     public MockUserApi(MockBackend mockBackend) {
         mServer = mockBackend;
+    }
+
+    @Override
+    public Observable<App> getAppInfo() {
+        return mServer.createObservable(new TypeToken<App>() {
+        }, APP_INFO);
+    }
+
+    @Override
+    public Observable<User> getUserInfo() {
+        return mServer.createObservable(new TypeToken<User>() {}, USER_INFO);
     }
 
     @Override

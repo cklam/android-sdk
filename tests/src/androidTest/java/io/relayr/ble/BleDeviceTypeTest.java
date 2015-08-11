@@ -1,16 +1,21 @@
 package io.relayr.ble;
 
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
-import io.relayr.model.DeviceModel;
-
-import static io.relayr.ble.BleDeviceType.*;
-import static io.relayr.model.DeviceModel.IR_TRANSMITTER;
-import static io.relayr.model.DeviceModel.UNKNOWN;
+import static io.relayr.ble.BleDeviceType.Unknown;
+import static io.relayr.ble.BleDeviceType.WunderbarApp;
+import static io.relayr.ble.BleDeviceType.WunderbarBRIDG;
+import static io.relayr.ble.BleDeviceType.WunderbarGYRO;
+import static io.relayr.ble.BleDeviceType.WunderbarHTU;
+import static io.relayr.ble.BleDeviceType.WunderbarIR;
+import static io.relayr.ble.BleDeviceType.WunderbarLIGHT;
+import static io.relayr.ble.BleDeviceType.WunderbarMIC;
+import static io.relayr.ble.BleDeviceType.fromModel;
+import static io.relayr.ble.BleDeviceType.getDeviceType;
+import static io.relayr.ble.BleDeviceType.isKnownDevice;
 
 @RunWith(RobolectricTestRunner.class)
 public class BleDeviceTypeTest {
@@ -60,11 +65,7 @@ public class BleDeviceTypeTest {
     }
 
     @Test public void getBleDeviceType_from_DeviceModel() {
-        Assert.assertEquals(WunderbarIR, from(IR_TRANSMITTER));
-    }
-
-    @Test public void getBleDeviceType_from_DeviceModelUnknown() {
-        Assert.assertEquals(Unknown, from(UNKNOWN));
+        Assert.assertEquals(WunderbarLIGHT, fromModel("a7ec1b21-8582-4304-b1cf-15a1fc66d1e8"));
     }
 
     @Test public void isKnownDevice_shouldBeTrue() {
@@ -75,4 +76,12 @@ public class BleDeviceTypeTest {
         Assert.assertFalse(isKnownDevice("random device"));
     }
 
+    @Test public void testDfuNamesFromDeviceModelIds() {
+        Assert.assertEquals(BleDeviceType.getDeviceName("ecf6cf94-cb07-43ac-a85e-dccf26b48c86"), "DfuHTU");
+        Assert.assertEquals(BleDeviceType.getDeviceName("173c44b5-334e-493f-8eb8-82c8cc65d29f"), "DfuGYRO");
+        Assert.assertEquals(BleDeviceType.getDeviceName("a7ec1b21-8582-4304-b1cf-15a1fc66d1e8"), "DfuLIGHT");
+        Assert.assertEquals(BleDeviceType.getDeviceName("4f38b6c6-a8e9-4f93-91cd-2ac4064b7b5a"), "DfuMIC");
+        Assert.assertEquals(BleDeviceType.getDeviceName("ebd828dd-250c-4baf-807d-69d85bed065b"), "DfuBRIDG");
+        Assert.assertEquals(BleDeviceType.getDeviceName("bab45b9c-1c44-4e71-8e98-a321c658df47"), "DfuIR");
+    }
 }

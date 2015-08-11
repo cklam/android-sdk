@@ -4,7 +4,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import io.relayr.api.MockBackend;
+import io.relayr.api.mock.MockBackend;
 
 @Module(
         complete = false,

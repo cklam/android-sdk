@@ -15,7 +15,10 @@ import io.relayr.ble.BleUtils;
 import io.relayr.ble.RelayrBleSdk;
 import io.relayr.log.Logger;
 import io.relayr.model.Device;
+import io.relayr.model.Transmitter;
 import io.relayr.model.User;
+import io.relayr.model.account.Account;
+import io.relayr.model.groups.Group;
 import io.relayr.storage.DataStorage;
 import io.relayr.storage.DeviceModelCache;
 import io.relayr.util.ReachabilityUtils;
@@ -29,29 +32,48 @@ import rx.android.schedulers.AndroidSchedulers;
  * It includes basic calls such as user login validation and can also call the handlers of the
  * other classes- {@link io.relayr.api.RelayrApi}, {@link io.relayr.ble.RelayrBleSdk} and
  * {@link io.relayr.websocket.WebSocketClient}.
+ * -----------------------------------------------------------------------------------------------
+ * For easy start, after logging in, obtain {@link User} by calling {@link #getUser()}.
+ * This is main object in Relayr SDK that can be used to fetch users {@link Device},
+ * {@link Transmitter}, {@link Group} and {@link Account} objects.
+ * <p/>
+ * Every mentioned object has it's own interaction methods so direct usage of APIs is not necessary.
+ * However it's still possible to obtain any of the desired API handlers through appropriate method:
+ * <ul>
+ * <li>{@link #getUserApi()}</li>
+ * <li>{@link #getRelayrApi()}</li>
+ * <li>{@link #getGroupsApi()}</li>
+ * <li>{@link #getAccountsApi()}</li>
+ * <li>{@link #getDeviceModelsApi()} or using cache {@link #getDeviceModelsCache()}</li>
+ * </ul>
+ * For other details check methods JavaDoc
  */
 public class RelayrSdk {
 
     public static final String PERMISSION_INTERNET = "android.permission.INTERNET";
     public static final String PERMISSION_NETWORK = "android.permission.ACCESS_NETWORK_STATE";
 
-    @Inject static RelayrApi mRelayrApi;
     @Inject static UserApi mUserApi;
-    @Inject static AccountsApi mAccountsApi;
+    @Inject static RelayrApi mRelayrApi;
+
     @Inject static GroupsApi mGroupsApi;
-    @Inject static WebSocketClient mWebSocketClient;
-    @Inject static BleUtils mBleUtils;
-    @Inject static RelayrBleSdk mRelayrBleSdk;
-    @Inject static Logger mLoggerUtils;
-    @Inject static ReachabilityUtils sReachabilityUtils;
+    @Inject static AccountsApi mAccountsApi;
     @Inject static DeviceModelsApi sDeviceModelsApi;
     @Inject static DeviceModelCache sDeviceModelsCache;
+
+    @Inject static WebSocketClient mWebSocketClient;
+
+    @Inject static Logger mLoggerUtils;
+    @Inject static ReachabilityUtils sReachabilityUtils;
+
+    @Inject static BleUtils mBleUtils;
+    @Inject static RelayrBleSdk mRelayrBleSdk;
 
     private static Subscriber<? super User> mLoginSubscriber;
 
     /**
      * Initializes the SDK. Should be built when the {@link android.app.Application} is
-     * created.
+     * created. After SDK is initiated
      */
     public static class Builder {
 
@@ -78,6 +100,15 @@ public class RelayrSdk {
     }
 
     /**
+     * Returns user object. This is main object in Relayr SDK that can be used to fetch user {@link Device},
+     * {@link Transmitter}, {@link Group} and {@link Account}.
+     * Any of the mentioned objects has it's own special methods so direct usage of APIs is not necessary but it's still possible
+     */
+    public Observable<User> getUser() {
+        return mUserApi.getUserInfo();
+    }
+
+    /**
      * Returns the version of the SDK
      * @return the version String
      */
@@ -86,7 +117,7 @@ public class RelayrSdk {
     }
 
     /**
-     * Returns the handler of the Relayr API.
+     * Returns the handler of the Relayr API. Use after obtaining User data.
      * Used as an access point to class {@link io.relayr.api.RelayrApi}
      */
     public static RelayrApi getRelayrApi() {

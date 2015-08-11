@@ -1,13 +1,14 @@
-package io.relayr.api;
+package io.relayr.api.mock;
 
 import com.google.gson.reflect.TypeToken;
 
 import javax.inject.Inject;
 
+import io.relayr.api.OauthApi;
 import io.relayr.model.OauthToken;
 import rx.Observable;
 
-import static io.relayr.api.MockBackend.AUTHORISE_USER;
+import static io.relayr.api.mock.MockBackend.AUTHORISE_USER;
 
 public class MockOauthApi implements OauthApi {
 

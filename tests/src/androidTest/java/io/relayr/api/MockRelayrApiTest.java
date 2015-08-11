@@ -11,13 +11,11 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.relayr.TestEnvironment;
-import io.relayr.model.App;
 import io.relayr.model.Device;
 import io.relayr.model.Model;
 import io.relayr.model.models.ReadingMeaning;
 import io.relayr.model.Transmitter;
 import io.relayr.model.TransmitterDevice;
-import io.relayr.model.User;
 import rx.Observer;
 
 import static org.fest.assertions.api.Assertions.assertThat;
@@ -27,10 +25,8 @@ public class MockRelayrApiTest extends TestEnvironment {
 
     private final String ID = "4f1ddffb-d9fa-456b-a73e-33daa6284c39";
 
-    @Inject RelayrApi mockApi;
+    @Inject RelayrApi api;
 
-    @Captor private ArgumentCaptor<User> userCaptor;
-    @Captor private ArgumentCaptor<App> appCaptor;
     @Captor private ArgumentCaptor<Transmitter> transmitterCaptor;
     @Captor private ArgumentCaptor<List<TransmitterDevice>> transmitterDeviceCaptor;
     @Captor private ArgumentCaptor<List<Device>> publicDevicesCaptor;
@@ -48,28 +44,8 @@ public class MockRelayrApiTest extends TestEnvironment {
 
     @Test
     @SuppressWarnings("unchecked")
-    public void getAppInfoTest() {
-        mockApi.getAppInfo().subscribe(subscriber);
-
-        verify(subscriber).onNext(appCaptor.capture());
-
-        assertThat(appCaptor.getValue().id).isEqualTo(USER_ID);
-    }
-
-    @Test
-    @SuppressWarnings("unchecked")
-    public void getUserInfoTest() {
-        mockApi.getUserInfo().subscribe(subscriber);
-
-        verify(subscriber).onNext(userCaptor.capture());
-
-        assertThat(userCaptor.getValue().getEmail()).isEqualTo("hugo@email.com");
-    }
-
-    @Test
-    @SuppressWarnings("unchecked")
     public void getTransmitterTest() {
-        mockApi.getTransmitter(ID).subscribe(subscriber);
+        api.getTransmitter(ID).subscribe(subscriber);
 
         verify(subscriber).onNext(transmitterCaptor.capture());
 
@@ -80,7 +56,7 @@ public class MockRelayrApiTest extends TestEnvironment {
     @Test
     @SuppressWarnings("unchecked")
     public void getTransmitterDevicesTest() {
-        mockApi.getTransmitterDevices(ID).subscribe(subscriber);
+        api.getTransmitterDevices(ID).subscribe(subscriber);
 
         verify(subscriber).onNext(transmitterDeviceCaptor.capture());
 
@@ -92,7 +68,7 @@ public class MockRelayrApiTest extends TestEnvironment {
     @Test
     @SuppressWarnings("unchecked")
     public void getPublicDevicesTest() {
-        mockApi.getPublicDevices(ID).subscribe(subscriber);
+        api.getPublicDevices(ID).subscribe(subscriber);
 
         verify(subscriber).onNext(publicDevicesCaptor.capture());
 

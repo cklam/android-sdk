@@ -4,7 +4,8 @@ import io.relayr.model.models.transport.DeviceCommand;
 import io.relayr.model.models.transport.DeviceConfiguration;
 
 /**
- * Defines command to be sent to device.
+ * Defines command to be sent to device. Defined with {@link DeviceCommand} in
+ * {@link io.relayr.model.models.DeviceModel}
  */
 public class Command {
 

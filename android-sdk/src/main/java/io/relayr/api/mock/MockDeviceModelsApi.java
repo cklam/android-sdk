@@ -1,24 +1,24 @@
-package io.relayr.api;
+package io.relayr.api.mock;
 
 import com.google.gson.reflect.TypeToken;
 
 import javax.inject.Inject;
 
+import io.relayr.api.DeviceModelsApi;
 import io.relayr.model.models.DeviceFirmware;
 import io.relayr.model.models.DeviceFirmwares;
 import io.relayr.model.models.DeviceModel;
 import io.relayr.model.models.DeviceModels;
 import io.relayr.model.models.ReadingMeanings;
-import retrofit.http.Query;
 import rx.Observable;
 
-import static io.relayr.api.MockBackend.DEVICE_MODEL;
-import static io.relayr.api.MockBackend.DEVICE_MODELS;
-import static io.relayr.api.MockBackend.DEVICE_MODEL_FIRMWARE;
-import static io.relayr.api.MockBackend.DEVICE_MODEL_FIRMWARES;
-import static io.relayr.api.MockBackend.DEVICE_READING_MEANINGS;
+import static io.relayr.api.mock.MockBackend.DEVICE_MODEL;
+import static io.relayr.api.mock.MockBackend.DEVICE_MODELS;
+import static io.relayr.api.mock.MockBackend.DEVICE_MODEL_FIRMWARE;
+import static io.relayr.api.mock.MockBackend.DEVICE_MODEL_FIRMWARES;
+import static io.relayr.api.mock.MockBackend.DEVICE_READING_MEANINGS;
 
-public class MockDeviceModelsApi implements DeviceModelsApi{
+public class MockDeviceModelsApi implements DeviceModelsApi {
 
     private final MockBackend mBackend;
 

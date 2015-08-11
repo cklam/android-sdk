@@ -6,7 +6,8 @@ import io.relayr.model.models.transport.DeviceCommand;
 import io.relayr.model.models.transport.DeviceConfiguration;
 
 /**
- * Defines configuration parameters currently on device.
+ * Defines configuration parameters currently on device. Defined with {@link DeviceConfiguration}
+ * in {@link io.relayr.model.models.DeviceModel}
  */
 public class Configuration implements Serializable {
 
