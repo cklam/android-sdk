@@ -14,15 +14,6 @@ import io.relayr.api.GroupsApi;
 import io.relayr.api.OauthApi;
 import io.relayr.api.RelayrApi;
 import io.relayr.api.UserApi;
-import io.relayr.api.mock.MockAccountsApi;
-import io.relayr.api.mock.MockBackend;
-import io.relayr.api.mock.MockChannelApi;
-import io.relayr.api.mock.MockCloudApi;
-import io.relayr.api.mock.MockDeviceModelsApi;
-import io.relayr.api.mock.MockGroupsApi;
-import io.relayr.api.mock.MockOauthApi;
-import io.relayr.api.mock.MockRelayrApi;
-import io.relayr.api.mock.MockUserApi;
 import io.relayr.storage.DeviceModelCache;
 
 @Module(
@@ -73,7 +64,7 @@ public class DebugApiModule {
         return new MockDeviceModelsApi(loader);
     }
 
-    @Provides @Singleton DeviceModelCache provideDeviceModelCache(DeviceModelsApi api) {
-        return new DeviceModelCache(api);
+    @Provides @Singleton DeviceModelCache provideDeviceModelCache(DeviceModelsApi modelsApi) {
+        return new DeviceModelCache(modelsApi);
     }
 }

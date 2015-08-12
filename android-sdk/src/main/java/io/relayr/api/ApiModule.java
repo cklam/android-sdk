@@ -35,8 +35,8 @@ public class ApiModule {
     private static final String USER_AGENT = Utils.getUserAgent();
 
     private static final RestAdapter.LogLevel API_LOG_LEVEL = RestAdapter.LogLevel.FULL;
-    private static final RestAdapter.LogLevel OAUTH_API_LOG_LEVEL = RestAdapter.LogLevel.NONE;
-    private static final RestAdapter.LogLevel MODELS_API_LOG_LEVEL = RestAdapter.LogLevel.FULL;
+    private static final RestAdapter.LogLevel OAUTH_API_LOG_LEVEL = RestAdapter.LogLevel.BASIC;
+    private static final RestAdapter.LogLevel MODELS_API_LOG_LEVEL = RestAdapter.LogLevel.BASIC;
 
     private static final RequestInterceptor apiRequestInterceptor = new RequestInterceptor() {
         @Override
@@ -144,7 +144,6 @@ public class ApiModule {
     }
 
     @Provides @Singleton DeviceModelCache provideDeviceModelCache(DeviceModelsApi deviceModelsApi) {
-//        return new DeviceModelCache(new MockDeviceModelsApi(new MockBackend(app)));
         return new DeviceModelCache(deviceModelsApi);
     }
 

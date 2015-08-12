@@ -13,14 +13,23 @@ public class DeviceResource implements Serializable {
         return id;
     }
 
+    /**
+     * Returns type of the resource. May be 'icon', 'banner' and ''
+     */
     public String getType() {
         return type;
     }
 
+    /**
+     * Returns media url to be used for download.
+     */
     public String getMediaUrl() {
         return mediaUrl;
     }
 
+    /**
+     * Returns Mime type. (Examples: image/svg+xml,image/jpg...)
+     */
     public String getMimeType() {
         return mimeType;
     }

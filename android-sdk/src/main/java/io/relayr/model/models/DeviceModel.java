@@ -7,6 +7,7 @@ import java.util.Map;
 
 import io.relayr.model.models.error.DeviceModelsException;
 
+/** Main object that defines every device supported on Relayr platrofm. */
 public class DeviceModel implements Serializable {
 
     private String id;
@@ -23,14 +24,17 @@ public class DeviceModel implements Serializable {
         return id;
     }
 
+    /** If device model is not defined by Relayr this field represent model owner. */
     public String getOwner() {
         return owner;
     }
 
+    /** Returns model name */
     public String getName() {
         return name;
     }
 
+    /** Return product number (product version) */
     public String getProductNumber() {
         return productNumber;
     }
@@ -43,6 +47,7 @@ public class DeviceModel implements Serializable {
         return website;
     }
 
+    /** Returns details about device manufacturer */
     public DeviceManufacturer getManufacturer() {
         return manufacturer;
     }

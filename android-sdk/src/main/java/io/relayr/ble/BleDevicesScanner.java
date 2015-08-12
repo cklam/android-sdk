@@ -42,9 +42,7 @@ class BleDevicesScanner implements Runnable, BluetoothAdapter.LeScanCallback {
 
         if (Build.VERSION.SDK_INT >= 21) {
             mLeScanner = adapter.getBluetoothLeScanner();
-            Log.e("BleDevicesScanner", "LeScanner is null");
             settings = new ScanSettings.Builder().setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY).build();
-
             mScanCallback = new ScanCallback() {
                 @TargetApi(Build.VERSION_CODES.LOLLIPOP) @Override
                 public void onScanResult(int callbackType, ScanResult result) {

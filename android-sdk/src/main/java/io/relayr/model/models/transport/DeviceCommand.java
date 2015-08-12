@@ -2,32 +2,24 @@ package io.relayr.model.models.transport;
 
 import java.io.Serializable;
 
-/**
- * Defines command parameters to send to the device.
- */
+/** Defines command parameters to send to the device. */
 public class DeviceCommand implements Serializable {
 
     private String name;
     private String path;
     private ValueSchema valueSchema;
 
-    /**
-     * Command name
-     */
+    /** Command name */
     public String getName() {
         return name;
     }
 
-    /**
-     * Identifies the component to which the command should be sent.
-     */
+    /** Identifies the component to which the command should be sent. */
     public String getPath() {
         return path;
     }
 
-    /**
-     * Defines values and types of values to send as a command.
-     */
+    /** Defines values and types of values to send as a command. */
     public ValueSchema getValueSchema() {
         return valueSchema;
     }

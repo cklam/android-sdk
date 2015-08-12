@@ -2,18 +2,14 @@ package io.relayr.model.models.transport;
 
 import java.io.Serializable;
 
-/**
- * Defines formatting for device readings.
- */
+/** Defines formatting for device readings. */
 public class DeviceReading implements Serializable {
 
     private String path;
     private String meaning;
     private ValueSchema valueSchema;
 
-    /**
-     * Identifies the component from which the reading is originated.
-     */
+    /** Identifies the component from which the reading is originated. */
     public String getPath() {
         return path;
     }
@@ -26,9 +22,7 @@ public class DeviceReading implements Serializable {
         return meaning;
     }
 
-    /**
-     * Defines values and types of reading values.
-     */
+    /** Defines values and types of reading values. */
     public ValueSchema getValueSchema() {
         return valueSchema;
     }

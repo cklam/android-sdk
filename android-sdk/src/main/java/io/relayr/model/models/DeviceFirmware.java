@@ -8,6 +8,12 @@ import java.util.Map;
 import io.relayr.model.models.error.DeviceModelsException;
 import io.relayr.model.models.transport.Transport;
 
+/**
+ * Defines device firmware.
+ * Device details depend on firmware version which means that for the same device and same device
+ * model there can be more that one firmware versions.
+ * DeviceFirmware defines at least one {@link Transport} type (ble, cloud)
+ */
 public class DeviceFirmware implements Serializable {
 
     private ModelLinks _links;
