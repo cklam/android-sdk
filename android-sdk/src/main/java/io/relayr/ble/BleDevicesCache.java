@@ -87,7 +87,7 @@ public class BleDevicesCache {
                                     .flatMap(new Func1<UUID, Observable<BaseService>>() {
                                         @Override
                                         public Observable<BaseService> call(UUID uuid) {
-                                            boolean deviceInterestedIn = device.id.equals(uuid.toString());
+                                            boolean deviceInterestedIn = device.getId().equals(uuid.toString());
                                             if (deviceInterestedIn) {
                                                 return just(baseService);
                                             } else {

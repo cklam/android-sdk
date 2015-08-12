@@ -42,6 +42,6 @@ public class CreateWunderBar implements Serializable {
     }
 
     public String getMasterModuleId() {
-        return masterModule.id;
+        return masterModule.getId();
     }
 }

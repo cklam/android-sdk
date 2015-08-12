@@ -104,7 +104,7 @@ public class RelayrSdk {
      * {@link Transmitter}, {@link Group} and {@link Account}.
      * Any of the mentioned objects has it's own special methods so direct usage of APIs is not necessary but it's still possible
      */
-    public Observable<User> getUser() {
+    public static Observable<User> getUser() {
         return mUserApi.getUserInfo();
     }
 

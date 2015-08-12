@@ -144,7 +144,7 @@ public class Device implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        return o instanceof TransmitterDevice && ((TransmitterDevice) o).id.equals(id) ||
+        return o instanceof TransmitterDevice && ((TransmitterDevice) o).getId().equals(id) ||
                 o instanceof Device && ((Device) o).id.equals(id);
     }
 

@@ -57,7 +57,7 @@ public class User implements Serializable {
     }
 
     /**
-     * @return an {@link rx.Observable} of a list of transmitters (Wunderbars) registered under a user.
+     * @return an {@link rx.Observable} with a list all Transmitters listed under a user.
      */
     public Observable<List<Transmitter>> getTransmitters() {
         return RelayrSdk.getUserApi().getTransmitters(id);
@@ -111,6 +111,16 @@ public class User implements Serializable {
         this.setName(username);
         return RelayrSdk.getUserApi().updateUserDetails(this, id);
     }
+
+    /**
+     * Api call to tell the backend to create a WunderBar.
+     * @return an {@link rx.Observable} to a WunderBar that contains the IDs and Secrets of the
+     * Master Module and Sensor Modules.
+     */
+    public Observable<CreateWunderBar> createWunderBar() {
+        return RelayrSdk.getUserApi().createWunderBar(id);
+    }
+
 
     @Override
     public String toString() {

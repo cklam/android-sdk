@@ -37,13 +37,13 @@ public class TransmitterDevice extends Transmitter implements Serializable {
 
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return getId().hashCode();
     }
 
     @Override
     public boolean equals(Object o) {
-        return o instanceof TransmitterDevice && ((TransmitterDevice) o).id.equals(id) ||
-                o instanceof Device && ((Device) o).getId().equals(id);
+        return o instanceof TransmitterDevice && ((TransmitterDevice) o).getId().equals(getId()) ||
+                o instanceof Device && ((Device) o).getId().equals(getId());
     }
 
     public Observable<Reading> subscribeToCloudReadings() {
@@ -56,7 +56,7 @@ public class TransmitterDevice extends Transmitter implements Serializable {
 
     //TODO Remove this stupid fix ASAP
     public Device toDevice() {
-        return new Device(null, false, null, null, null, null, new Model(deviceModelId), getName(), id);
+        return new Device(null, false, null, null, null, null, new Model(deviceModelId), getName(), getId());
     }
 
     /**
@@ -137,13 +137,13 @@ public class TransmitterDevice extends Transmitter implements Serializable {
     }
 
     public void unSubscribeToCloudReadings() {
-        RelayrSdk.getWebSocketClient().unSubscribe(id);
+        RelayrSdk.getWebSocketClient().unSubscribe(getId());
     }
 
     /**
      * Sends a command to the this device
      */
     public Observable<Void> sendCommand(Command command) {
-        return RelayrSdk.getRelayrApi().sendCommand(id, command);
+        return RelayrSdk.getRelayrApi().sendCommand(getId(), command);
     }
 }

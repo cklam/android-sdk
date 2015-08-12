@@ -18,9 +18,9 @@ import rx.Observable;
  */
 public class Transmitter implements Serializable {
 
-    public String id;
-    public String secret;
-    public String owner;
+    private String id;
+    private String secret;
+    private String owner;
     private String topic;
     private String name;
     private String clientId;
@@ -41,7 +41,7 @@ public class Transmitter implements Serializable {
         this.secret = secret;
         this.owner = owner;
         this.name = name;
-        setAccountType(AccountType.WUNDERBAR_1);
+        accountType = AccountType.WUNDERBAR_1.getName();
     }
 
     /**
@@ -60,6 +60,18 @@ public class Transmitter implements Serializable {
         return RelayrSdk.getRelayrApi().updateTransmitter(this, id);
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public String getSecret() {
+        return secret;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -76,24 +88,12 @@ public class Transmitter implements Serializable {
         return AccountType.getByName(accountType);
     }
 
-    public void setAccountType(AccountType accountType) {
-        this.accountType = accountType.getName();
-    }
-
     public String getClientId() {
         return clientId;
     }
 
     public MqttChannel.MqttCredentials getCredentials() {
         return credentials;
-    }
-
-    public void setTopic(String topic) {
-        this.topic = topic;
-    }
-
-    public void setClientId(String clientId) {
-        this.clientId = clientId;
     }
 
     @Override public String toString() {
@@ -107,9 +107,5 @@ public class Transmitter implements Serializable {
                 ", clientId='" + clientId + '\'' +
                 ", credentials=" + credentials +
                 '}';
-    }
-
-    public void setCredentials(MqttChannel.MqttCredentials credentials) {
-        this.credentials = credentials;
     }
 }
