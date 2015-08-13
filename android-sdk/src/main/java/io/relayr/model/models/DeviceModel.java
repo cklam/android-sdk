@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import io.relayr.model.models.error.DeviceModelsException;
+import io.relayr.model.models.error.DeviceModelsFirmwareException;
 
 /** Main object that defines every device supported on Relayr platrofm. */
 public class DeviceModel implements Serializable {
@@ -81,9 +82,9 @@ public class DeviceModel implements Serializable {
      * Returns {@link DeviceFirmware} for specified version
      * @param version of firmware
      * @return {@link DeviceFirmware}
-     * @throws DeviceModelsException if firmware is not found
+     * @throws DeviceModelsFirmwareException if firmware is not found
      */
-    public DeviceFirmware getFirmwareByVersion(String version) throws DeviceModelsException {
+    public DeviceFirmware getFirmwareByVersion(String version) throws DeviceModelsFirmwareException {
         final DeviceFirmware deviceFirmware = firmware.get(version);
         if (deviceFirmware == null) throw DeviceModelsException.firmwareNotFound();
         return deviceFirmware;
@@ -91,9 +92,9 @@ public class DeviceModel implements Serializable {
 
     /**
      * Returns latest version of firmware. Use only if firmware for the device can not be matched.
-     * @throws DeviceModelsException
+     * @throws DeviceModelsFirmwareException
      */
-    public DeviceFirmware getLatestFirmware() throws DeviceModelsException {
+    public DeviceFirmware getLatestFirmware() throws DeviceModelsFirmwareException {
         if (firmware == null || firmware.isEmpty()) throw DeviceModelsException.firmwareNotFound();
         String version = null;
         for (String firmwareVersion : firmware.keySet())
