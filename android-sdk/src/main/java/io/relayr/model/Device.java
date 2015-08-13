@@ -8,6 +8,7 @@ import io.relayr.RelayrSdk;
 import io.relayr.ble.BleDevicesCache;
 import io.relayr.ble.service.BaseService;
 import io.relayr.model.models.DeviceModel;
+import io.relayr.model.models.error.DeviceModelsException;
 import io.relayr.storage.DeviceModelCache;
 import rx.Observable;
 
@@ -98,7 +99,7 @@ public class Device implements Serializable {
      * Use if {@link RelayrSdk#getDeviceModelsCache()} is initialized.
      * @return {@link DeviceModel}
      */
-    public DeviceModel getDeviceModel() {
+    public DeviceModel getDeviceModel() throws DeviceModelsException {
         return RelayrSdk.getDeviceModelsCache().getModel(getModelId());
     }
 
@@ -153,16 +154,17 @@ public class Device implements Serializable {
         return id.hashCode();
     }
 
-    @Override
-    public String toString() {
-        return "Relayr_Device{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
+    @Override public String toString() {
+        return "Device{" +
+                "name='" + name + '\'' +
+                ", id='" + id + '\'' +
                 ", model=" + model +
                 ", owner='" + owner + '\'' +
                 ", firmwareVersion='" + firmwareVersion + '\'' +
                 ", secret='" + secret + '\'' +
+                ", externalId='" + externalId + '\'' +
                 ", isPublic=" + isPublic +
+                ", accountType='" + accountType + '\'' +
                 '}';
     }
 }

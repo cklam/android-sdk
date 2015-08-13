@@ -9,9 +9,6 @@ import io.relayr.model.Model;
 
 class GroupDevice implements Serializable {
 
-    /**
-     * Auto generated uid
-     */
     private static final long serialVersionUID = 1L;
 
     private final String id;
@@ -21,11 +18,12 @@ class GroupDevice implements Serializable {
     private final String firmwareVersion;
     private final String secret;
     private final String externalId;
+    private final int position;
     @SerializedName("public") private final boolean isPublic;
     @SerializedName("integrationType") private final String accountType;
 
     public GroupDevice(String accountType, boolean isPublic, String externalId, String secret,
-                       String firmwareVersion, String owner, String model, String name, String id) {
+                       String firmwareVersion, String owner, String model, String name, String id, int position) {
         this.accountType = accountType;
         this.isPublic = isPublic;
         this.externalId = externalId;
@@ -35,10 +33,15 @@ class GroupDevice implements Serializable {
         this.model = model;
         this.name = name;
         this.id = id;
+        this.position = position;
     }
 
     public Device toDevice() {
         Model oldModel = new Model(model);
         return new Device(accountType, isPublic, externalId, secret, firmwareVersion, owner, oldModel, name, id);
+    }
+
+    public int getPosition() {
+        return position;
     }
 }

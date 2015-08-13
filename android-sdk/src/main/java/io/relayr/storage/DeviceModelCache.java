@@ -13,6 +13,10 @@ import io.relayr.api.DeviceModelsApi;
 import io.relayr.model.Device;
 import io.relayr.model.models.DeviceModel;
 import io.relayr.model.models.DeviceModels;
+import io.relayr.model.models.error.DeviceModelsCacheException;
+import io.relayr.model.models.error.DeviceModelsException;
+import io.relayr.model.models.error.DeviceModelsNotFoundException;
+import io.relayr.model.models.error.DeviceModelsNullException;
 import retrofit.RetrofitError;
 import rx.Subscriber;
 
@@ -23,12 +27,6 @@ import rx.Subscriber;
  */
 @Singleton
 public class DeviceModelCache {
-
-    public class DeviceModelCacheException extends Exception {
-        public DeviceModelCacheException() {
-            super("Cache not ready.");
-        }
-    }
 
     private static final String TAG = "DeviceModelCache";
     private static final Map<String, DeviceModel> sDeviceModels = new ConcurrentHashMap<>();
@@ -56,18 +54,15 @@ public class DeviceModelCache {
      * @param modelId {@link Device#getModelId()}
      * @return {@link DeviceModel} if one is found, null otherwise
      */
-    public DeviceModel getModel(String modelId) throws DeviceModelCacheException {
-        if (modelId == null) {
-            Log.e(TAG, "Model Id can not be null!");
-            return null;
-        }
+    public DeviceModel getModel(String modelId) throws DeviceModelsException {
+        if (modelId == null) throw DeviceModelsException.nullModelId();
 
-        if (isEmpty()) {
-            refresh();
-            throw new DeviceModelCacheException();
-        }
+        if (isEmpty()) throw DeviceModelsException.cacheNotReady();
 
-        return sDeviceModels.get(modelId);
+        DeviceModel model = sDeviceModels.get(modelId);
+        if (model == null) throw DeviceModelsException.deviceModelNotFound();
+
+        return model;
     }
 
     /**

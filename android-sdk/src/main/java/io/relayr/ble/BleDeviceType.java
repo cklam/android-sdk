@@ -4,9 +4,11 @@ import android.util.Log;
 
 import io.relayr.RelayrSdk;
 import io.relayr.model.models.DeviceFirmware;
+import io.relayr.model.models.DeviceModel;
 import io.relayr.model.models.error.DeviceModelsException;
 import io.relayr.model.models.transport.DeviceReading;
 import io.relayr.model.models.transport.Transport;
+import io.relayr.storage.DeviceModelCache;
 
 /**
  * A class representing the type of a relayr BLE Device.
@@ -33,9 +35,7 @@ public enum BleDeviceType {
         this.dfuName = dfuName;
     }
 
-    /**
-     * Convert the sensor name advertised in ble that into a device type
-     */
+    /** Convert the sensor name advertised in BLE into a device type. Only for Wunderbar devices. */
     public static BleDeviceType getDeviceType(String deviceName) {
         if (deviceName != null) {
             if (deviceName.equals("WunderbarHTU")) return WunderbarHTU;
@@ -58,9 +58,15 @@ public enum BleDeviceType {
         return null;
     }
 
+    /** Only supports Wunderbar devices */
     public static BleDeviceType fromModel(String modelId) {
-        final io.relayr.model.models.DeviceModel model = RelayrSdk.getDeviceModelsCache().getModel(modelId);
-        if (model == null) return Unknown;
+        final DeviceModel model;
+        try {
+            model = RelayrSdk.getDeviceModelsCache().getModel(modelId);
+            if (model == null) return Unknown;
+        } catch (DeviceModelsException e) {
+            return Unknown;
+        }
 
         if (!model.getManufacturer().getName().toLowerCase().contains("relayr")) return Unknown;
 
@@ -105,6 +111,7 @@ public enum BleDeviceType {
         return !getDeviceType(deviceName).equals(Unknown);
     }
 
+    /** Returns static modelId for Wunderbar devices */
     public String getModelId() {
         return modelId;
     }

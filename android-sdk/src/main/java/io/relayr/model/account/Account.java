@@ -7,9 +7,7 @@ import io.relayr.RelayrSdk;
 import io.relayr.storage.DataStorage;
 import rx.Observable;
 
-/**
- * Third party account that can be connected with the relayr user.
- */
+/** Third party account that can be connected with the relayr user. */
 public class Account implements Serializable {
 
     /** Account name for identification */
