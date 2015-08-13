@@ -1,5 +1,7 @@
 package io.relayr.model;
 
+import android.util.Log;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -104,7 +106,12 @@ public class Device implements Serializable {
     }
 
     public String getModelId() {
-        return model.getId();
+        if (model == null) {
+            Log.e("Device", "Device model doesn't exist!");
+            return null;
+        } else {
+            return model.getId();
+        }
     }
 
     public String getName() {
