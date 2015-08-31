@@ -2,8 +2,6 @@ package io.relayr.api.mock;
 
 import com.google.gson.reflect.TypeToken;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 import io.relayr.api.GroupsApi;
@@ -13,7 +11,6 @@ import io.relayr.model.groups.PositionUpdate;
 import rx.Observable;
 
 import static io.relayr.api.mock.MockBackend.USER_GROUP;
-import static io.relayr.api.mock.MockBackend.USER_GROUPS;
 
 public class MockGroupsApi implements GroupsApi {
 
@@ -22,11 +19,6 @@ public class MockGroupsApi implements GroupsApi {
     @Inject
     public MockGroupsApi(MockBackend mockBackend) {
         mMockBackend = mockBackend;
-    }
-
-    @Override public Observable<List<Group>> getGroups() {
-        return mMockBackend.createObservable(new TypeToken<List<Group>>() {
-        }, USER_GROUPS);
     }
 
     @Override public Observable<Group> createGroup(GroupCreate name) {
@@ -62,7 +54,4 @@ public class MockGroupsApi implements GroupsApi {
         return Observable.empty();
     }
 
-    @Override public Observable<Void> deleteAllGroups() {
-        return Observable.empty();
-    }
 }

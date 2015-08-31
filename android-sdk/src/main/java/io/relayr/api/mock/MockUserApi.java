@@ -15,6 +15,7 @@ import io.relayr.model.Device;
 import io.relayr.model.Transmitter;
 import io.relayr.model.User;
 import io.relayr.model.account.Account;
+import io.relayr.model.groups.Group;
 import retrofit.http.Body;
 import retrofit.http.Path;
 import rx.Observable;
@@ -27,6 +28,7 @@ import static io.relayr.api.mock.MockBackend.USERS_CREATE_WUNDERBAR;
 import static io.relayr.api.mock.MockBackend.USERS_TRANSMITTERS;
 import static io.relayr.api.mock.MockBackend.USER_ACCOUNTS;
 import static io.relayr.api.mock.MockBackend.USER_DEVICES;
+import static io.relayr.api.mock.MockBackend.USER_GROUPS;
 import static io.relayr.api.mock.MockBackend.USER_INFO;
 
 public class MockUserApi implements UserApi {
@@ -50,13 +52,22 @@ public class MockUserApi implements UserApi {
     }
 
     @Override
-    public Observable<List<Device>> getUserDevices(String userId) {
+    public Observable<List<Device>> getDevices(String userId) {
         return mServer.createObservable(new TypeToken<List<Device>>() {
         }, USER_DEVICES);
     }
 
+    @Override public Observable<List<Group>> getGroups(String userId) {
+        return mServer.createObservable(new TypeToken<List<Group>>() {
+        }, USER_GROUPS);
+    }
+
+    @Override public Observable<Void> deleteAllGroups(String userId) {
+        return Observable.empty();
+    }
+
     @Override
-    public Observable<User> updateUserDetails(@Body User user, @Path("userId") String userId) {
+    public Observable<User> updateUserDetails(User user, String userId) {
         return Observable.just(user);
     }
 
@@ -94,7 +105,7 @@ public class MockUserApi implements UserApi {
         }, BOOKMARKED_DEVICES);
     }
 
-    @Override public Observable<List<Account>> getUserAccounts(String userId) {
+    @Override public Observable<List<Account>> getAccounts(String userId) {
         return mServer.createObservable(new TypeToken<List<Account>>() {
         }, USER_ACCOUNTS);
     }

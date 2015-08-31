@@ -53,7 +53,7 @@ public class User implements Serializable {
      * @return an {@link rx.Observable} of a list of devices registered under a user.
      */
     public Observable<List<Device>> getDevices() {
-        return RelayrSdk.getUserApi().getUserDevices(id);
+        return RelayrSdk.getUserApi().getDevices(id);
     }
 
     /**
@@ -75,8 +75,8 @@ public class User implements Serializable {
      * Returns a list of third party accounts that user connected with relayr platform.
      * @return an {@link rx.Observable} with a list of {@link Account}
      */
-    public Observable<List<Account>> getUserAccounts() {
-        return RelayrSdk.getUserApi().getUserAccounts(id);
+    public Observable<List<Account>> getAccounts() {
+        return RelayrSdk.getUserApi().getAccounts(id);
     }
 
     /**
@@ -100,7 +100,7 @@ public class User implements Serializable {
      * @return an {@link rx.Observable} list
      */
     public Observable<List<Group>> getGroups() {
-        return RelayrSdk.getGroupsApi().getGroups();
+        return RelayrSdk.getUserApi().getGroups(id);
     }
 
     /**

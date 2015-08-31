@@ -10,6 +10,7 @@ import io.relayr.model.Device;
 import io.relayr.model.Transmitter;
 import io.relayr.model.User;
 import io.relayr.model.account.Account;
+import io.relayr.model.groups.Group;
 import retrofit.http.Body;
 import retrofit.http.DELETE;
 import retrofit.http.GET;
@@ -36,7 +37,20 @@ public interface UserApi {
      * @return an {@link rx.Observable} of a list of devices registered under a user.
      */
     @GET("/users/{userId}/devices")
-    Observable<List<Device>> getUserDevices(@Path("userId") String userId);
+    Observable<List<Device>> getDevices(@Path("userId") String userId);
+
+    /**
+     * Returns list of groups created by user.
+     * @return an {@link Observable} with a list of all user groups {@link Group}.
+     */
+    @GET("/users/{userId}/groups")
+    Observable<List<Group>> getGroups(@Path("userId") String userId);
+
+    /**
+     * Deletes all groups and returns 200 OK if successful, error otherwise.
+     * @return an empty {@link Observable}
+     */
+    @DELETE("/users/{userId}/groups") Observable<Void> deleteAllGroups(@Path("userId") String userId);
 
     /**
      * Updates user details.
@@ -95,12 +109,12 @@ public interface UserApi {
 
     /**
      * Returns a list of accounts that user connected to the relayr account.
-     * Use {@link User#getUserAccounts()} on fetched {@link User} object.
+     * Use {@link User#getAccounts()} on fetched {@link User} object.
      * @param userId id of the user
      * @return an {@link rx.Observable} with a list of accounts {@link Account}
      */
     @GET("/users/{userId}/accounts")
-    Observable<List<Account>> getUserAccounts(@Path("userId") String userId);
+    Observable<List<Account>> getAccounts(@Path("userId") String userId);
 
     /**
      * Returns 200 OK if named account is connected to the users relayr account
