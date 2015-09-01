@@ -1,7 +1,5 @@
 package io.relayr.websocket;
 
-import android.util.Log;
-
 import com.google.gson.Gson;
 
 import org.eclipse.paho.client.mqttv3.MqttException;
@@ -35,6 +33,7 @@ public class WebSocketClient implements SocketClient {
     final ChannelApi mChannelApi;
     final WebSocket<DataChannel> mWebSocket;
     final Map<String, DataChannel> mDeviceChannels = new HashMap<>();
+    final Map<String, DataChannel> mPublishChannels = new HashMap<>();
     final Map<String, PublishSubject<Reading>> mSocketConnections = new HashMap<>();
 
     @Inject
@@ -55,7 +54,7 @@ public class WebSocketClient implements SocketClient {
     public Observable<Void> publish(final String deviceId, final Reading payload) {
         Observable<Void> observable = Observable.create(new Observable.OnSubscribe<Void>() {
             @Override public void call(final Subscriber<? super Void> subscriber) {
-                if (mDeviceChannels.containsKey(deviceId))
+                if (mPublishChannels.containsKey(deviceId))
                     publish(deviceId, payload, subscriber);
                 else
                     mChannelApi.createForDevice(new ChannelDefinition(deviceId, "mqtt"), deviceId)
@@ -69,26 +68,33 @@ public class WebSocketClient implements SocketClient {
                                 @Override public void onCompleted() {}
 
                                 @Override public void onError(Throwable e) {
-                                    mDeviceChannels.remove(deviceId);
+                                    mPublishChannels.remove(deviceId);
                                     subscriber.onError(e);
                                 }
 
                                 @Override public void onNext(DataChannel channel) {
-                                    if (!mDeviceChannels.containsKey(deviceId))
-                                        mDeviceChannels.put(deviceId, channel);
+                                    if (!mPublishChannels.containsKey(deviceId))
+                                        mPublishChannels.put(deviceId, channel);
                                     publish(deviceId, payload, subscriber);
                                 }
                             });
             }
         });
 
-        observable.subscribe();
+        observable.subscribe(new Observer<Void>() {
+            @Override public void onCompleted() {}
+
+            @Override public void onError(Throwable e) {
+            }
+
+            @Override public void onNext(Void aVoid) {}
+        });
         return observable;
     }
 
     private void publish(String deviceId, Reading payload, Subscriber<? super Void> subscriber) {
         try {
-            mWebSocket.publish(mDeviceChannels.get(deviceId).getCredentials().getTopic() + "/data",
+            mWebSocket.publish(mPublishChannels.get(deviceId).getCredentials().getTopic() + "/data",
                     new Gson().toJson(payload));
             subscriber.onNext(null);
         } catch (MqttException e) {

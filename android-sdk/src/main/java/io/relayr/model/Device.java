@@ -9,8 +9,12 @@ import java.io.Serializable;
 import io.relayr.RelayrSdk;
 import io.relayr.ble.BleDevicesCache;
 import io.relayr.ble.service.BaseService;
+import io.relayr.model.models.DeviceFirmware;
 import io.relayr.model.models.DeviceModel;
 import io.relayr.model.models.error.DeviceModelsException;
+import io.relayr.model.models.transport.DeviceReading;
+import io.relayr.model.models.transport.Transport;
+import io.relayr.model.models.transport.ValueSchema;
 import rx.Observable;
 
 /**
@@ -46,9 +50,7 @@ public class Device implements Serializable {
         this.id = id;
     }
 
-    /**
-     * Used only for Wunderbar devices.
-     */
+    /** Used only for Wunderbar devices. */
     public TransmitterDevice toTransmitterDevice() {
         return new TransmitterDevice(id, secret, owner, name, model.getId());
     }
@@ -58,30 +60,25 @@ public class Device implements Serializable {
     }
 
     /**
-     * Subscribes an app to a BLE device. Enables the app to receive data from the device over
+     * Subscribes an app to a BLE device. Enables the app to receive data from the device over.
+     * Used only for Wunderbar sensors.
      * BLE through {@link io.relayr.ble.service.DirectConnectionService}
      */
     public Observable<Reading> subscribeToBleReadings(final BleDevicesCache cache) {
         return toTransmitterDevice().subscribeToBleReadings(cache);
     }
 
-    /**
-     * Subscribes an app to a device channel. Enables the app to receive data from the device.
-     */
+    /** Subscribes an app to a device channel. Enables the app to receive data from the device. */
     public Observable<Reading> subscribeToCloudReadings() {
         return RelayrSdk.getWebSocketClient().subscribe(this);
     }
 
-    /**
-     * Unsubscribes an app from a device channel, stopping and cleaning up the connection.
-     */
+    /** Unsubscribes an app from a device channel, stopping and cleaning up the connection. */
     public void unSubscribeToCloudReadings() {
         RelayrSdk.getWebSocketClient().unSubscribe(id);
     }
 
-    /**
-     * Sends a command to the this device
-     */
+    /** Sends a command to the this device */
     public Observable<Void> sendCommand(Command command) {
         return RelayrSdk.getRelayrApi().sendCommand(id, command);
     }
@@ -102,6 +99,24 @@ public class Device implements Serializable {
      */
     public DeviceModel getDeviceModel() throws DeviceModelsException {
         return RelayrSdk.getDeviceModelsCache().getModel(getModelId());
+    }
+
+    /**
+     * Returns {@link ValueSchema} for specified meaning and path from received {@link Reading} object.
+     * {@link ValueSchema} defines received data and a way to parse it.
+     * @return {@link DeviceModel}
+     */
+    public ValueSchema getValueSchema(String meaning, String path) throws DeviceModelsException {
+        DeviceModel model = RelayrSdk.getDeviceModelsCache().getModel(getModelId());
+        if (model == null) throw DeviceModelsException.deviceModelNotFound();
+
+        DeviceFirmware firmware = model.getFirmwareByVersion(firmwareVersion);
+        if (firmware == null) throw DeviceModelsException.firmwareNotFound();
+
+        Transport defaultTransport = firmware.getDefaultTransport();
+        if (defaultTransport == null) throw DeviceModelsException.transportNotFound();
+
+        return defaultTransport.getReadingByMeaning(meaning, path).getValueSchema();
     }
 
     public String getModelId() {

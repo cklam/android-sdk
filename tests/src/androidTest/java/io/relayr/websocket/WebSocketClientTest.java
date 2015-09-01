@@ -13,6 +13,7 @@ import io.relayr.api.ChannelApi;
 import io.relayr.api.mock.MockBackend;
 import io.relayr.model.Device;
 import io.relayr.model.Model;
+import io.relayr.model.Reading;
 import io.relayr.model.channel.ChannelDefinition;
 import io.relayr.model.channel.DataChannel;
 import io.relayr.model.channel.PublishChannel;
@@ -90,17 +91,23 @@ public class WebSocketClientTest extends TestEnvironment {
                 .createObservable(new TypeToken<PublishChannel>() {
                 }, MockBackend.MQTT_DEVICE_CHANNEL);
 
+        Observable<DataChannel> observableData = new MockBackend(Robolectric.application)
+                .createObservable(new TypeToken<DataChannel>() {
+                }, MockBackend.MQTT_DEVICE_CREDENTIALS);
+
         when(webSocketFactory.createWebSocket()).thenReturn(webSocket);
         when(channelApi.createForDevice(any(ChannelDefinition.class), any(String.class))).thenReturn(observable);
+        when(webSocket.createClient(any(DataChannel.class))).thenReturn(observableData);
 
         socketClient = new WebSocketClient(channelApi, webSocketFactory);
-        socketClient.publish("devId", new Object());
+        socketClient.publish("devId", new Reading(0, 0, "m", "/", 1));
 
-        await();
+        await(500);
 
-        assertThat(socketClient.mDeviceChannels.isEmpty()).isFalse();
+        assertThat(socketClient.mPublishChannels.isEmpty()).isFalse();
 
         verify(channelApi, times(1)).createForDevice(any(ChannelDefinition.class), anyString());
+        verify(webSocket, times(1)).createClient(any(DataChannel.class));
         verify(webSocket, times(1)).publish(anyString(), anyString());
     }
 

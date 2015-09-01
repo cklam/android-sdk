@@ -2,10 +2,12 @@ package io.relayr.model.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import io.relayr.model.models.error.DeviceModelsException;
+import io.relayr.model.models.error.DeviceModelsTransportException;
 import io.relayr.model.models.transport.Transport;
 
 /**
@@ -18,7 +20,7 @@ public class DeviceFirmware implements Serializable {
 
     private ModelLinks _links;
     private String binaries;
-    private Map<String, Transport> transport;
+    private Map<String, Transport> transport = new HashMap<>();
     private String repository;
     private String releaseDate;
     private String releaseNotes;
@@ -78,6 +80,17 @@ public class DeviceFirmware implements Serializable {
         Transport transport = this.transport.get(type);
         if (transport == null) throw DeviceModelsException.transportNotFound();
         return transport;
+    }
+
+    /**
+     * Return a default {@link Transport} object
+     * @return {@link Transport} object
+     * @throws DeviceModelsException if transport doesn't exist
+     */
+    public Transport getDefaultTransport() throws DeviceModelsException {
+        if (transport.isEmpty()) throw DeviceModelsException.transportNotFound();
+        if (transport.size() == 1) return transport.get(getTransportTypes().get(0));
+        else return transport.get("cloud");
     }
 
     @Override public String toString() {
