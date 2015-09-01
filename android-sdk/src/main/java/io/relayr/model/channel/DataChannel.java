@@ -1,13 +1,13 @@
-package io.relayr.model;
+package io.relayr.model.channel;
 
 import java.io.Serializable;
 
-public class MqttChannel implements Serializable {
+public class DataChannel implements Serializable {
 
     private String channelId;
-    private MqttCredentials credentials;
+    private ChannelCredentials credentials;
 
-    public MqttChannel(String channelId, MqttCredentials credentials) {
+    public DataChannel(String channelId, ChannelCredentials credentials) {
         this.channelId = channelId;
         this.credentials = credentials;
     }
@@ -16,25 +16,26 @@ public class MqttChannel implements Serializable {
         return channelId;
     }
 
-    public MqttCredentials getCredentials() {
+    public ChannelCredentials getCredentials() {
         return credentials;
     }
 
     @Override
     public String toString() {
-        return "MqttChannel{" +
+        return "DataChannel{" +
                 "channelId='" + channelId + '\'' +
                 ", credentials=" + credentials +
                 '}';
     }
 
-    public static class MqttCredentials implements Serializable {
+    public static class ChannelCredentials implements Serializable {
+
         private String user;
         private String password;
         private String topic;
         private String clientId;
 
-        public MqttCredentials(String user, String password, String topic, String clientId) {
+        public ChannelCredentials(String user, String password, String topic, String clientId) {
             this.user = user;
             this.password = password;
             this.topic = topic;

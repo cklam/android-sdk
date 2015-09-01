@@ -13,19 +13,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import io.relayr.model.MqttChannel;
+import io.relayr.model.channel.DataChannel;
 import rx.Observable;
 import rx.Subscriber;
 
-class MqttWebSocket extends WebSocket<MqttChannel> {
+class MqttWebSocket extends WebSocket<DataChannel> {
 
     private final String TAG = "MqttWebSocket";
 
     @Override
-    public Observable<MqttChannel> createClient(final MqttChannel channel) {
-        return Observable.create(new Observable.OnSubscribe<MqttChannel>() {
+    public Observable<DataChannel> createClient(final DataChannel channel) {
+        return Observable.create(new Observable.OnSubscribe<DataChannel>() {
             @Override
-            public void call(Subscriber<? super MqttChannel> subscriber) {
+            public void call(Subscriber<? super DataChannel> subscriber) {
                 synchronized (mLock) {
                     if (mClient != null && mClient.isConnected()) {
                         subscriber.onNext(channel);
@@ -33,7 +33,7 @@ class MqttWebSocket extends WebSocket<MqttChannel> {
                     }
 
                     if (channel == null) {
-                        subscriber.onError(new Throwable("MqttChannel data can't be null"));
+                        subscriber.onError(new Throwable("DataChannel data can't be null"));
                         return;
                     }
 

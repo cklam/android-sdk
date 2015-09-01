@@ -5,12 +5,14 @@ import com.google.gson.reflect.TypeToken;
 import javax.inject.Inject;
 
 import io.relayr.api.ChannelApi;
-import io.relayr.model.MqttChannel;
-import io.relayr.model.MqttDefinition;
-import io.relayr.model.MqttExistingChannel;
+import io.relayr.model.channel.DataChannel;
+import io.relayr.model.channel.ChannelDefinition;
+import io.relayr.model.channel.ExistingChannel;
+import io.relayr.model.channel.PublishChannel;
 import rx.Observable;
 import rx.Subscriber;
 
+import static io.relayr.api.mock.MockBackend.MQTT_DEVICE_CREDENTIALS;
 import static io.relayr.api.mock.MockBackend.MQTT_CREDENTIALS;
 
 public class MockChannelApi implements ChannelApi {
@@ -23,8 +25,8 @@ public class MockChannelApi implements ChannelApi {
     }
 
     @Override
-    public Observable<MqttChannel> create( MqttDefinition mqttDefinition) {
-        return mMockBackend.createObservable(new TypeToken<MqttChannel>() {
+    public Observable<DataChannel> create(ChannelDefinition mqttDefinition) {
+        return mMockBackend.createObservable(new TypeToken<DataChannel>() {
         }, MQTT_CREDENTIALS);
     }
 
@@ -40,7 +42,13 @@ public class MockChannelApi implements ChannelApi {
     }
 
     @Override
-    public Observable<MqttExistingChannel> getChannels(String deviceId) {
+    public Observable<ExistingChannel> getChannels(String deviceId) {
         return Observable.empty();
+    }
+
+    @Override
+    public Observable<PublishChannel> createForDevice(ChannelDefinition mqttDefinition, String deviceId) {
+        return mMockBackend.createObservable(new TypeToken<PublishChannel>() {
+        }, MQTT_DEVICE_CREDENTIALS);
     }
 }

@@ -5,14 +5,14 @@ import com.google.gson.Gson;
 import java.util.concurrent.TimeUnit;
 
 import io.relayr.api.mock.MockBackend;
-import io.relayr.model.MqttChannel;
+import io.relayr.model.channel.DataChannel;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
-class MockWebSocket extends WebSocket<MqttChannel> {
+class MockWebSocket extends WebSocket<DataChannel> {
 
     private final MockBackend mMockBackend;
 
@@ -54,10 +54,10 @@ class MockWebSocket extends WebSocket<MqttChannel> {
     }
 
     @Override
-    Observable<MqttChannel> createClient(final MqttChannel channel) {
-        return Observable.create(new Observable.OnSubscribe<MqttChannel>() {
+    Observable<DataChannel> createClient(final DataChannel channel) {
+        return Observable.create(new Observable.OnSubscribe<DataChannel>() {
             @Override
-            public void call(Subscriber<? super MqttChannel> subscriber) {
+            public void call(Subscriber<? super DataChannel> subscriber) {
                 subscriber.onNext(channel);
             }
         });

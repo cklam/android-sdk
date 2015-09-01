@@ -1,14 +1,14 @@
-package io.relayr.model;
+package io.relayr.model.channel;
 
 import java.io.Serializable;
 import java.util.List;
 
-public class MqttExistingChannel implements Serializable {
+public class ExistingChannel implements Serializable {
 
     private String deviceId;
-    private List<MqttChannelInfo> channels;
+    private List<ChannelInfo> channels;
 
-    public MqttExistingChannel(String deviceId, List<MqttChannelInfo> channels) {
+    public ExistingChannel(String deviceId, List<ChannelInfo> channels) {
         this.deviceId = deviceId;
         this.channels = channels;
     }
@@ -17,24 +17,24 @@ public class MqttExistingChannel implements Serializable {
         return deviceId;
     }
 
-    public List<MqttChannelInfo> getChannels() {
+    public List<ChannelInfo> getChannels() {
         return channels;
     }
 
     @Override
     public String toString() {
-        return "MqttExistingChannel{" +
+        return "ExistingChannel{" +
                 "deviceId='" + deviceId + '\'' +
                 ", channels=" + channels +
                 '}';
     }
 
-    public class MqttChannelInfo {
+    public class ChannelInfo {
         String channelId;
         String appId;
         String transport;
 
-        public MqttChannelInfo(String channelId, String appId, String transport) {
+        public ChannelInfo(String channelId, String appId, String transport) {
             this.channelId = channelId;
             this.appId = appId;
             this.transport = transport;
@@ -42,7 +42,7 @@ public class MqttExistingChannel implements Serializable {
 
         @Override
         public String toString() {
-            return "MqttChannelInfo{" +
+            return "ChannelInfo{" +
                     "channelId='" + channelId + '\'' +
                     ", appId='" + appId + '\'' +
                     ", transport='" + transport + '\'' +

@@ -7,6 +7,7 @@ import java.util.List;
 
 import io.relayr.RelayrSdk;
 import io.relayr.model.account.AccountType;
+import io.relayr.model.channel.DataChannel;
 import rx.Observable;
 
 /**
@@ -24,7 +25,7 @@ public class Transmitter implements Serializable {
     private String topic;
     private String name;
     private String clientId;
-    private MqttChannel.MqttCredentials credentials;
+    private DataChannel.ChannelCredentials credentials;
     @SerializedName("integrationType") private String accountType;
 
     public Transmitter(String owner, String name, AccountType type) {
@@ -92,7 +93,7 @@ public class Transmitter implements Serializable {
         return clientId;
     }
 
-    public MqttChannel.MqttCredentials getCredentials() {
+    public DataChannel.ChannelCredentials getCredentials() {
         return credentials;
     }
 

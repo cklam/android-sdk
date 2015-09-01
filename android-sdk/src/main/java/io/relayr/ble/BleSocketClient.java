@@ -56,7 +56,11 @@ public class BleSocketClient implements SocketClient {
 
     @Override
     public void unSubscribe(String sensorId) {
+        //No implementation
+    }
 
+    @Override public Observable<Void> publish(String deviceId, Object payload) {
+        return Observable.empty();
     }
 
 }

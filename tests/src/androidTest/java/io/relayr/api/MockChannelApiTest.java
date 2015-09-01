@@ -2,15 +2,12 @@ package io.relayr.api;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.Mock;
 
 import javax.inject.Inject;
 
 import io.relayr.TestEnvironment;
-import io.relayr.model.MqttChannel;
-import io.relayr.model.MqttDefinition;
+import io.relayr.model.channel.DataChannel;
+import io.relayr.model.channel.ChannelDefinition;
 import rx.Observer;
 
 import static org.fest.assertions.api.Assertions.assertThat;
@@ -18,7 +15,7 @@ import static org.fest.assertions.api.Assertions.assertThat;
 public class MockChannelApiTest extends TestEnvironment {
 
     @Inject ChannelApi channelApi;
-    private MqttChannel createdChannel;
+    private DataChannel createdChannel;
 
     @Before
     public void init() {
@@ -29,8 +26,8 @@ public class MockChannelApiTest extends TestEnvironment {
     @Test
     @SuppressWarnings("unchecked")
     public void getMqttData() throws Exception {
-        channelApi.create(new MqttDefinition("shiny_id", "dev_id"))
-                .subscribe(new Observer<MqttChannel>() {
+        channelApi.create(new ChannelDefinition("shiny_id", "dev_id"))
+                .subscribe(new Observer<DataChannel>() {
                     @Override
                     public void onCompleted() {
                         countDown();
@@ -42,7 +39,7 @@ public class MockChannelApiTest extends TestEnvironment {
                     }
 
                     @Override
-                    public void onNext(MqttChannel mqttChannel) {
+                    public void onNext(DataChannel mqttChannel) {
                         createdChannel = mqttChannel;
                         countDown();
                     }

@@ -11,7 +11,6 @@ import io.relayr.ble.BleDevicesCache;
 import io.relayr.ble.service.BaseService;
 import io.relayr.model.models.DeviceModel;
 import io.relayr.model.models.error.DeviceModelsException;
-import io.relayr.storage.DeviceModelCache;
 import rx.Observable;
 
 /**
@@ -165,7 +164,7 @@ public class Device implements Serializable {
         return "Device{" +
                 "name='" + name + '\'' +
                 ", id='" + id + '\'' +
-                ", model=" + model +
+                ", model=" + getModelId() +
                 ", owner='" + owner + '\'' +
                 ", firmwareVersion='" + firmwareVersion + '\'' +
                 ", secret='" + secret + '\'' +

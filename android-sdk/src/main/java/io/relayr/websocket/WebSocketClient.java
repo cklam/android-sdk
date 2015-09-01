@@ -2,6 +2,8 @@ package io.relayr.websocket;
 
 import com.google.gson.Gson;
 
+import org.eclipse.paho.client.mqttv3.MqttException;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,11 +14,12 @@ import io.relayr.SocketClient;
 import io.relayr.api.ChannelApi;
 import io.relayr.model.DataPackage;
 import io.relayr.model.Device;
-import io.relayr.model.MqttChannel;
-import io.relayr.model.MqttDefinition;
 import io.relayr.model.Reading;
-import io.relayr.model.TransmitterDevice;
+import io.relayr.model.channel.ChannelDefinition;
+import io.relayr.model.channel.DataChannel;
+import io.relayr.model.channel.PublishChannel;
 import rx.Observable;
+import rx.Observer;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -28,8 +31,8 @@ import rx.subjects.PublishSubject;
 public class WebSocketClient implements SocketClient {
 
     final ChannelApi mChannelApi;
-    final WebSocket<MqttChannel> mWebSocket;
-    final Map<String, MqttChannel> mDeviceChannels = new HashMap<>();
+    final WebSocket<DataChannel> mWebSocket;
+    final Map<String, DataChannel> mDeviceChannels = new HashMap<>();
     final Map<String, PublishSubject<Reading>> mSocketConnections = new HashMap<>();
 
     @Inject
@@ -46,19 +49,58 @@ public class WebSocketClient implements SocketClient {
             return start(device.getId());
     }
 
+    @Override
+    public Observable<Void> publish(final String deviceId, final Object payload) {
+        Observable<Void> observable = Observable.create(new Observable.OnSubscribe<Void>() {
+            @Override public void call(final Subscriber<? super Void> subscriber) {
+                if (mDeviceChannels.containsKey(deviceId))
+                    publish(deviceId, payload, subscriber);
+                else
+                    mChannelApi.createForDevice(new ChannelDefinition(deviceId, "mqtt"), deviceId)
+                            .subscribe(new Observer<PublishChannel>() {
+                                @Override public void onCompleted() {}
+
+                                @Override public void onError(Throwable e) {
+                                    mDeviceChannels.remove(deviceId);
+                                    subscriber.onError(e);
+                                }
+
+                                @Override public void onNext(PublishChannel channel) {
+                                    if (!mDeviceChannels.containsKey(deviceId))
+                                        mDeviceChannels.put(deviceId, channel);
+                                    publish(deviceId, payload, subscriber);
+                                }
+                            });
+            }
+        });
+
+        observable.subscribe();
+        return observable;
+    }
+
+    private void publish(String deviceId, Object payload, Subscriber<? super Void> subscriber) {
+        try {
+            mWebSocket.publish(mDeviceChannels.get(deviceId).getCredentials().getTopic(),
+                    new Gson().toJson(payload));
+            subscriber.onNext(null);
+        } catch (MqttException e) {
+            subscriber.onError(e);
+        }
+    }
+
     private synchronized Observable<Reading> start(final String deviceId) {
         final PublishSubject<Reading> subject = PublishSubject.create();
         mSocketConnections.put(deviceId, subject);
 
-        mChannelApi.create(new MqttDefinition(deviceId, "mqtt"))
-                .flatMap(new Func1<MqttChannel, Observable<MqttChannel>>() {
+        mChannelApi.create(new ChannelDefinition(deviceId, "mqtt"))
+                .flatMap(new Func1<DataChannel, Observable<DataChannel>>() {
                     @Override
-                    public Observable<MqttChannel> call(final MqttChannel channel) {
+                    public Observable<DataChannel> call(final DataChannel channel) {
                         return mWebSocket.createClient(channel);
                     }
                 })
                 .subscribeOn(Schedulers.newThread())
-                .subscribe(new Subscriber<MqttChannel>() {
+                .subscribe(new Subscriber<DataChannel>() {
                     @Override
                     public void onCompleted() {
                     }
@@ -70,7 +112,7 @@ public class WebSocketClient implements SocketClient {
                     }
 
                     @Override
-                    public void onNext(MqttChannel channel) {
+                    public void onNext(DataChannel channel) {
                         subscribeToChannel(channel, deviceId, subject);
                     }
                 });
@@ -84,7 +126,7 @@ public class WebSocketClient implements SocketClient {
                 });
     }
 
-    private void subscribeToChannel(final MqttChannel channel, final String deviceId,
+    private void subscribeToChannel(final DataChannel channel, final String deviceId,
                                     final PublishSubject<Reading> subject) {
         mWebSocket.subscribe(channel.getCredentials().getTopic(), channel.getChannelId(), new WebSocketCallback() {
             @Override

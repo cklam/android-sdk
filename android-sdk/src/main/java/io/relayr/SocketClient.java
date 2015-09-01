@@ -2,7 +2,6 @@ package io.relayr;
 
 import io.relayr.model.Device;
 import io.relayr.model.Reading;
-import io.relayr.model.TransmitterDevice;
 import rx.Observable;
 
 public interface SocketClient {
@@ -18,5 +17,12 @@ public interface SocketClient {
      * @param sensorId the Id of {@link io.relayr.model.TransmitterDevice}
      */
     void unSubscribe(final String sensorId);
+
+    /**
+     * Publish data from device. Device needs to be created in order to publish data to platform
+     * @param deviceId id of the device to publish data
+     * @param payload  data to publish
+     */
+    Observable<Void> publish(String deviceId, Object payload) throws Exception;
 
 }
