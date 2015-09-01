@@ -10,7 +10,9 @@ import javax.inject.Inject;
 import io.relayr.TestEnvironment;
 import io.relayr.model.account.AccountUrl;
 import io.relayr.model.groups.Group;
+import io.relayr.model.groups.GroupCreate;
 import rx.Observer;
+import rx.Subscriber;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
@@ -18,7 +20,6 @@ public class MockGroupsApiTest extends TestEnvironment {
 
     @Inject GroupsApi api;
 
-    private int numOfObjects = 0;
     private Group group;
 
     @Before
@@ -28,45 +29,68 @@ public class MockGroupsApiTest extends TestEnvironment {
     }
 
     @Test
-    @SuppressWarnings("unchecked")
-    public void getGroupsTest() throws Exception {
-        api.getGroups().subscribe(new Observer<List<Group>>() {
-            @Override public void onCompleted() {
-                countDown();
-            }
+    public void createGroupTest() {
+        api.createGroup(null)
+                .subscribe(new Observer<Group>() {
+                    @Override public void onCompleted() {
+                        countDown();
+                    }
 
-            @Override public void onError(Throwable e) {
-                countDown();
-            }
+                    @Override public void onError(Throwable e) {
+                        countDown();
+                    }
 
-            @Override public void onNext(List<Group> groups) {
-                numOfObjects = groups.size();
-                countDown();
-            }
-        });
+                    @Override public void onNext(Group g) {
+                        group = g;
+                        countDown();
+                    }
+                });
 
         await();
 
-        assertThat(numOfObjects).isEqualTo(2);
+        assertThat(group).isNotNull();
+        assertThat(group.getName()).isEqualTo("Test group");
     }
 
     @Test
-    @SuppressWarnings("unchecked")
+    public void updateGroupTest() {
+        api.createGroup(null)
+                .subscribe(new Observer<Group>() {
+                    @Override public void onCompleted() {countDown();}
+
+                    @Override public void onError(Throwable e) {countDown();}
+
+                    @Override public void onNext(Group g) {
+                        group = g;
+                        countDown();
+                    }
+                });
+
+        await();
+
+        group.update("name").subscribe();
+        assertThat(group).isNotNull();
+        assertThat(group.getName()).isEqualTo("name");
+    }
+
+
+    @Test
     public void getGroupByIdTest() throws Exception {
-        api.getGroup("ID").subscribe(new Observer<Group>() {
-            @Override public void onCompleted() {
-                countDown();
-            }
+        api.getGroup("ID")
+                .subscribe(new Observer<Group>() {
+                    @Override public void onCompleted() {
+                        countDown();
+                    }
 
-            @Override public void onError(Throwable e) {
-                countDown();
-            }
+                    @Override public void onError(Throwable e) {
+                        countDown();
+                    }
 
-            @Override public void onNext(Group g) {
-                group = g;
-                countDown();
-            }
-        });
+                    @Override public void onNext(Group g) {
+                        group = g;
+                        countDown();
+                    }
+                });
 
         await();
 

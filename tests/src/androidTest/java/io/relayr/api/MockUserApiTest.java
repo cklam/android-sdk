@@ -18,6 +18,7 @@ import io.relayr.model.CreateWunderBar;
 import io.relayr.model.Device;
 import io.relayr.model.Transmitter;
 import io.relayr.model.User;
+import io.relayr.model.groups.Group;
 import rx.Observer;
 
 import static org.fest.assertions.api.Assertions.assertThat;
@@ -38,6 +39,8 @@ public class MockUserApiTest extends TestEnvironment {
     @Captor private ArgumentCaptor<Bookmark> bookmarkCaptor;
 
     @Mock private Observer subscriber;
+
+    private int numOfObjects = 0;
 
     @Before
     public void init() {
@@ -66,11 +69,32 @@ public class MockUserApiTest extends TestEnvironment {
         assertThat(userCaptor.getValue().getEmail()).isEqualTo("hugo@email.com");
     }
 
+    @Test
+    public void getGroupsTest() throws Exception {
+        api.getGroups(ID).subscribe(new Observer<List<Group>>() {
+            @Override public void onCompleted() {
+                countDown();
+            }
+
+            @Override public void onError(Throwable e) {
+                countDown();
+            }
+
+            @Override public void onNext(List<Group> groups) {
+                numOfObjects = groups.size();
+                countDown();
+            }
+        });
+
+        await();
+
+        assertThat(numOfObjects).isEqualTo(2);
+    }
 
     @Test
     @SuppressWarnings("unchecked")
     public void getUserDevicesTest() {
-        api.getUserDevices(ID).subscribe(subscriber);
+        api.getDevices(ID).subscribe(subscriber);
 
         verify(subscriber).onNext(userDevicesCaptor.capture());
 

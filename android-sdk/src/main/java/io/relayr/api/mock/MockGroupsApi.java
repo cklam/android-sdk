@@ -21,11 +21,12 @@ public class MockGroupsApi implements GroupsApi {
         mMockBackend = mockBackend;
     }
 
-    @Override public Observable<Group> createGroup(GroupCreate name) {
-        return Observable.empty();
+    @Override public Observable<Group> createGroup(GroupCreate group) {
+        return mMockBackend.createObservable(new TypeToken<Group>() {
+        }, USER_GROUP);
     }
 
-    @Override public Observable<Group> getGroup( String groupId) {
+    @Override public Observable<Group> getGroup(String groupId) {
         return mMockBackend.createObservable(new TypeToken<Group>() {
         }, USER_GROUP);
     }
