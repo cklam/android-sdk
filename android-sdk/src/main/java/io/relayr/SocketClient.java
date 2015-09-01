@@ -19,10 +19,11 @@ public interface SocketClient {
     void unSubscribe(final String sensorId);
 
     /**
-     * Publish data from device. Device needs to be created in order to publish data to platform
+     * Publish data from device. Device needs to be created in order to publish data to platform.
+     * Every published object should be in the form of {@link Reading}
      * @param deviceId id of the device to publish data
-     * @param payload  data to publish
+     * @param reading  data to publish - object value should be defined by the model
      */
-    Observable<Void> publish(String deviceId, Object payload) throws Exception;
+    Observable<Void> publish(String deviceId, Reading reading) throws Exception;
 
 }

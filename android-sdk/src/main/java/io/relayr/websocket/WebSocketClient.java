@@ -1,5 +1,7 @@
 package io.relayr.websocket;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 
 import org.eclipse.paho.client.mqttv3.MqttException;
@@ -50,14 +52,20 @@ public class WebSocketClient implements SocketClient {
     }
 
     @Override
-    public Observable<Void> publish(final String deviceId, final Object payload) {
+    public Observable<Void> publish(final String deviceId, final Reading payload) {
         Observable<Void> observable = Observable.create(new Observable.OnSubscribe<Void>() {
             @Override public void call(final Subscriber<? super Void> subscriber) {
                 if (mDeviceChannels.containsKey(deviceId))
                     publish(deviceId, payload, subscriber);
                 else
                     mChannelApi.createForDevice(new ChannelDefinition(deviceId, "mqtt"), deviceId)
-                            .subscribe(new Observer<PublishChannel>() {
+                            .flatMap(new Func1<PublishChannel, Observable<DataChannel>>() {
+                                @Override
+                                public Observable<DataChannel> call(PublishChannel channel) {
+                                    return mWebSocket.createClient(channel);
+                                }
+                            })
+                            .subscribe(new Observer<DataChannel>() {
                                 @Override public void onCompleted() {}
 
                                 @Override public void onError(Throwable e) {
@@ -65,7 +73,7 @@ public class WebSocketClient implements SocketClient {
                                     subscriber.onError(e);
                                 }
 
-                                @Override public void onNext(PublishChannel channel) {
+                                @Override public void onNext(DataChannel channel) {
                                     if (!mDeviceChannels.containsKey(deviceId))
                                         mDeviceChannels.put(deviceId, channel);
                                     publish(deviceId, payload, subscriber);
@@ -78,9 +86,9 @@ public class WebSocketClient implements SocketClient {
         return observable;
     }
 
-    private void publish(String deviceId, Object payload, Subscriber<? super Void> subscriber) {
+    private void publish(String deviceId, Reading payload, Subscriber<? super Void> subscriber) {
         try {
-            mWebSocket.publish(mDeviceChannels.get(deviceId).getCredentials().getTopic(),
+            mWebSocket.publish(mDeviceChannels.get(deviceId).getCredentials().getTopic() + "/data",
                     new Gson().toJson(payload));
             subscriber.onNext(null);
         } catch (MqttException e) {
