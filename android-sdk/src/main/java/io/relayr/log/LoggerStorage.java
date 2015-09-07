@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.relayr.RelayrApp;
-import io.relayr.model.LogEvent;
+import io.relayr.java.model.LogEvent;
 
 /**
  * LogStorage wraps SharedPreferences and acts as queue.
@@ -42,7 +42,6 @@ public class LoggerStorage {
 
     /**
      * Saves message to storage and returns true when there are enough messages to remove from storage.
-     *
      * @param message to log on the platform
      * @return true if number of saved messages is above the limit, false otherwise
      */
@@ -58,8 +57,7 @@ public class LoggerStorage {
 
     /**
      * Returns saved messages. Maximum of returned messages is limited on initialization.
-     *
-     * @return list of {@link io.relayr.model.LogEvent} objects
+     * @return list of {@link LogEvent} objects
      */
     static synchronized List<LogEvent> loadMessages() {
         long start;
@@ -89,8 +87,7 @@ public class LoggerStorage {
 
     /**
      * Returns all saved messages.
-     *
-     * @return list of {@link io.relayr.model.LogEvent} objects
+     * @return list of {@link LogEvent} objects
      */
     static synchronized List<LogEvent> loadAllMessages() {
         synchronized (sHead) {

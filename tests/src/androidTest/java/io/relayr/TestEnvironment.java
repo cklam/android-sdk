@@ -10,20 +10,16 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import dagger.ObjectGraph;
-import io.relayr.api.TestModule;
+
 
 @RunWith(RobolectricTestRunner.class)
 public class TestEnvironment {
 
-    public final String USER_ID = "shiny_id";
-    public final String APP_NAME = "Test app";
-
-    private CountDownLatch lock;
+    protected CountDownLatch lock;
 
     @Before
     public void init() {
         lock = new CountDownLatch(1);
-
         MockitoAnnotations.initMocks(this);
     }
 

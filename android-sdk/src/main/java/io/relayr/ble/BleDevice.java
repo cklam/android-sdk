@@ -4,13 +4,12 @@ import android.annotation.TargetApi;
 import android.bluetooth.BluetoothDevice;
 import android.os.Build;
 
-import java.io.Serializable;
-
 import io.relayr.ble.service.BaseService;
 import io.relayr.ble.service.DirectConnectionService;
 import io.relayr.ble.service.MasterModuleService;
-import io.relayr.ble.service.OnBoardingV2Service;
 import io.relayr.ble.service.OnBoardingService;
+import io.relayr.ble.service.OnBoardingV2Service;
+import io.relayr.java.ble.BleDeviceType;
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Func1;
@@ -46,12 +45,12 @@ public class BleDevice {
         mDeviceManager = manager;
         serviceObservable =
                 mode == ON_BOARDING ?
-                    OnBoardingService.connect(this, bluetoothDevice).cache() :
-                mode == DIRECT_CONNECTION ?
-                    DirectConnectionService.connect(this, bluetoothDevice).cache() :
-                mode == NEW_ON_BOARDING ?
-                    OnBoardingV2Service.connect(this, bluetoothDevice).cache() :
-                    MasterModuleService.connect(this, bluetoothDevice).cache();
+                        OnBoardingService.connect(this, bluetoothDevice).cache() :
+                        mode == DIRECT_CONNECTION ?
+                                DirectConnectionService.connect(this, bluetoothDevice).cache() :
+                                mode == NEW_ON_BOARDING ?
+                                        OnBoardingV2Service.connect(this, bluetoothDevice).cache() :
+                                        MasterModuleService.connect(this, bluetoothDevice).cache();
     }
 
     /**
@@ -83,7 +82,7 @@ public class BleDevice {
      * The type of the Device
      * Possible values are: WunderbarHTU, WunderbarGYRO, WunderbarLIGHT, WunderbarMIC,
      * WunderbarBRIDG, WunderbarIR, WunderbarApp, Unknown
-     * @return type of type {@link io.relayr.ble.BleDeviceType}.
+     * @return type of type {@link BleDeviceType}.
      */
     public BleDeviceType getType() {
         return type;

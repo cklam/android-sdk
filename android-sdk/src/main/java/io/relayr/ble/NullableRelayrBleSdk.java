@@ -1,16 +1,16 @@
 package io.relayr.ble;
 
-import android.bluetooth.BluetoothDevice;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import io.relayr.java.ble.BleDeviceType;
 import rx.Observable;
 import rx.Subscriber;
 
 class NullableRelayrBleSdk extends RelayrBleSdk {
 
+    @Override
     public Observable<List<BleDevice>> scan(Collection<BleDeviceType> deviceTypes) {
         return Observable.create(new Observable.OnSubscribe<List<BleDevice>>() {
             @Override
@@ -37,9 +37,10 @@ class NullableRelayrBleSdk extends RelayrBleSdk {
         return new BleDevice(null, "Wunderbar MM", BleDeviceMode.NEW_ON_BOARDING, new BleDeviceManager());
     }
 
-    public void stop() {
-    }
+    @Override
+    public void stop() {}
 
+    @Override
     public boolean isScanning() {
         return false;
     }

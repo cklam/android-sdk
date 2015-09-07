@@ -2,16 +2,11 @@ package io.relayr.util;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.robolectric.RobolectricTestRunner;
 
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-
-import io.relayr.api.CloudApi;
-import io.relayr.model.Status;
+import io.relayr.TestEnvironment;
+import io.relayr.java.api.CloudApi;
+import io.relayr.java.model.Status;
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Action1;
@@ -19,19 +14,16 @@ import rx.functions.Action1;
 import static org.fest.assertions.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-@RunWith(RobolectricTestRunner.class)
-public class ReachabilityUtilTest {
+public class ReachabilityUtilTest extends TestEnvironment {
 
     @Mock private CloudApi api;
 
     private boolean reachable;
-    private CountDownLatch lock;
     private ReachabilityUtils utils;
 
     @Before
     public void init() {
-        lock = new CountDownLatch(1);
-        MockitoAnnotations.initMocks(this);
+        super.init();
         utils = new ReachabilityUtils(api);
     }
 
@@ -133,13 +125,5 @@ public class ReachabilityUtilTest {
         final String PERMISSION_INTERNET = "android.permission.ACCESS_WIFI_STATE";
 
         assertThat(utils.isPermissionGranted(PERMISSION_INTERNET)).isFalse();
-    }
-
-    public void await() {
-        try {
-            lock.await(100, TimeUnit.MILLISECONDS);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 }

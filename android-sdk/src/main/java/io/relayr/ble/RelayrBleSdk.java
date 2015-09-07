@@ -3,11 +3,10 @@ package io.relayr.ble;
 import java.util.Collection;
 import java.util.List;
 
+import io.relayr.java.ble.BleDeviceType;
 import rx.Observable;
 
-/**
- * This class handles all methods related to BLE (Bluetooth Low Energy) communication.
- */
+/** This class handles all methods related to BLE (Bluetooth Low Energy) communication. */
 public abstract class RelayrBleSdk {
 
     /**
@@ -25,14 +24,10 @@ public abstract class RelayrBleSdk {
      */
     public abstract Observable<List<BleDevice>> scan(Collection<BleDeviceType> deviceTypes, long scanPeriod);
 
-    /**
-     * Returns BleDevice if it's paired.
-     */
+    /** Returns BleDevice if it's paired. */
     public abstract BleDevice getPairedDevice(String macAddress);
 
-    /**
-     * Stops an ongoing BLE device scan.
-     */
+    /** Stops an ongoing BLE device scan. */
     public abstract void stop();
 
     /**
@@ -40,11 +35,5 @@ public abstract class RelayrBleSdk {
      * Returns true in case it is, false otherwise.
      */
     public abstract boolean isScanning();
-
-    /**
-     * Used as an access point to the class {@link io.relayr.ble.BleSocketClient}
-     * @return the handler of the BleSocket client
-     */
-    //public abstract SocketClient getBleSocketClient();
 
 }

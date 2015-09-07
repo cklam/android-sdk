@@ -4,11 +4,11 @@ import java.util.HashSet;
 import java.util.List;
 
 import io.relayr.RelayrSdk;
-import io.relayr.SocketClient;
 import io.relayr.ble.service.BaseService;
 import io.relayr.ble.service.DirectConnectionService;
-import io.relayr.model.Device;
-import io.relayr.model.Reading;
+import io.relayr.java.ble.BleDeviceType;
+import io.relayr.java.model.Device;
+import io.relayr.java.model.Reading;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -16,9 +16,8 @@ import rx.functions.Func1;
 
 import static java.util.Arrays.asList;
 
-public class BleSocketClient implements SocketClient {
+public class BleSocketClient {
 
-    @Override
     public Observable<Reading> subscribe(Device device) {
         return RelayrSdk.getRelayrBleSdk()
                 .scan(new HashSet<>(asList(BleDeviceType.fromModel(device.getModelId()))))
@@ -54,12 +53,11 @@ public class BleSocketClient implements SocketClient {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    @Override
     public void unSubscribe(String sensorId) {
         //No implementation
     }
 
-    @Override public Observable<Void> publish(String deviceId, Reading payload) {
+    public Observable<Void> publish(String deviceId, Reading payload) {
         return Observable.empty();
     }
 

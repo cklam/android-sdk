@@ -7,15 +7,15 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 
 import io.relayr.RelayrSdk;
+import io.relayr.TestEnvironment;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
-@RunWith(RobolectricTestRunner.class)
-public class DataStorageTest {
+public class DataStorageTest extends TestEnvironment {
 
     @Before
     public void init() {
-        new RelayrSdk.Builder(Robolectric.application).inMockMode(true).build();
+        super.init();
         DataStorage.logOut();
     }
 

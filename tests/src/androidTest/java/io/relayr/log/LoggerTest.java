@@ -3,17 +3,14 @@ package io.relayr.log;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
 
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import io.relayr.RelayrSdk;
-import io.relayr.api.CloudApi;
+import io.relayr.TestEnvironment;
+import io.relayr.java.api.CloudApi;
 import io.relayr.storage.DataStorage;
 import io.relayr.util.ReachabilityUtils;
 import rx.Observable;
@@ -26,22 +23,18 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(RobolectricTestRunner.class)
-public class LoggerTest {
+public class LoggerTest extends TestEnvironment {
 
     @Mock private CloudApi cloudApi;
     @Mock private ReachabilityUtils reachUtils;
 
-    private CountDownLatch lock;
     private Logger logUtils;
 
     @Before
     public void before() {
-        lock = new CountDownLatch(1);
+        super.init();
 
         DataStorage.saveUserToken("ut");
-        MockitoAnnotations.initMocks(this);
-        new RelayrSdk.Builder(Robolectric.application).inMockMode(true).build();
 
         Observable<Boolean> mockObservable = Observable.create(new Observable.OnSubscribe<Boolean>() {
             @Override

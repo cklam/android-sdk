@@ -15,8 +15,8 @@ import javax.inject.Singleton;
 
 import io.relayr.RelayrApp;
 import io.relayr.RelayrSdk;
-import io.relayr.api.CloudApi;
-import io.relayr.model.Status;
+import io.relayr.java.api.CloudApi;
+import io.relayr.java.model.Status;
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Func1;
@@ -25,7 +25,7 @@ import rx.schedulers.Schedulers;
 @Singleton
 public class ReachabilityUtils {
 
-    private static final String TAG = "io.relayr.util.ReachabilityUtils";
+    private static final String TAG = "ReachabilityUtils";
 
     private CloudApi mApi;
     private Map<String, Boolean> sPermissions;

@@ -14,12 +14,13 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
+import io.relayr.java.ble.BleDeviceType;
 import rx.Observable;
 import rx.Observer;
 
 import static io.relayr.ble.BleDeviceMode.DIRECT_CONNECTION;
-import static io.relayr.ble.BleDeviceType.WunderbarBRIDG;
-import static io.relayr.ble.BleDeviceType.WunderbarGYRO;
+import static io.relayr.java.ble.BleDeviceType.WunderbarBRIDG;
+import static io.relayr.java.ble.BleDeviceType.WunderbarGYRO;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Mockito.mock;

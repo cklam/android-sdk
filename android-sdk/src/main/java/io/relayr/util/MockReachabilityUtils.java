@@ -2,7 +2,7 @@ package io.relayr.util;
 
 import javax.inject.Inject;
 
-import io.relayr.api.CloudApi;
+import io.relayr.java.api.CloudApi;
 import rx.Observable;
 import rx.Subscriber;
 

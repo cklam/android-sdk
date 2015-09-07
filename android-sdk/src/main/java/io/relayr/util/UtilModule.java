@@ -4,8 +4,8 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import io.relayr.api.ApiModule;
-import io.relayr.api.CloudApi;
+import io.relayr.java.api.ApiModule;
+import io.relayr.java.api.CloudApi;
 
 @Module(
         complete = false,
@@ -14,8 +14,7 @@ import io.relayr.api.CloudApi;
 )
 public class UtilModule {
 
-    @Provides @Singleton
-    ReachabilityUtils provideReachabilityUtils(CloudApi api) {
+    @Provides @Singleton ReachabilityUtils provideReachabilityUtils(CloudApi api) {
         return new ReachabilityUtils(api);
     }
 }

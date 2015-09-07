@@ -4,8 +4,8 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import io.relayr.api.CloudApi;
-import io.relayr.api.mock.DebugApiModule;
+import io.relayr.java.api.CloudApi;
+import io.relayr.java.api.mock.DebugApiModule;
 
 @Module(
         complete = false,

@@ -55,11 +55,12 @@ public final class RelayrProperties {
         String appId = getProperty(properties.getProperty(PROPERTIES_KEY_APP_ID));
         String redirectUri = getProperty(properties.getProperty(PROPERTIES_KEY_REDIRECT_URI));
         return new RelayrProperties(clientSecret, appId,
-                redirectUri.length() != 0? redirectUri: DEFAULT_REDIRECT_URI);
-	}
+                redirectUri.length() != 0 ? redirectUri : DEFAULT_REDIRECT_URI);
+    }
 
     private static String getProperty(String property) {
-        return property == null ? "": property;
+        return property == null ? "" : property;
     }
+
 
 }

@@ -6,23 +6,14 @@ import android.content.Context;
 import javax.inject.Inject;
 
 import io.relayr.activity.LoginActivity;
-import io.relayr.api.AccountsApi;
-import io.relayr.api.DeviceModelsApi;
-import io.relayr.api.GroupsApi;
-import io.relayr.api.RelayrApi;
-import io.relayr.api.UserApi;
 import io.relayr.ble.BleUtils;
 import io.relayr.ble.RelayrBleSdk;
+import io.relayr.java.RelayrJavaApp;
+import io.relayr.java.RelayrJavaSdk;
+import io.relayr.java.model.User;
 import io.relayr.log.Logger;
-import io.relayr.model.Device;
-import io.relayr.model.Transmitter;
-import io.relayr.model.User;
-import io.relayr.model.account.Account;
-import io.relayr.model.groups.Group;
 import io.relayr.storage.DataStorage;
-import io.relayr.storage.DeviceModelCache;
 import io.relayr.util.ReachabilityUtils;
-import io.relayr.websocket.WebSocketClient;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -30,12 +21,12 @@ import rx.android.schedulers.AndroidSchedulers;
 /**
  * The RelayrSdk Class serves as the access point to all endpoints in the Android SDK.
  * It includes basic calls such as user login validation and can also call the handlers of the
- * other classes- {@link io.relayr.api.RelayrApi}, {@link io.relayr.ble.RelayrBleSdk} and
- * {@link io.relayr.websocket.WebSocketClient}.
+ * other classes- {@link io.relayr.java.api.RelayrApi}, {@link io.relayr.ble.RelayrBleSdk} and
+ * {@link io.relayr.java.websocket.WebSocketClient}.
  * -----------------------------------------------------------------------------------------------
  * For easy start, after logging in, obtain {@link User} by calling {@link #getUser()}.
- * This is main object in Relayr SDK that can be used to fetch users {@link Device},
- * {@link Transmitter}, {@link Group} and {@link Account} objects.
+ * This is main object in Relayr SDK that can be used to fetch users {@link io.relayr.java.model.Device},
+ * {@link io.relayr.java.model.Transmitter}, {@link io.relayr.java.model.groups.Group} and {@link io.relayr.java.model.account.Account} objects.
  * <p/>
  * Every mentioned object has it's own interaction methods so direct usage of APIs is not necessary.
  * However it's still possible to obtain any of the desired API handlers through appropriate method:
@@ -48,24 +39,12 @@ import rx.android.schedulers.AndroidSchedulers;
  * </ul>
  * For other details check methods JavaDoc
  */
-public class RelayrSdk {
-
+public class RelayrSdk extends RelayrJavaSdk {
     public static final String PERMISSION_INTERNET = "android.permission.INTERNET";
     public static final String PERMISSION_NETWORK = "android.permission.ACCESS_NETWORK_STATE";
 
-    @Inject static UserApi mUserApi;
-    @Inject static RelayrApi mRelayrApi;
-
-    @Inject static GroupsApi mGroupsApi;
-    @Inject static AccountsApi mAccountsApi;
-    @Inject static DeviceModelsApi sDeviceModelsApi;
-    @Inject static DeviceModelCache sDeviceModelsCache;
-
-    @Inject static WebSocketClient mWebSocketClient;
-
     @Inject static Logger mLoggerUtils;
     @Inject static ReachabilityUtils sReachabilityUtils;
-
     @Inject static BleUtils mBleUtils;
     @Inject static RelayrBleSdk mRelayrBleSdk;
 
@@ -96,16 +75,8 @@ public class RelayrSdk {
 
         public void build() {
             RelayrApp.init(mContext, mInMockMode);
+            RelayrJavaApp.init(DataStorage.getUserToken(), mInMockMode);
         }
-    }
-
-    /**
-     * Returns user object. This is main object in Relayr SDK that can be used to fetch user {@link Device},
-     * {@link Transmitter}, {@link Group} and {@link Account}.
-     * Any of the mentioned objects has it's own special methods so direct usage of APIs is not necessary but it's still possible
-     */
-    public static Observable<User> getUser() {
-        return mUserApi.getUserInfo();
     }
 
     /**
@@ -114,56 +85,6 @@ public class RelayrSdk {
      */
     public static String getVersion() {
         return BuildConfig.VERSION_NAME;
-    }
-
-    /**
-     * Returns the handler of the Relayr API. Use after obtaining User data.
-     * Used as an access point to class {@link io.relayr.api.RelayrApi}
-     */
-    public static RelayrApi getRelayrApi() {
-        return mRelayrApi;
-    }
-
-    /**
-     * Returns the handler of the Accounts API. Use to add third party accounts to the relayr user.
-     * Used as an access point to class {@link io.relayr.api.AccountsApi}
-     */
-    public static AccountsApi getAccountsApi() {
-        return mAccountsApi;
-    }
-
-    /**
-     * Returns the handler of the Groups API.
-     * Used as an access point to class {@link io.relayr.api.GroupsApi}
-     */
-    public static GroupsApi getGroupsApi() {
-        return mGroupsApi;
-    }
-
-    /**
-     * Return the handler of the relayr DeviceModels API. Returns new device models. To use properly
-     * Used as an access point to class {@link io.relayr.api.DeviceModelsApi}
-     */
-    public static DeviceModelsApi getDeviceModelsApi() {
-        return sDeviceModelsApi;
-    }
-
-    /**
-     * Returns cached {@link io.relayr.model.models.DeviceModel} objects.
-     * Cache will be populated with models from {@link Device#model} when device is fetched.
-     * Use instead of {@link #getDeviceModelsApi()}
-     */
-    public static DeviceModelCache getDeviceModelsCache() {
-        return sDeviceModelsCache;
-    }
-
-    /**
-     * @return the handler of the relayr User API. Use to get user data and user
-     * transmitters, devices and accounts
-     * Used as an access point to class {@link io.relayr.api.UserApi}
-     */
-    public static UserApi getUserApi() {
-        return mUserApi;
     }
 
     /**
@@ -248,14 +169,6 @@ public class RelayrSdk {
      */
     public static Observable<Boolean> isPlatformReachable() {
         return sReachabilityUtils.isPlatformReachable();
-    }
-
-    /**
-     * Used as an access point to the class {@link io.relayr.websocket.WebSocketClient}
-     * @return the handler of the WebSocket client
-     */
-    public static WebSocketClient getWebSocketClient() {
-        return mWebSocketClient;
     }
 
     /**

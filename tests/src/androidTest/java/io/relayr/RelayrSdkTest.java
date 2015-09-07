@@ -28,6 +28,10 @@ public class RelayrSdkTest {
         Assert.assertNotNull(RelayrSdk.getWebSocketClient());
     }
 
+    @Test public void getUserEntityTest() {
+        RelayrSdk.getUser().subscribe();
+    }
+
     @Test public void isBleAvailable_shouldBeFalse() {
         Assert.assertFalse(RelayrSdk.isBleAvailable());
     }

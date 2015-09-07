@@ -4,12 +4,12 @@ import android.annotation.TargetApi;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.os.Build;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import io.relayr.java.ble.BleDeviceType;
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Action0;

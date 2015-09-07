@@ -7,7 +7,8 @@ import android.os.Build;
 
 import java.util.List;
 
-import io.relayr.ble.parser.AdvertisementPacketParser;
+import io.relayr.java.ble.BleDeviceType;
+import io.relayr.java.ble.parser.AdvertisementPacketParser;
 
 import static io.relayr.ble.BleDeviceMode.NEW_ON_BOARDING;
 import static io.relayr.ble.BleDeviceMode.UNKNOWN;

@@ -8,7 +8,7 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 
 @RunWith(RobolectricTestRunner.class)
-public class RelayrSdk_InMockMode_Test {
+public class RelayrSdkMockTest {
 
     @Before public void initInMockMode() {
         new RelayrSdk.Builder(Robolectric.application).inMockMode(true).build();
@@ -30,4 +30,7 @@ public class RelayrSdk_InMockMode_Test {
         Assert.assertTrue(RelayrSdk.isBleSupported());
     }
 
+    @Test public void getDeviceModels() {
+        Assert.assertFalse(RelayrSdk.getDeviceModelsCache().isEmpty());
+    }
 }

@@ -10,10 +10,10 @@ import org.robolectric.RobolectricTestRunner;
 
 import java.util.List;
 
+import io.relayr.java.ble.BleDeviceType;
 import rx.Subscriber;
 
 import static io.relayr.ble.BleDeviceMode.ON_BOARDING;
-import static io.relayr.ble.BleDeviceType.WunderbarGYRO;
 import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -29,7 +29,7 @@ public class BleDeviceManagerTest {
     @Before public void init() {
         BluetoothDevice bleDevice = mock(BluetoothDevice.class);
         when(bleDevice.getAddress()).thenReturn("random");
-        mDevice = new BleDevice(bleDevice, WunderbarGYRO.name(), ON_BOARDING,
+        mDevice = new BleDevice(bleDevice, BleDeviceType.WunderbarGYRO.name(), ON_BOARDING,
                 mock(BleDeviceManager.class));
     }
 

@@ -3,14 +3,15 @@ package io.relayr.storage;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
 
 import java.util.Properties;
 
-import static io.relayr.storage.RelayrProperties.*;
+import static io.relayr.storage.RelayrProperties.DEFAULT_REDIRECT_URI;
+import static io.relayr.storage.RelayrProperties.PROPERTIES_KEY_APP_ID;
+import static io.relayr.storage.RelayrProperties.PROPERTIES_KEY_CLIENT_SECRET;
+import static io.relayr.storage.RelayrProperties.PROPERTIES_KEY_REDIRECT_URI;
+import static io.relayr.storage.RelayrProperties.loadPropertiesFile;
 
-@RunWith(RobolectricTestRunner.class)
 public class RelayrPropertiesTest {
 
     private Properties mProperties;

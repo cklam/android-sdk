@@ -5,31 +5,21 @@ import com.google.gson.Gson;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
-import io.relayr.RelayrSdk;
-import io.relayr.model.LogEvent;
+import io.relayr.TestEnvironment;
+import io.relayr.java.model.LogEvent;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
-@RunWith(RobolectricTestRunner.class)
-public class LoggerStorageTest {
-
-    private CountDownLatch lock;
+public class LoggerStorageTest extends TestEnvironment {
 
     @Before
     public void before() {
-        new RelayrSdk.Builder(Robolectric.application).inMockMode(true).build();
+        super.init();
         LoggerStorage.init(3);
-
-        lock = new CountDownLatch(1);
     }
 
     @After
@@ -216,13 +206,5 @@ public class LoggerStorageTest {
         LoggerStorage.init(3);
 
         assertThat(LoggerStorage.oldMessagesExist()).isFalse();
-    }
-
-    private void await() {
-        try {
-            lock.await(200, TimeUnit.MILLISECONDS);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 }

@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.UUID;
 
 import io.relayr.ble.BleDevice;
-import io.relayr.ble.BleDeviceType;
+import io.relayr.java.ble.BleDeviceType;
 import rx.Observer;
 
 import static android.bluetooth.BluetoothGatt.GATT_SUCCESS;

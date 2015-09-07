@@ -13,13 +13,12 @@ import java.util.UUID;
 
 import io.relayr.ble.BleDevice;
 import io.relayr.ble.service.error.CharacteristicNotFoundException;
-import io.relayr.model.DataPackage;
-import io.relayr.model.Reading;
+import io.relayr.java.model.DataPackage;
+import io.relayr.java.model.Reading;
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Func1;
 
-import static io.relayr.ble.parser.BleDataParser.getFormattedValue;
 import static io.relayr.ble.service.ShortUUID.CHARACTERISTIC_SENSOR_CONFIGURATION;
 import static io.relayr.ble.service.ShortUUID.CHARACTERISTIC_SENSOR_DATA;
 import static io.relayr.ble.service.ShortUUID.CHARACTERISTIC_SENSOR_FREQUENCY;
@@ -31,6 +30,7 @@ import static io.relayr.ble.service.ShortUUID.DESCRIPTOR_DATA_NOTIFICATIONS;
 import static io.relayr.ble.service.ShortUUID.SERVICE_DIRECT_CONNECTION;
 import static io.relayr.ble.service.Utils.getCharacteristicInServices;
 import static io.relayr.ble.service.Utils.getDescriptorInCharacteristic;
+import static io.relayr.java.ble.parser.BleDataParser.getFormattedValue;
 import static rx.Observable.error;
 
 /**

@@ -5,20 +5,22 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
-import static io.relayr.ble.BleDeviceType.Unknown;
-import static io.relayr.ble.BleDeviceType.WunderbarApp;
-import static io.relayr.ble.BleDeviceType.WunderbarBRIDG;
-import static io.relayr.ble.BleDeviceType.WunderbarGYRO;
-import static io.relayr.ble.BleDeviceType.WunderbarHTU;
-import static io.relayr.ble.BleDeviceType.WunderbarIR;
-import static io.relayr.ble.BleDeviceType.WunderbarLIGHT;
-import static io.relayr.ble.BleDeviceType.WunderbarMIC;
-import static io.relayr.ble.BleDeviceType.fromModel;
-import static io.relayr.ble.BleDeviceType.getDeviceType;
-import static io.relayr.ble.BleDeviceType.isKnownDevice;
+import io.relayr.TestEnvironment;
+import io.relayr.java.ble.BleDeviceType;
 
-@RunWith(RobolectricTestRunner.class)
-public class BleDeviceTypeTest {
+import static io.relayr.java.ble.BleDeviceType.Unknown;
+import static io.relayr.java.ble.BleDeviceType.WunderbarApp;
+import static io.relayr.java.ble.BleDeviceType.WunderbarBRIDG;
+import static io.relayr.java.ble.BleDeviceType.WunderbarGYRO;
+import static io.relayr.java.ble.BleDeviceType.WunderbarHTU;
+import static io.relayr.java.ble.BleDeviceType.WunderbarIR;
+import static io.relayr.java.ble.BleDeviceType.WunderbarLIGHT;
+import static io.relayr.java.ble.BleDeviceType.WunderbarMIC;
+import static io.relayr.java.ble.BleDeviceType.fromModel;
+import static io.relayr.java.ble.BleDeviceType.getDeviceType;
+import static io.relayr.java.ble.BleDeviceType.isKnownDevice;
+
+public class BleDeviceTypeTest extends TestEnvironment {
 
     @Test public void testGetDeviceTypeFromNullDevice() {
         Assert.assertEquals(getDeviceType(null), Unknown);

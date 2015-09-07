@@ -7,8 +7,8 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import io.relayr.api.CloudApi;
-import io.relayr.model.LogEvent;
+import io.relayr.java.api.CloudApi;
+import io.relayr.java.model.LogEvent;
 import io.relayr.storage.DataStorage;
 import io.relayr.util.ReachabilityUtils;
 import rx.Subscriber;
@@ -27,8 +27,7 @@ public class Logger {
     //Used for synchronizing flushing and auto sending logged messages
     private volatile boolean loggingData = false;
 
-    @Inject
-    Logger(CloudApi api, ReachabilityUtils reachUtils) {
+    @Inject Logger(CloudApi api, ReachabilityUtils reachUtils) {
         mApi = api;
         mReachUtils = reachUtils;
 
@@ -49,7 +48,8 @@ public class Logger {
                     .subscribe(new Action1<Boolean>() {
                         @Override
                         public void call(Boolean status) {
-                            if (status != null && status) logToPlatform(LoggerStorage.loadMessages());
+                            if (status != null && status)
+                                logToPlatform(LoggerStorage.loadMessages());
                             else loggingData = false;
                         }
                     });
