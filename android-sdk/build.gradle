@@ -39,7 +39,7 @@ repositories {
 
 dependencies {
     compile 'io.reactivex:rxandroid:0.25.0'
-    compile project(':java-sdk')
+    provided project(':java-sdk')
 }
 
 android.libraryVariants.all { variant ->
