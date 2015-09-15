@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import io.relayr.android.RelayrApp;
+import io.relayr.java.RelayrJavaApp;
 
 public class DataStorage {
 
@@ -14,6 +15,7 @@ public class DataStorage {
             RelayrApp.get().getSharedPreferences(STORAGE_FILE, Context.MODE_PRIVATE);
 
     public static void saveUserToken(String userToken) {
+        RelayrJavaApp.setToken(userToken);
         STORAGE.edit()
                 .putString(KEY_USER_TOKEN, userToken)
                 .apply();
