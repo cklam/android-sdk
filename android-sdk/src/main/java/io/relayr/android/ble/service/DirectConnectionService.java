@@ -14,7 +14,7 @@ import java.util.UUID;
 import io.relayr.android.ble.BleDevice;
 import io.relayr.android.ble.service.error.CharacteristicNotFoundException;
 import io.relayr.java.model.DataPackage;
-import io.relayr.java.model.Reading;
+import io.relayr.java.model.action.Reading;
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Func1;

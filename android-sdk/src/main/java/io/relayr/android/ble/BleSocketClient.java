@@ -8,7 +8,7 @@ import io.relayr.android.ble.service.BaseService;
 import io.relayr.android.ble.service.DirectConnectionService;
 import io.relayr.java.ble.BleDeviceType;
 import io.relayr.java.model.Device;
-import io.relayr.java.model.Reading;
+import io.relayr.java.model.action.Reading;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
