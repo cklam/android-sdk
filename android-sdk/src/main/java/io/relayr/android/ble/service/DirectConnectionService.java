@@ -93,7 +93,7 @@ public class DirectConnectionService extends BaseService {
 
     /**
      * Returns an observable of the Sensor Id characteristic.
-     * <p>See {@link android.bluetooth.BluetoothGatt#readCharacteristic} for details as to the actions performed in
+     * See {@link android.bluetooth.BluetoothGatt#readCharacteristic} for details as to the actions performed in
      * the background.
      * @return an observable of the Sensor Id characteristic
      */
@@ -102,15 +102,12 @@ public class DirectConnectionService extends BaseService {
         return readUuidCharacteristic(ShortUUID.SERVICE_DIRECT_CONNECTION, ShortUUID.CHARACTERISTIC_SENSOR_ID, text);
     }
 
-    //public void readBeaconFrequency() {} // 2011
-
     /**
      * Indicates the sensorFrequency characteristic to the associated remote device. This is the time
      * elapsing between sending one BLE event and the next.
-     * <p/>
-     * <p>See {@link android.bluetooth.BluetoothGatt#readCharacteristic} for details as to the actions performed in
+     * See {@link android.bluetooth.BluetoothGatt#readCharacteristic} for details as to the actions performed in
      * the background.
-     * @return Observable<Integer>, an observable of the sensor frequency value
+     * @return Observable, an observable of the sensor frequency value
      */
     public Observable<Integer> getSensorFrequency() {
         final String text = "Sensor Frequency";
@@ -121,8 +118,7 @@ public class DirectConnectionService extends BaseService {
     /**
      * Indicates the SensorThreshold characteristic to the associated remote device. This is the
      * value that must be exceeded for a sensor to register a change.
-     * <p/>
-     * <p>See {@link android.bluetooth.BluetoothGatt#readCharacteristic} for details as to the actions performed in
+     * See {@link android.bluetooth.BluetoothGatt#readCharacteristic} for details as to the actions performed in
      * the background
      * @return Observable<BluetoothGattCharacteristic>, an observable of the sensor characteristic.
      * In order to get the value from the characteristic call
@@ -136,8 +132,7 @@ public class DirectConnectionService extends BaseService {
     /**
      * Writes the sensorFrequency characteristic to the associated remote device. This is the time
      * elapsing between sending one BLE event and the next.
-     * <p/>
-     * <p>See {@link android.bluetooth.BluetoothGatt#writeCharacteristic} for details as to the actions performed in
+     * See {@link android.bluetooth.BluetoothGatt#writeCharacteristic} for details as to the actions performed in
      * the background.
      * @param sensorFrequency A number represented in Bytes to be written the remote device
      * @return Observable<BluetoothGattCharacteristic>, an observable of what will be written to the
@@ -150,8 +145,7 @@ public class DirectConnectionService extends BaseService {
     /**
      * Writes the sensorLedState characteristic to the associated remote device. It will turn the
      * LED on if the operation is carried out successfully.
-     * <p/>
-     * <p>See {@link android.bluetooth.BluetoothGatt#writeCharacteristic} for details as to the actions performed in
+     * See {@link android.bluetooth.BluetoothGatt#writeCharacteristic} for details as to the actions performed in
      * the background.
      * @return Observable<BluetoothGattCharacteristic>, an observable of what will be written to the
      * device
@@ -163,8 +157,7 @@ public class DirectConnectionService extends BaseService {
     /**
      * Writes the command characteristic to the associated remote device. It will send the command
      * if the operation is carried out successfully.
-     * <p/>
-     * <p>See {@link android.bluetooth.BluetoothGatt#writeCharacteristic} for details as to the actions performed in
+     * See {@link android.bluetooth.BluetoothGatt#writeCharacteristic} for details as to the actions performed in
      * the background.
      * @return Observable<BluetoothGattCharacteristic>, an observable of what will be written to the
      * device
@@ -176,8 +169,7 @@ public class DirectConnectionService extends BaseService {
     /**
      * Writes the sensorThreshold characteristic to the associated remote device. This is the
      * value that must be exceeded for a sensor to register a change.
-     * <p/>
-     * <p>See {@link android.bluetooth.BluetoothGatt#writeCharacteristic} for details as to the actions performed in
+     * See {@link android.bluetooth.BluetoothGatt#writeCharacteristic} for details as to the actions performed in
      * the background
      * @param sensorThreshold A number represented in Bytes to be written the remote device
      * @return Observable<BluetoothGattCharacteristic>, an observable of what will be written to the
@@ -189,8 +181,7 @@ public class DirectConnectionService extends BaseService {
 
     /**
      * Writes the sensorConfig characteristic to the associated remote device.
-     * <p/>
-     * <p>See {@link android.bluetooth.BluetoothGatt#writeCharacteristic} for details as to the actions performed in
+     * See {@link android.bluetooth.BluetoothGatt#writeCharacteristic} for details as to the actions performed in
      * the background.
      * @param configuration A number represented in Bytes to be written the remote device
      * @return Observable<BluetoothGattCharacteristic>, an observable of what will be written to the

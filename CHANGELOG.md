@@ -1,6 +1,17 @@
 Change Log
 ==========
 
+Version 1.0.0 *(2015-09-22)*
+----------------------------
+* Integrate relayr Java-SDK
+* Refactor package names to separate Java from Android
+* Add device models - replace static model ids with dynamic ones
+   * model cache
+   * JSON value schema support
+* Prototype device creation and publishing
+* Add third party account support
+* Add groups support
+
 Version 0.0.13 *(2015-04-30)*
 ----------------------------
  * BLE DirectConnection mode

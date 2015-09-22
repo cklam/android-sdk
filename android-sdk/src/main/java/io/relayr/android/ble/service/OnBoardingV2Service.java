@@ -48,11 +48,10 @@ public class OnBoardingV2Service extends BaseService {
 
     /**
      * Writes the WiFi SSID characteristic to the associated remote device.
-     * <p/>
-     * <p>See {@link BluetoothGatt#beginReliableWrite()} for details as to the actions performed in
+     * See {@link BluetoothGatt#beginReliableWrite()} for details as to the actions performed in
      * the background.
      * @param ssid A number represented in Bytes to be written the remote device
-     * @return Observable<BluetoothGattCharacteristic>, an observable of what will be written to the
+     * @return Observable<BluetoothGatt>, an observable of what will be written to the
      * device
      */
     public Observable<BluetoothGatt> writeWiFiSSID(byte[] ssid) {
@@ -61,11 +60,10 @@ public class OnBoardingV2Service extends BaseService {
 
     /**
      * Writes the WiFi password characteristic to the associated remote device.
-     * <p/>
-     * <p>See {@link BluetoothGatt#beginReliableWrite()} for details as to the actions performed in
+     * See {@link BluetoothGatt#beginReliableWrite()} for details as to the actions performed in
      * the background.
      * @param password A number represented in Bytes to be written the remote device
-     * @return Observable<BluetoothGattCharacteristic>, an observable of what will be written to the
+     * @return Observable<BluetoothGatt>, an observable of what will be written to the
      * device
      */
     public Observable<BluetoothGatt> writeWiFiPassword(byte[] password) {
@@ -74,11 +72,11 @@ public class OnBoardingV2Service extends BaseService {
 
     /**
      * Writes the MQTT user characteristic to the associated remote device.
-     * <p/>
+     * <p>
      * <p>See {@link BluetoothGatt#writeCharacteristic} for details as to the actions performed in
      * the background.
      * @param user A number represented in Bytes to be written the remote device
-     * @return Observable<BluetoothGattCharacteristic>, an observable of what will be written to the
+     * @return Observable<BluetoothGatt>, an observable of what will be written to the
      * device
      */
     public Observable<BluetoothGatt> writeMqttUser(byte[] user) {
@@ -87,11 +85,10 @@ public class OnBoardingV2Service extends BaseService {
 
     /**
      * Writes the MQTT password characteristic to the associated remote device.
-     * <p/>
-     * <p>See {@link BluetoothGatt#beginReliableWrite()} for details as to the actions performed in
+     * See {@link BluetoothGatt#beginReliableWrite()} for details as to the actions performed in
      * the background.
      * @param password A number represented in Bytes to be written the remote device
-     * @return Observable<BluetoothGattCharacteristic>, an observable of what will be written to the
+     * @return Observable<BluetoothGatt>, an observable of what will be written to the
      * device
      */
     public Observable<BluetoothGatt> writeMqttPassword(byte[] password) {
@@ -100,11 +97,10 @@ public class OnBoardingV2Service extends BaseService {
 
     /**
      * Writes the MQTT topic characteristic to the associated remote device.
-     * <p/>
-     * <p>See {@link BluetoothGatt#beginReliableWrite()} for details as to the actions performed in
+     * See {@link BluetoothGatt#beginReliableWrite()} for details as to the actions performed in
      * the background.
      * @param topic A number represented in Bytes to be written the remote device
-     * @return Observable<BluetoothGattCharacteristic>, an observable of what will be written to the
+     * @return Observable<BluetoothGatt>, an observable of what will be written to the
      * device
      */
     public Observable<BluetoothGatt> writeMqttTopic(byte[] topic) {
@@ -113,11 +109,10 @@ public class OnBoardingV2Service extends BaseService {
 
     /**
      * Writes the transmitter characteristic to the associated remote device.
-     * <p/>
-     * <p>See {@link BluetoothGatt#beginReliableWrite()} for details as to the actions performed in
+     * See {@link BluetoothGatt#beginReliableWrite()} for details as to the actions performed in
      * the background.
      * @param transmitter A number represented in Bytes to be written the remote device
-     * @return Observable<BluetoothGattCharacteristic>, an observable of what will be written to the
+     * @return Observable<BluetoothGatt>, an observable of what will be written to the
      * device
      */
     public Observable<BluetoothGatt> writeMqttHost(byte[] transmitter) {
@@ -126,11 +121,10 @@ public class OnBoardingV2Service extends BaseService {
 
     /**
      * Writes the transmitter characteristic to the associated remote device.
-     * <p/>
-     * <p>See {@link BluetoothGatt#beginReliableWrite()} for details as to the actions performed in
+     * See {@link BluetoothGatt#beginReliableWrite()} for details as to the actions performed in
      * the background.
      * @param transmitter A number represented in Bytes to be written the remote device
-     * @return Observable<BluetoothGattCharacteristic>, an observable of what will be written to the
+     * @return Observable<BluetoothGatt>, an observable of what will be written to the
      * device
      */
     public Observable<BluetoothGatt> writeMqttClientId(byte[] transmitter) {
@@ -139,10 +133,9 @@ public class OnBoardingV2Service extends BaseService {
 
     /**
      * Writes the transmitter characteristic to the associated remote device.
-     * <p/>
-     * <p>See {@link BluetoothGatt#writeCharacteristic} for details as to the actions performed in
+     * See {@link BluetoothGatt#writeCharacteristic} for details as to the actions performed in
      * the background.
-     * @return Observable<BluetoothGattCharacteristic>, an observable of what will be written to the
+     * @return Observable<BluetoothGatt>, an observable of what will be written to the
      * device
      */
     public Observable<BluetoothGatt> writeCommit() {
@@ -151,10 +144,9 @@ public class OnBoardingV2Service extends BaseService {
 
     /**
      * Writes the transmitter characteristic to the associated remote device.
-     * <p/>
-     * <p>See {@link BluetoothGatt#writeCharacteristic} for details as to the actions performed in
+     * See {@link BluetoothGatt#writeCharacteristic} for details as to the actions performed in
      * the background.
-     * @return Observable<BluetoothGattCharacteristic>, an observable of what will be written to the
+     * @return Observable<BluetoothGatt>, an observable of what will be written to the
      * device
      */
     public Observable<OnBoardingStatus> getNotifications() {
