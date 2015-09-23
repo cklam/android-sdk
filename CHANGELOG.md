@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+Version 1.0.2 *(2015-09-23)*
+----------------------------
+* Fix compilation Java version
+
 Version 1.0.0 *(2015-09-22)*
 ----------------------------
 * Integrate relayr Java-SDK
