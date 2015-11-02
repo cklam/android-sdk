@@ -49,20 +49,21 @@ class BleDevicesScanner implements Runnable, BluetoothAdapter.LeScanCallback {
             mLeScanner = adapter.getBluetoothLeScanner();
             settings = new ScanSettings.Builder().setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY).build();
             mScanCallback = new ScanCallback() {
-                @TargetApi(Build.VERSION_CODES.LOLLIPOP) @Override
-                public void onScanResult(int callbackType, ScanResult result) {
+                @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+                @Override public void onScanResult(int callbackType, ScanResult result) {
+                    if (result == null || result.getScanRecord() == null) return;
                     onLeScan(result.getDevice(), result.getRssi(), result.getScanRecord().getBytes());
                 }
 
-                @TargetApi(Build.VERSION_CODES.LOLLIPOP) @Override
-                public void onBatchScanResults(List<ScanResult> results) {
-                    for (ScanResult result : results)
+                @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+                @Override public void onBatchScanResults(List<ScanResult> results) {
+                    for (ScanResult result : results) {
+                        if (result == null || result.getScanRecord() == null) return;
                         onLeScan(result.getDevice(), result.getRssi(), result.getScanRecord().getBytes());
+                    }
                 }
 
-                @Override
-                public void onScanFailed(int errorCode) {
-                }
+                @Override public void onScanFailed(int errorCode) {}
             };
         }
     }
@@ -100,6 +101,7 @@ class BleDevicesScanner implements Runnable, BluetoothAdapter.LeScanCallback {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private synchronized void stopScan() {
         if (!RelayrSdk.isPermissionGrantedBluetooth()) return;
+        if (!RelayrSdk.isPermissionGrantedBluetoothAdmin()) return;
 
         if (Build.VERSION.SDK_INT < 21 || mLeScanner == null) {
             if (mBluetoothAdapter != null) mBluetoothAdapter.stopLeScan(this);
@@ -112,6 +114,8 @@ class BleDevicesScanner implements Runnable, BluetoothAdapter.LeScanCallback {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void run() {
         if (!RelayrSdk.isPermissionGrantedBluetooth()) return;
+        if (!RelayrSdk.isPermissionGrantedBluetoothAdmin()) return;
+
         try {
             isScanning = true;
             do {

@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.bluetooth.BluetoothDevice;
 import android.os.Build;
 
+import io.relayr.android.RelayrSdk;
 import io.relayr.android.ble.service.BaseService;
 import io.relayr.android.ble.service.DirectConnectionService;
 import io.relayr.android.ble.service.MasterModuleService;

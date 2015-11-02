@@ -44,6 +44,7 @@ public class RelayrSdk extends RelayrJavaSdk {
     public static final String PERMISSION_INTERNET = "android.permission.INTERNET";
     public static final String PERMISSION_NETWORK = "android.permission.ACCESS_NETWORK_STATE";
     public static final String PERMISSION_BLUETOOTH = "android.permission.BLUETOOTH";
+    public static final String PERMISSION_BLUETOOTH_ADMIN = "android.permission.BLUETOOTH_ADMIN";
 
     @Inject static Logger mLoggerUtils;
     @Inject static ReachabilityUtils sReachabilityUtils;
@@ -163,6 +164,14 @@ public class RelayrSdk extends RelayrJavaSdk {
      */
     public static boolean isPermissionGrantedBluetooth() {
         return sReachabilityUtils.isPermissionGranted(PERMISSION_BLUETOOTH);
+    }
+
+    /**
+     * Checks if android.permission.BLUETOOTH_ADMIN permission is granted by application.
+     * @return true if granted, false otherwise
+     */
+    public static boolean isPermissionGrantedBluetoothAdmin() {
+        return sReachabilityUtils.isPermissionGranted(PERMISSION_BLUETOOTH_ADMIN);
     }
 
     /**

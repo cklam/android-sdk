@@ -8,6 +8,8 @@ import android.util.Log;
 
 import java.lang.reflect.Method;
 
+import io.relayr.android.RelayrSdk;
+
 public class DeviceCompatibilityUtils {
 
     private static final String TAG = "DeviceCompatUtils";
@@ -23,6 +25,7 @@ public class DeviceCompatibilityUtils {
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     private static boolean doCreateBond(BluetoothDevice device) {
+        if (!RelayrSdk.isPermissionGrantedBluetoothAdmin()) return false;
         return device.createBond();
     }
 
