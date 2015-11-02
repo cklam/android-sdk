@@ -30,8 +30,7 @@ public class ReachabilityUtils {
     private CloudApi mApi;
     private Map<String, Boolean> sPermissions;
 
-    @Inject
-    ReachabilityUtils(CloudApi api) {
+    @Inject ReachabilityUtils(CloudApi api) {
         mApi = api;
         sPermissions = new HashMap<>();
     }
@@ -72,10 +71,7 @@ public class ReachabilityUtils {
             e.printStackTrace();
         }
 
-        Log.e(TAG, "To be able to use Reacability utils please add " + permission + " permission " +
-                "to AndroidManifest file.");
-
-        sPermissions.put(permission, false);
+        Log.e(TAG, "Permission " + permission + " doesn't exist in AndroidManifest file.");
 
         return false;
     }

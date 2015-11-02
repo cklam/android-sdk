@@ -15,6 +15,10 @@ import android.os.Looper;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import io.relayr.android.RelayrSdk;
+
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 class BleDevicesScanner implements Runnable, BluetoothAdapter.LeScanCallback {
 
@@ -38,6 +42,8 @@ class BleDevicesScanner implements Runnable, BluetoothAdapter.LeScanCallback {
     public BleDevicesScanner(BluetoothAdapter adapter, BluetoothAdapter.LeScanCallback callback) {
         mBluetoothAdapter = adapter;
         leScansPoster = new LeScansPoster(callback);
+
+        if (!RelayrSdk.isPermissionGrantedBluetooth()) return;
 
         if (Build.VERSION.SDK_INT >= 21) {
             mLeScanner = adapter.getBluetoothLeScanner();
@@ -93,6 +99,8 @@ class BleDevicesScanner implements Runnable, BluetoothAdapter.LeScanCallback {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private synchronized void stopScan() {
+        if (!RelayrSdk.isPermissionGrantedBluetooth()) return;
+
         if (Build.VERSION.SDK_INT < 21 || mLeScanner == null) {
             if (mBluetoothAdapter != null) mBluetoothAdapter.stopLeScan(this);
         } else {
@@ -103,6 +111,7 @@ class BleDevicesScanner implements Runnable, BluetoothAdapter.LeScanCallback {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void run() {
+        if (!RelayrSdk.isPermissionGrantedBluetooth()) return;
         try {
             isScanning = true;
             do {

@@ -43,6 +43,7 @@ import rx.android.schedulers.AndroidSchedulers;
 public class RelayrSdk extends RelayrJavaSdk {
     public static final String PERMISSION_INTERNET = "android.permission.INTERNET";
     public static final String PERMISSION_NETWORK = "android.permission.ACCESS_NETWORK_STATE";
+    public static final String PERMISSION_BLUETOOTH = "android.permission.BLUETOOTH";
 
     @Inject static Logger mLoggerUtils;
     @Inject static ReachabilityUtils sReachabilityUtils;
@@ -154,6 +155,14 @@ public class RelayrSdk extends RelayrJavaSdk {
      */
     public static boolean isPermissionGrantedToAccessTheNetwork() {
         return sReachabilityUtils.isPermissionGranted(PERMISSION_NETWORK);
+    }
+
+    /**
+     * Checks if android.permission.BLUETOOTH permission is granted by application.
+     * @return true if granted, false otherwise
+     */
+    public static boolean isPermissionGrantedBluetooth() {
+        return sReachabilityUtils.isPermissionGranted(PERMISSION_BLUETOOTH);
     }
 
     /**

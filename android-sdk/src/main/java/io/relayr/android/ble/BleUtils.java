@@ -12,6 +12,8 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
+import io.relayr.android.RelayrSdk;
+
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 public class BleUtils {
 
@@ -47,6 +49,8 @@ public class BleUtils {
     }
 
     public void promptUserToActivateBluetooth(Activity activity) {
+        if (!RelayrSdk.isPermissionGrantedBluetooth()) return;
+
         if (mBluetoothAdapter == null || !mBluetoothAdapter.isEnabled()) {
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             activity.startActivityForResult(enableBtIntent, REQUEST_ENABLE_BLUETOOTH);
@@ -54,10 +58,11 @@ public class BleUtils {
     }
 
     protected int getBleStatus() {
+        if (!RelayrSdk.isPermissionGrantedBluetooth()) return STATUS_BLE_NOT_AVAILABLE;
         if (!isBleSupported()) return STATUS_BLE_NOT_AVAILABLE;
 
-        return mBluetoothAdapter == null ? STATUS_BLUETOOTH_NOT_AVAILABLE:
-                mBluetoothAdapter.isEnabled() ? STATUS_BLE_ENABLED:
+        return mBluetoothAdapter == null ? STATUS_BLUETOOTH_NOT_AVAILABLE :
+                mBluetoothAdapter.isEnabled() ? STATUS_BLE_ENABLED :
                         STATUS_BLUETOOTH_DISABLED;
     }
 
@@ -71,6 +76,7 @@ public class BleUtils {
     public static String getShortUUID(UUID uuid) {
         return getShortUUID(uuid.toString());
     }
+
     public static String getShortUUID(String longUUID) {
         return longUUID.substring(4, 8);
     }

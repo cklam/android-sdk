@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import io.relayr.android.RelayrSdk;
 import io.relayr.java.ble.BleDeviceType;
 import rx.Observable;
 import rx.Subscriber;
@@ -72,6 +73,8 @@ class RelayrBleSdkImpl extends RelayrBleSdk implements BleScannerFilter.BleFilte
 
     @Override
     public BleDevice getPairedDevice(final String macAddress) {
+        if(!RelayrSdk.isPermissionGrantedBluetooth()) return null;
+
         for (BluetoothDevice bluetoothDevice : mBtAdapter.getBondedDevices()) {
             if (bluetoothDevice.getAddress().equals(macAddress))
                 return new BleDevice(bluetoothDevice, macAddress,

@@ -44,7 +44,7 @@ public class DebugBleModule {
                 new MockBleUtils(null, manager) : new MockBleUtils(getBluetoothAdapter(), manager);
     }
 
-    @Provides RelayrBleSdk provideRelayrBleSdk() {
+    @Provides @Singleton RelayrBleSdk provideRelayrBleSdk() {
         return RelayrSdk.isBleSupported() && RelayrSdk.isBleAvailable() ?
                 new RelayrBleSdkImpl(getBluetoothAdapter(), new BleDeviceManager()) :
                 new NullableRelayrBleSdk();

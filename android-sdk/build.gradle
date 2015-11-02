@@ -19,7 +19,7 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 22
-        versionName '1.0.2'
+        versionName '1.0.3-SNAPSHOT'
     }
 
     lintOptions {
@@ -39,7 +39,7 @@ repositories {
 
 dependencies {
     compile 'io.reactivex:rxandroid:0.25.0'
-    provided 'io.relayr:java-sdk:1.0.2'
+    provided 'io.relayr:java-sdk:1.0.6'
 }
 
 android.libraryVariants.all { variant ->
