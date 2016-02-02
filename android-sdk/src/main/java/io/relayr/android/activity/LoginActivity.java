@@ -211,7 +211,7 @@ public class LoginActivity extends Activity {
     }
 
     private String getLoginUrl() {
-        Uri.Builder uriBuilder = Uri.parse(ApiModule.API_ENDPOINT).buildUpon();
+        Uri.Builder uriBuilder = Uri.parse(ApiModule.getApiPoint()).buildUpon();
         uriBuilder.path("/oauth2/auth");
 
         uriBuilder.appendQueryParameter("client_id", RelayrProperties.get().appId);

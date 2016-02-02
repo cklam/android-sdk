@@ -15,6 +15,8 @@ import io.relayr.java.model.User;
 import io.relayr.android.log.Logger;
 import io.relayr.android.storage.DataStorage;
 import io.relayr.android.util.ReachabilityUtils;
+import retrofit.RestAdapter;
+import retrofit.RestAdapter.LogLevel;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -41,6 +43,7 @@ import rx.android.schedulers.AndroidSchedulers;
  * For other details check methods JavaDoc
  */
 public class RelayrSdk extends RelayrJavaSdk {
+
     public static final String PERMISSION_INTERNET = "android.permission.INTERNET";
     public static final String PERMISSION_NETWORK = "android.permission.ACCESS_NETWORK_STATE";
     public static final String PERMISSION_BLUETOOTH = "android.permission.BLUETOOTH";
@@ -61,6 +64,8 @@ public class RelayrSdk extends RelayrJavaSdk {
 
         private final Context mContext;
         private boolean mInMockMode;
+        private boolean mInProduction = true;
+        private LogLevel level;
 
         public Builder(Context context) {
             mContext = context;
@@ -76,9 +81,26 @@ public class RelayrSdk extends RelayrJavaSdk {
             return this;
         }
 
+        /**
+         * Initializes the SDK in production or development mode. By default is uses production.
+         * Use each environment with corresponding API key.
+         */
+        public Builder useProduction(boolean production) {
+            this.mInProduction = production;
+            return this;
+        }
+
+        /**
+         * Sets log level for api calls.
+         */
+        public Builder setLogLevel(LogLevel level) {
+            this.level = level;
+            return this;
+        }
+
         public void build() {
-            RelayrApp.init(mContext, mInMockMode);
-            RelayrJavaApp.init(DataStorage.getUserToken(), mInMockMode);
+            RelayrApp.init(mContext, mInMockMode, mInProduction, level);
+            RelayrJavaApp.init(DataStorage.getUserToken(), mInMockMode, mInProduction, level);
         }
     }
 

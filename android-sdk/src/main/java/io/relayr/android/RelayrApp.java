@@ -3,6 +3,8 @@ package io.relayr.android;
 import android.content.Context;
 
 import dagger.ObjectGraph;
+import io.relayr.java.RelayrJavaApp;
+import retrofit.RestAdapter;
 
 public class RelayrApp {
 
@@ -22,7 +24,7 @@ public class RelayrApp {
      * @param context
      * @param mockMode true for debug mode and tests
      */
-    public static void init(Context context, boolean mockMode) {
+    private static void init(Context context, boolean mockMode) {
         reset();
         if (sRelayrApp == null || mockMode) {
             synchronized (new Object()) {
@@ -33,8 +35,23 @@ public class RelayrApp {
         }
     }
 
+    /**
+     * Condition (sApp == null || mockMode) is used when Relayr app is already initialized
+     * but you need to recreate it with another set of Dagger modules (e.g. while testing)
+     * @param mockMode   true for debug mode and tests
+     * @param production if true production API is used, if false it uses development environment
+     * @param level      defines log level for all API calls -
+     *                   {@link RestAdapter.LogLevel#NONE} by default for production -
+     *                   {@link RestAdapter.LogLevel#BASIC} for development
+     */
+    public static void init(Context context, boolean mockMode, boolean production, RestAdapter.LogLevel level) {
+        RelayrJavaApp.PRODUCTION = production;
+        RelayrJavaApp.setLogLevel(level);
+        init(context, mockMode);
+    }
+
     private static void buildObjectGraphAndInject(boolean mockMode) {
-        sObjectGraph = mockMode ? ObjectGraph.create(DebugModules.list(sApplicationContext)):
+        sObjectGraph = mockMode ? ObjectGraph.create(DebugModules.list(sApplicationContext)) :
                 ObjectGraph.create(Modules.list(sApplicationContext));
         sObjectGraph.injectStatics();
         sObjectGraph.inject(sRelayrApp);
