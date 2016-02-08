@@ -71,7 +71,7 @@ public class ReachabilityUtils {
             e.printStackTrace();
         }
 
-        Log.e(TAG, "Permission " + permission + " doesn't exist in AndroidManifest file.");
+        Log.w(TAG, "Permission " + permission + " doesn't exist in AndroidManifest file.");
 
         return false;
     }

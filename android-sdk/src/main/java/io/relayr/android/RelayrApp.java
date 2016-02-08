@@ -38,16 +38,17 @@ public class RelayrApp {
     /**
      * Condition (sApp == null || mockMode) is used when Relayr app is already initialized
      * but you need to recreate it with another set of Dagger modules (e.g. while testing)
-     * @param mockMode   true for debug mode and tests
+     * @param mock       true for debug mode and tests
      * @param production if true production API is used, if false it uses development environment
      * @param level      defines log level for all API calls -
      *                   {@link RestAdapter.LogLevel#NONE} by default for production -
      *                   {@link RestAdapter.LogLevel#BASIC} for development
      */
-    public static void init(Context context, boolean mockMode, boolean production, RestAdapter.LogLevel level) {
+    public static void init(Context context, boolean mock, boolean production, boolean cacheModels, RestAdapter.LogLevel level) {
         RelayrJavaApp.PRODUCTION = production;
         RelayrJavaApp.setLogLevel(level);
-        init(context, mockMode);
+        RelayrJavaApp.setModelsCache(cacheModels);
+        init(context, mock);
     }
 
     private static void buildObjectGraphAndInject(boolean mockMode) {

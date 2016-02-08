@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+Version 1.0.3 *(2015-02-08)*
+----------------------------
+* Update used Java SDK version
+* New build parameters for SDK: environment (production/development), log level for API calls, device model caching
+
 Version 1.0.2 *(2015-09-23)*
 ----------------------------
 * Fix compilation Java version

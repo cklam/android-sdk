@@ -63,11 +63,13 @@ public class RelayrSdk extends RelayrJavaSdk {
     public static class Builder {
 
         private final Context mContext;
-        private boolean mInMockMode;
+        private boolean cacheModels = false;
+        private boolean mInMockMode = false;
         private boolean mInProduction = true;
         private LogLevel level;
 
         public Builder(Context context) {
+            if (context == null) throw new NullPointerException("Context can not be NULL");
             mContext = context;
         }
 
@@ -75,6 +77,7 @@ public class RelayrSdk extends RelayrJavaSdk {
          * Initializes the SDK in Mock Mode.
          * In this mode, mock reading values are generated.
          * Used for testing purposes, without the need of a WunderBar or an internet connection.
+         * By default FALSE.
          */
         public Builder inMockMode(boolean inMockMode) {
             mInMockMode = inMockMode;
@@ -82,8 +85,9 @@ public class RelayrSdk extends RelayrJavaSdk {
         }
 
         /**
-         * Initializes the SDK in production or development mode. By default is uses production.
+         * Initializes the SDK in production or development mode.
          * Use each environment with corresponding API key.
+         * Default TRUE (uses production).
          */
         public Builder useProduction(boolean production) {
             this.mInProduction = production;
@@ -91,16 +95,28 @@ public class RelayrSdk extends RelayrJavaSdk {
         }
 
         /**
-         * Sets log level for api calls.
+         * If true it will cache all device models in the background.
+         * Default FALSE.
+         */
+        public Builder cacheModels(boolean cache) {
+            this.cacheModels = cache;
+            return this;
+        }
+
+        /**
+         * Sets Log level for all API calls.
+         * Defaults: in production {@link retrofit.RestAdapter.LogLevel#NONE}
+         * in development {@link retrofit.RestAdapter.LogLevel#BASIC}
          */
         public Builder setLogLevel(LogLevel level) {
+            if (level == null) throw new NullPointerException("Log level can not be NULL");
             this.level = level;
             return this;
         }
 
         public void build() {
-            RelayrApp.init(mContext, mInMockMode, mInProduction, level);
-            RelayrJavaApp.init(DataStorage.getUserToken(), mInMockMode, mInProduction, level);
+            RelayrApp.init(mContext, mInMockMode, mInProduction, cacheModels, level);
+            RelayrJavaApp.init(DataStorage.getUserToken(), mInMockMode, mInProduction, cacheModels, level);
         }
     }
 
@@ -115,14 +131,16 @@ public class RelayrSdk extends RelayrJavaSdk {
     /**
      * Launches the login activity. Enables the user to log in to the relayr platform.
      */
-    public static Observable<User> logIn(Activity currentActivity) {
+    public static Observable<User> logIn(Activity activity) {
+        if (activity == null) throw new NullPointerException("Activity can not be NULL!");
+
         Observable.OnSubscribe<User> onSubscribe = new Observable.OnSubscribe<User>() {
             @Override
             public void call(Subscriber<? super User> subscriber) {
                 mLoginSubscriber = subscriber;
             }
         };
-        LoginActivity.startActivity(currentActivity);
+        LoginActivity.startActivity(activity);
         return Observable
                 .create(onSubscribe)
                 .observeOn(AndroidSchedulers.mainThread())
