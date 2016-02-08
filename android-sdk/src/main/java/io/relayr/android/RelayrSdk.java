@@ -5,7 +5,6 @@ import android.content.Context;
 
 import javax.inject.Inject;
 
-import io.relayr.android.BuildConfig;
 import io.relayr.android.activity.LoginActivity;
 import io.relayr.android.ble.BleUtils;
 import io.relayr.android.ble.RelayrBleSdk;
@@ -15,7 +14,6 @@ import io.relayr.java.model.User;
 import io.relayr.android.log.Logger;
 import io.relayr.android.storage.DataStorage;
 import io.relayr.android.util.ReachabilityUtils;
-import retrofit.RestAdapter;
 import retrofit.RestAdapter.LogLevel;
 import rx.Observable;
 import rx.Subscriber;
@@ -38,9 +36,16 @@ import rx.android.schedulers.AndroidSchedulers;
  * <li>{@link #getRelayrApi()}</li>
  * <li>{@link #getGroupsApi()}</li>
  * <li>{@link #getAccountsApi()}</li>
- * <li>{@link #getDeviceModelsApi()} or using cache {@link #getDeviceModelsCache()}</li>
+ * <li>{@link #getDeviceApi()} ()}</li>
+ * <li>{@link #getDeviceModelsApi()} or using cache {@link #getDeviceModelsCache()} if
+ * {@link io.relayr.android.RelayrSdk.Builder#cacheModels(boolean)} is set as true</li>
  * </ul>
- * For other details check methods JavaDoc
+ * -----------------------------------------------------------------------------------------------
+ * For other details check JavaDoc and other documentation:
+ * Java-SDK: @see <a href="https://developer.relayr.io/documents/Java/Introduction</a> and
+ * @see <a href="http://relayr.github.io/java-sdk/</a>
+ * Android SDK: @see <a href="https://developer.relayr.io/documents/Android/Reference</a> and
+ * @see <a href="https://developer.relayr.io/rendered-doc/javadoc/index.html</a>
  */
 public class RelayrSdk extends RelayrJavaSdk {
 
@@ -49,12 +54,12 @@ public class RelayrSdk extends RelayrJavaSdk {
     public static final String PERMISSION_BLUETOOTH = "android.permission.BLUETOOTH";
     public static final String PERMISSION_BLUETOOTH_ADMIN = "android.permission.BLUETOOTH_ADMIN";
 
-    @Inject static Logger mLoggerUtils;
-    @Inject static ReachabilityUtils sReachabilityUtils;
-    @Inject static BleUtils mBleUtils;
-    @Inject static RelayrBleSdk mRelayrBleSdk;
+    @Inject static Logger loggerUtils;
+    @Inject static ReachabilityUtils reachabilityUtils;
+    @Inject static BleUtils bleUtils;
+    @Inject static RelayrBleSdk relayrBleSdk;
 
-    private static Subscriber<? super User> mLoginSubscriber;
+    private static Subscriber<? super User> loginSubscriber;
 
     /**
      * Initializes the SDK. Should be built when the {@link android.app.Application} is
@@ -64,8 +69,8 @@ public class RelayrSdk extends RelayrJavaSdk {
 
         private final Context mContext;
         private boolean cacheModels = false;
-        private boolean mInMockMode = false;
-        private boolean mInProduction = true;
+        private boolean mockMode = false;
+        private boolean production = true;
         private LogLevel level;
 
         public Builder(Context context) {
@@ -80,7 +85,7 @@ public class RelayrSdk extends RelayrJavaSdk {
          * By default FALSE.
          */
         public Builder inMockMode(boolean inMockMode) {
-            mInMockMode = inMockMode;
+            mockMode = inMockMode;
             return this;
         }
 
@@ -90,7 +95,7 @@ public class RelayrSdk extends RelayrJavaSdk {
          * Default TRUE (uses production).
          */
         public Builder useProduction(boolean production) {
-            this.mInProduction = production;
+            this.production = production;
             return this;
         }
 
@@ -115,8 +120,8 @@ public class RelayrSdk extends RelayrJavaSdk {
         }
 
         public void build() {
-            RelayrApp.init(mContext, mInMockMode, mInProduction, cacheModels, level);
-            RelayrJavaApp.init(DataStorage.getUserToken(), mInMockMode, mInProduction, cacheModels, level);
+            RelayrApp.init(mContext, mockMode, production, cacheModels, level);
+            RelayrJavaApp.init(DataStorage.getUserToken(), mockMode, production, cacheModels, level);
         }
     }
 
@@ -137,7 +142,7 @@ public class RelayrSdk extends RelayrJavaSdk {
         Observable.OnSubscribe<User> onSubscribe = new Observable.OnSubscribe<User>() {
             @Override
             public void call(Subscriber<? super User> subscriber) {
-                mLoginSubscriber = subscriber;
+                loginSubscriber = subscriber;
             }
         };
         LoginActivity.startActivity(activity);
@@ -170,7 +175,7 @@ public class RelayrSdk extends RelayrJavaSdk {
      * @return whether the logging event was performed
      */
     public static boolean logMessage(String message) {
-        return mLoggerUtils.logMessage(message);
+        return loggerUtils.logMessage(message);
     }
 
     /**
@@ -179,7 +184,7 @@ public class RelayrSdk extends RelayrJavaSdk {
      * @return whether the messages were flushed
      */
     public static boolean flushLoggedMessages() {
-        return mLoggerUtils.flushLoggedMessages();
+        return loggerUtils.flushLoggedMessages();
     }
 
     /**
@@ -187,7 +192,7 @@ public class RelayrSdk extends RelayrJavaSdk {
      * @return true if granted, false otherwise
      */
     public static boolean isPermissionGrantedToAccessInternet() {
-        return sReachabilityUtils.isPermissionGranted(PERMISSION_INTERNET);
+        return reachabilityUtils.isPermissionGranted(PERMISSION_INTERNET);
     }
 
     /**
@@ -195,7 +200,7 @@ public class RelayrSdk extends RelayrJavaSdk {
      * @return true if granted, false otherwise
      */
     public static boolean isPermissionGrantedToAccessTheNetwork() {
-        return sReachabilityUtils.isPermissionGranted(PERMISSION_NETWORK);
+        return reachabilityUtils.isPermissionGranted(PERMISSION_NETWORK);
     }
 
     /**
@@ -203,7 +208,7 @@ public class RelayrSdk extends RelayrJavaSdk {
      * @return true if granted, false otherwise
      */
     public static boolean isPermissionGrantedBluetooth() {
-        return sReachabilityUtils.isPermissionGranted(PERMISSION_BLUETOOTH);
+        return reachabilityUtils.isPermissionGranted(PERMISSION_BLUETOOTH);
     }
 
     /**
@@ -211,7 +216,7 @@ public class RelayrSdk extends RelayrJavaSdk {
      * @return true if granted, false otherwise
      */
     public static boolean isPermissionGrantedBluetoothAdmin() {
-        return sReachabilityUtils.isPermissionGranted(PERMISSION_BLUETOOTH_ADMIN);
+        return reachabilityUtils.isPermissionGranted(PERMISSION_BLUETOOTH_ADMIN);
     }
 
     /**
@@ -219,7 +224,7 @@ public class RelayrSdk extends RelayrJavaSdk {
      * @return true if connected, false otherwise
      */
     public static boolean isConnectedToInternet() {
-        return sReachabilityUtils.isConnectedToInternet();
+        return reachabilityUtils.isConnectedToInternet();
     }
 
     /**
@@ -227,7 +232,7 @@ public class RelayrSdk extends RelayrJavaSdk {
      * @return true if platform is reachable, false otherwise
      */
     public static Observable<Boolean> isPlatformReachable() {
-        return sReachabilityUtils.isPlatformReachable();
+        return reachabilityUtils.isPlatformReachable();
     }
 
     /**
@@ -240,7 +245,7 @@ public class RelayrSdk extends RelayrJavaSdk {
      * @return the handler of the Relayr BLE SDK
      */
     public static RelayrBleSdk getRelayrBleSdk() {
-        return mRelayrBleSdk;
+        return relayrBleSdk;
     }
 
     /**
@@ -249,7 +254,7 @@ public class RelayrSdk extends RelayrJavaSdk {
      * @return true if Bluetooth is supported, false otherwise.
      */
     public static boolean isBleSupported() {
-        return mBleUtils.isBleSupported();
+        return bleUtils.isBleSupported();
     }
 
     /**
@@ -260,7 +265,7 @@ public class RelayrSdk extends RelayrJavaSdk {
      * {@link #promptUserToActivateBluetooth}
      */
     public static boolean isBleAvailable() {
-        return mBleUtils.isBleAvailable();
+        return bleUtils.isBleAvailable();
     }
 
     /**
@@ -270,7 +275,7 @@ public class RelayrSdk extends RelayrJavaSdk {
      * @param activity an instance of {@link android.app.Activity}
      */
     public static void promptUserToActivateBluetooth(Activity activity) {
-        if (isBleSupported()) mBleUtils.promptUserToActivateBluetooth(activity);
+        if (isBleSupported()) bleUtils.promptUserToActivateBluetooth(activity);
     }
 
     /**
@@ -278,6 +283,6 @@ public class RelayrSdk extends RelayrJavaSdk {
      * @return the listener or null if doesn't exist
      */
     public static Subscriber<? super User> getLoginSubscriber() {
-        return mLoginSubscriber;
+        return loginSubscriber;
     }
 }
